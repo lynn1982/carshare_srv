@@ -180,7 +180,6 @@
     }
     
 回复报文
-
     {
         type: MSG_TYPE_LOGIN_IN,
         ret：0
@@ -349,7 +348,48 @@
 
 ***
 ## 4. 后台与停车收费系统接口
-### 4.1 用户发布共享车位信息
+消息枚举定义：
+
+    enum{
+        MSG_DEV_CAR_IN=0,
+        MSG_DEV_CAR_OUT,
+        MSG_DEV_PAY_INFO，
+    }；
+
+### 4.1 车辆进/出上报消息
+上报报文
+
+    {
+        type: MSG_DEV_CAR_IN/MSG_DEV_CAR_OUT,
+        dev_id: '1'， //收费系统设备
+        xiaoqu_id:"1",
+        chepai: "沪A-00001",     
+    }
+    
+回复报文
+
+    {
+        type: MSG_DEV_CAR_IN/MSG_DEV_CAR_OUT,
+        ret: 0
+    } 
+
+### 4.2 支付消息下发
+下发报文
+
+    {
+        type: MSG_DEV_PAY_INFO,
+        dev_id: '1'， //收费系统设备
+        xiaoqu_id:"1",
+        chepai: "沪A-00001",     
+    }
+    
+回复报文
+
+    {
+        type: MSG_DEV_PAY_INFO,
+        ret: 0
+    } 
+
 
 ***
 
