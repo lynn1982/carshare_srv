@@ -11,7 +11,9 @@
 |name  |varchar(64)|not null|住宅小区名|
 |addr_in  |varchar(256)|not null|住宅小区地址入口|
 |addr_out  |varchar(256)|not null|住宅小区地址出口|
-|pps_manufacture|int|references pps_manufacture(id)|foreign key|
+|longitude|varchar(64)||经度|
+|latitude|varchar(64)||纬度|
+|pps_id|int|references pps_manufacture(id)|foreign key|
 |parking_num_total|int||住宅小区总的车位数|
 |parking_num_share|int||住宅小区可共享的车位数|
 |parking_num_remain|int||住宅小区可共享的剩余车位数|
@@ -26,8 +28,8 @@
 |字段   |类型  |说明   |备注   |
 |:-----|:-----|:------|:------|
 |id    |int   |not null auto_increment |primary key|
-|community|int|references community_info(id)|foreign key|
-|user|int|references user(id)|foreign key|
+|community_id|int|references community_info(id)|foreign key|
+|user_id|int|references user(id)|foreign key|
 |parking_time_start|time||共享车位时间段|
 |parking_time_end|time||共享车位时间段|
 |info|varchar(128)||车位信息|
@@ -55,8 +57,8 @@
 |字段   |类型  |说明   |备注   |
 |:-----|:-----|:------|:------|
 |id    |bigint   |not null auto_increment |primary key|
-|user|int|references user(id)|foreign key|
-|community|int|reference community_info(id)|foreign key|
+|user_id|int|references user(id)|foreign key|
+|community_id|int|reference community_info(id)|foreign key|
 |info|varchar(128)||车位信息|
 |mode|ENUM('instant','advanced')|default:'instant'|预定模式|
 |in_time|timestamp||车辆进入时间|
@@ -70,7 +72,7 @@
 |字段   |类型  |说明   |备注   |
 |:-----|:-----|:------|:------|
 |id    |bigint   |not null auto_increment |primary key|
-|community|int|reference community_info(id)|foreign key|
+|community_id|int|reference community_info(id)|foreign key|
 |car_license|char(10)||车牌号|
 |in_time|timestamp||车辆进入时间|
 |out_time|timestamp||车辆驶出时间|
@@ -80,7 +82,7 @@
 |字段   |类型  |说明   |备注   |
 |:-----|:-----|:------|:------|
 |id    |bigint   |not null auto_increment |primary key|
-|community|int|reference community_info(id)|foreign key|
+|community_id|int|reference community_info(id)|foreign key|
 |date|Date||统计日期|
 |0_7_in|int||7点之前进入小区的车辆数|
 |0_7_out|int||7点之前离开小区的车辆数|
@@ -103,7 +105,7 @@
 |:-----|:-----|:------|:------|
 |id    |bigint   |not null auto_increment |primary key|
 |month|char(16)||按月统计|
-|community|int|reference community_info(id)|foreign key|
+|community_id|int|reference community_info(id)|foreign key|
 |pps|int||收费系统供应商收入统计值|
 |tenement|int||小区物业收入统计值|
 |owner|int||固定车位业主收入统计值|
@@ -248,23 +250,20 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_PUT,
-        WXuserId: "lsfs88"，
-        community："小区id"，
-        rate_type:收费类型（包月/计时/计次），
-        rate:收费标准（xx/xx/xx）,
-        parkingShare：可共享的车位数，
-        parkingTotal：总的车位数，
-        parkingInfo：共享车位位置信息（地图坐标），
-        parkingPeriods：共享时间区间，
-        ppsManufacture：收费系统厂商
+        type: MSG_TYPE_PARKING_PUBLISH,
+        userId: "lsfs88"，
+        communityId："小区id"，
+        timeStart：共享时间区间，
+        timeEnd：共享时间区间，
+        info：车位地图坐标
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_PUT,
-        ret：0
+        type: MSG_TYPE_PARKING_PUBLISH,
+        ret：0,
+        id: 1
     }
     
 #### 3.2.2 修改共享车位信息

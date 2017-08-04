@@ -16,8 +16,14 @@ var User = sequelize.define('user', {
 
     car_license: {type: Sequelize.STRING},
 
-    score: {type: Sequelize.INTEGER},
-});
+    score: {type: Sequelize.INTEGER}
+    
+    }, {
+
+    freezeTableName: true
+
+    }
+);
 
 var user = User.sync({force: false});
 
@@ -29,3 +35,6 @@ exports.addUser = function(user) {
         passwd: user.passwd,
     });
 };
+
+
+module.exports = User;
