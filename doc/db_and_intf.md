@@ -114,6 +114,10 @@
 ***
 ## 3. 后台与APP接口
 
+|METHOD|PATH|
+|------|----|
+|POST|/parking_app|
+
 消息枚举定义：
 
     enum{
@@ -126,10 +130,6 @@
     }；
 
 ### 3.1 用户注册与登录
-
-|METHOD|PATH|
-|------|----|
-|POST|/parking_login|
 
 #### 3.1.1 用户验证手机请求
 
@@ -242,10 +242,6 @@
 
 ### 3.2 用户发布共享车位信息
 
-|METHOD|PATH|
-|------|----|
-|POST|/parking_publish|
-
 #### 3.2.1 添加共享车位信息
 
 
@@ -300,10 +296,6 @@
 
 ### 3.3 用户选择共享车位
 
-|METHOD|PATH|
-|------|----|
-|POST|/parking_order|
-
 #### 3.3.1 预定车位
 
 
@@ -348,6 +340,12 @@
 
 ***
 ## 4. 后台与停车收费系统接口
+
+|METHOD|PATH|
+|------|----|
+|POST|/parking_dev|
+
+
 消息枚举定义：
 
     enum{
@@ -397,7 +395,7 @@
 
 |METHOD|PATH|
 |------|----|
-|POST|/parking_management|
+|POST|/parking_manage|
 
 ### 5.1 小区信息登录
 #### 5.1.1 注册
