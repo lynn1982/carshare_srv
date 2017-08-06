@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/device.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<link rel="stylesheet" href="css/all.css"/>
+		<title fileNam="device">设备类型管理</title>
+	</head>
+
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="device"></div>
+		<!--记录数据-->
+		<div id="pluginContainer">
+			<div class="pluginTitle">设备类型列表</div>
+			<a class="addPluginBtn" href="addDevice.html">添加设备类型</a>
+			<div class="tableContainer">
+				<table id="table">
+					<tr>
+						<th>名称</th>
+						<th>厂商</th>
+						<th>厂商设备类型标识符</th>
+						<th>插件</th>
+						<th>描述</th>
+						<th style="text-align: center;">管理</th>
+						<!--<th style="text-align: center;">详细</th>-->
+					</tr>
+					<tr id="cell" style="display:none">
+						<td name="dataModelId" style="display: none;"></td>
+						<td name="jsonIsExist" style="display: none;"></td>
+						<td name="pluginId" style="display: none;"></td>
+						<td name="firmwareId" style="display: none;"></td>
+						<td name="name">灯泡</td>
+						<td name="manufacture">诺基亚</td>
+						<td name="manufactureDataModelId">1234213</td>
+						<td name="pluginId">插件</td>
+						<td name="devDesc">这是一个什么设备</td>
+						<td style="text-align: center;">
+							<a class="pluginVersion blueBut" href="deviceDetail.html" >详情</a>
+							<a class="pluginDelete redBtn">删除</a>
+						</td>
+						<!--<td style="text-align: center;">
+							<a class="pluginVersion blueBut" href="deviceDetail.html" style="background: white; color: black; border: 1px solid gray;">详情</a>
+						</td>-->
+					</tr>
+					<!--<tr>
+						<td>灯泡</td>
+						<td>诺基亚</td>
+						<td>1234213</td>
+						<td>插件</td>
+						<td>这是一个什么设备</td>
+						<td style="text-align: center;">
+							<a class="pluginVersion blueBut" href="addDevice.html">修改</a>
+							<a class="pluginDelete redBtn">删除</a>
+						</td>
+						<td style="text-align: center;">
+							<a class="pluginVersion blueBut" href="deviceDetail.html" style="background: white; color: black; border: 1px solid gray;">详情</a>
+						</td>
+					</tr>-->
+				</table>
+			</div>
+			<div style="height: 15px;"></div>
+
+		</div>
+	</body>
+	<script type="text/javascript" src="js/public.js"></script>
+	<script type="text/javascript" src="js/netWokr.js"></script>
+
+</html>

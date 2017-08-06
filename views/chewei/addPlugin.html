@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js" ></script>
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/addPlugin.css" />
+		<title fileNam="addPlugin">添加插件</title>
+	</head>
+
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="addPlugin"></div>
+		<!--记录数据-->
+		<div id="pluginContainer">
+			<div class="pluginTitle">
+				<a class="backBtn" href="plugin.html">取消</a>添加插件</div>
+
+			<form  id="addPluginForm" >
+				<div class="inputContainer">
+					<span class="nameSpan">插件名称</span><input class="inputName" type="text" name="pluginName" placeholder="插件名" />
+					<span class="nameSpan">插件说明</span><textarea class="inputDesc mytextarea"  name="pluginDesc" placeholder="插件说明" style="height: 85px"></textarea>
+					<input class="inputSubmit" type="button" value="添加插件" />
+
+				</div>
+			</form>
+		</div>
+	</body>
+		<script type="text/javascript" src="js/public.js" ></script>
+		<script type="text/javascript" src="js/netWokr.js" ></script>
+</html>

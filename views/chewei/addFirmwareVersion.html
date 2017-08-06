@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+        <script type="text/javascript" src="js/jquery-form.js" ></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js" ></script>
+
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/addFirmware.css" />
+		<title fileNam="addFirmwareVersion">添加固件</title>
+	</head>
+
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="addFirmwareVersion"></div>
+		<!--记录数据-->
+		<div id="pluginContainer">
+			<div class="pluginTitle">
+	          <a class="backBtn">取消</a>添加固件</div>
+			<form  id="addVersionForm" method="post" enctype="multipart/form-data">
+				<div class="inputContainer">
+					<span class="nameSpan">版本号</span><input class="inputName" type="text" name="version" placeholder="版本号" />
+					<span class="nameSpan">md5值</span><input class="inputDesc" type="text" name="md5" placeholder="md5值" />
+					<span class="nameSpan">修改说明</span><textarea class="inputDesc" type="text" name="versionDesc" placeholder="版本说明" style="height: 85px"></textarea>
+					<span class="nameSpan">固件</span><input class="inputDesc" type="file" name="thumbnail" placeholder="" />
+					<input class="inputSubmit" type="button" value="添加固件" />
+				</div>
+			</form>
+		</div>
+	</body>
+		<script type="text/javascript" src="js/public.js" ></script>
+		<script type="text/javascript" src="js/netWokr.js" ></script>
+		
+
+</html>

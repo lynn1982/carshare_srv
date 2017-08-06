@@ -1,0 +1,225 @@
+<html>
+<head>
+<meta http-equiv='content-type' content='text/html;charset=utf-8'/>
+<title>用户注册</title>
+<link href='css/login.css' rel='stylesheet' type='text/css'/>
+
+<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+
+<!--<script type='text/javascript' src='/javascripts/jquery-1.11.2.min.js'></script>-->
+<script type='text/javascript' src='js/cookieFunction.js'></script>
+<script type='text/javascript' src='/js/md5.js'></script>
+
+<script type="text/javascript">
+/*
+function checkUserName()
+{
+}
+*/
+//判断两次密码是否相同
+function checkPassword(){
+	var password = $("#password").val();
+	var passwordConfirm = $("#passwordConfirm").val();
+
+	if(password !== passwordConfirm){
+		$(".pwWarning").show();
+	}
+	if(password == passwordConfirm){
+		$(".pwWarning").hide();
+	}
+}
+
+
+//function checkOk(){
+	
+	
+//}
+
+
+//这是最新的版本
+$(function() {
+
+   $('#username').keyup(function(){
+       $.post("/register_check/username", 
+             {username:$('#username').val()},
+
+             function(rdata, status)
+             {               
+                 if ( "0" == rdata)
+                 {
+                     $('.userNameWarning').html("用户名可用");
+                      $('.userNameWarning').css({
+                      	"color":"green"
+                      });
+                 }
+                 else  if ( "1" == rdata)
+                 {
+                     $('.userNameWarning').html("用户名已经被注册");
+                      $('.userNameWarning').css({
+                      	"color":"red"
+                      });
+                 }
+             } 
+       );
+    });
+
+   $('#vendorID').keyup(function(){
+       $.post("/register_check/vendor_id", 
+
+             {vendorID:$('#vendorID').val()},
+
+             function(rdata, status)
+             {               
+                 if ( "0" == rdata)
+                 {
+                     $('#vendor_id_check_info').html("OK.");
+                 }
+                 else  if ( "1" == rdata)
+                 {
+                     $('#vendor_id_check_info').html("Sorry, this vendor_id has been used.");
+                 }
+             } 
+       );
+    });
+
+/*
+   $('#username').blur(function(){
+       $.post("/register_check/username", 
+             {username:$('#username').val()},
+
+             function(rdata, status)
+             {
+               
+                 if ( "0" == rdata)
+                 {
+                     $('#check_username_success').html("OK.");
+                 }
+                 else  if ( "1" == rdata)
+                 {
+                     $('#check_username_success').html("Sorry, this username has been used.");
+                 }
+             }
+   
+       );
+//    alert("test");
+    });
+*/
+        
+
+    var username = getCookie('username');
+    var password = getCookie('password');
+    //alert('uesrname=' + username + ',password=' + password);
+    $('#username').val(username);
+    $('#password').val(password);
+
+    $('#loginform').submit(function(event){
+    //var ischecked = document.getElementById('rememberpw').checked;
+    //alert("hi");
+    //alert(hex_md5('aaaa'));
+    if ($('#rememberpw').is(':checked')) {
+        //alert($('#rememberpw').is(':checked'));
+        var date = new Date();
+        date.setTime(date.getTime() + (10*24*60*60*1000));
+        var newusername = $('#username').val();
+        var newpassword = $('#password').val();
+        //alert(newusername + ' ' + newpassword);
+        setCookie('username', newusername, date);
+        setCookie('password', hex_md5(newpassword), date);
+     } else {
+         //alert('clear');
+         clearCookie('username');
+         clearCookie('password');
+         //alert('else');
+     }
+
+     return true;
+});
+});
+
+</script>
+<style>
+	#login-content{
+		height: 340px;
+	}
+	.left{
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 40px;
+		/*border: 1px solid yellow;*/
+		display: block;
+		width: 100px;
+		line-height: 40px;
+		font-weight: bold;
+		text-align: left;
+		padding-left: 8px;
+	}
+	.warning{
+		position: absolute;
+		top: 42px;
+		left:0;
+		/*border: 1px solid red;*/
+		width: 400px;
+		text-align: center;
+		line-height: 18px;
+		height: 18px;
+		font-size: 14px;
+		color: red;
+		display: none;
+	}
+	a{
+		text-decoration: none;
+		color: blue;
+	}
+</style>
+</head>
+
+<body>
+    <div class='main-login'>
+    <div class='login-logo'></div>
+    <div class='login-content' id='login-content'>
+        <form action='/register_page' method='post' id='loginform' name='loginform'>
+
+            <div class='login-info'>
+                <span class='left'>用户名</span>: 
+                <input name='username' id='username' type='text' onblur='checkUsername()' value='' class='login-input' placeholder="请输入用户名"/>
+                <div class="warning userNameWarning" style="display: block;" ></div>
+            </div>
+
+            <div class='login-info'>
+                <span class='left'>密码</span>:
+                <input name='password' id='password' type='password'  value='' class='login-input' onblur='checkPassword()' placeholder="请输入密码"/>
+            </div>
+            
+             <div class='login-info'>
+                <span class='left'>确认密码</span>:
+                <input  id='passwordConfirm' type='password' onblur='checkPassword()' value='' class='login-input' placeholder="请再次输入密码"/>
+                <div class="warning pwWarning" >两次密码不同!</div>
+            </div>
+            
+             <div class='login-info'>
+                <span class='left'>邮箱</span>:
+                <input name='email' id='email' type='text'  value='' class='login-input' placeholder="请输入邮箱" />
+            </div>
+
+            <!--<div class='login-info'>
+                VendorID<input name='vendorID' id='vendorID' type='text' onblur='checkPassword()' value='' class='login-input'/>
+               <lable id='vendor_id_check_info'></lable>
+            </div>-->
+
+<!--                    
+            <div class='login-rememberpw'>
+                <input name='rememberpw' type='checkbox' value='' checked='checked' id='rememberpw'/>&nbsp;记住密码
+            </div>
+-->
+            <div class='login-operation'>
+                <input id="loginbtn" name='registerbtn' type='submit' value='注  册' class='login-btn blue' />
+                <a href="login.html">返回登录界面</a>
+            </div>
+
+            
+        </form>
+    </div>
+    </div>
+</body>
+</html>

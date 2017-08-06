@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_currentsource.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<title id="name" fileNam="plugin">插件管理</title>
+	</head>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="router_currentresource" isroot="root"></div>
+		<!--记录数据-->
+		<div id="pluginContainer" fileNam="plugin">
+			<div class="pluginTitle"><!-- <a class="backBtn" >返回</a> -->当前直播资源</div>
+
+			<div class="tableContainer" style="margin-top: 30px;" id="vueApp">
+			<table id="table">
+				<tr>
+					<!--<th>平台名称</th>
+					<th>文件名</th>
+					<th>直接获取的流的数目</th>
+					<th>p2p转发的流的数目</th>
+					<th>直接获取的字节数</th>
+					<th>p2p转发的字节数</th>
+					<th>转发情况</th>-->
+					<th v-for="value in headArr">{{value}}</th>
+				</tr>
+				<tr id="cell" class="cell" v-for="dic in message.values">
+					<td v-for="value in dic">{{value}}</td>
+					<td ><a class="resourceDetail blueBut" v-on:click="gotonext($event)"  v-bind:resourceId='dic.resourceId'>详情</a></td>
+				</tr>
+			</table>
+			</div>
+			<div style="height: 15px;"></div>
+			
+		</div>
+	</body>
+<script type="text/javascript" src="js/public.js" ></script>
+<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+<script>
+var vm = new Vue({
+  el: '#vueApp',
+  data: {
+    message: {values:[{"Deviceid":"1","Deviceid2":"1",resourceId:"100"},{"Deviceid":"1","Deviceid2":"1",resourceId:"100"},{"Deviceid":"1","Deviceid2":"1",resourceId:"100"}]},
+    headArr:[],
+  },
+  methods:{
+  	gotonext:function(event){
+		var resourceId = $(event.currentTarget).attr("resourceId");
+		window.localStorage.resourceId = resourceId;
+		window.location.href = "router_retransmission.html";
+  	}
+  }
+  
+  
+});
+
+
+
+//获取标题
+ for(var key in vm.message.values[0]){
+ 	vm.headArr.push(key);
+ }
+ vm.headArr.push("直播资源");
+ 
+//网络请求
+
+ myajax(2,"get","",detailCallBack);
+
+ function fresh(){
+    setTimeout(function(){
+
+    myajax(2,"get","",detailCallBack);           
+
+
+    },5000);
+}
+
+
+
+    function detailCallBack(data){
+    	// alert(data);
+ 
+    	vm.message = data;
+    	
+    	//获取标题
+   vm.headArr = [];  	
+ for(var key in vm.message.values[0]){
+ 	vm.headArr.push(key);
+ }
+ vm.headArr.push("直播资源");
+ 
+
+fresh();
+    	
+    }
+
+    
+ </script>
+</html>

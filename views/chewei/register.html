@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/register.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js" ></script>
+		<script type="text/javascript" src="js/cookieFunction.js" ></script>
+		<script type="text/javascript" src="js/md5.js" ></script>
+		<title>登陆</title>
+	</head>
+	<style>
+		label.error{
+			display: block;
+			font-size:14px;
+		}
+	</style>
+	<script type="text/javascript">
+
+		function checkForm(form, rulesJson, messagesJson, successFun) {
+
+
+			$(form).validate({
+				invalidHandler: function () {
+					return false;
+				},
+				/*	submitHandler: function (form) {
+				 successFun(form);
+				 },*/
+				errorPlacement: function (error, element) {
+					error.insertAfter(element);
+				},
+				rules: rulesJson,
+				messages: messagesJson
+			});
+
+		}
+
+
+
+		//这是最新的版本
+		$(function() {
+var url = "/register_check/username";
+			checkForm("#loginform",{
+				username:{
+					required:true,
+					remote:{
+						url:url,
+						type:"Post",
+						data:{
+							username:$(".userName").val()
+
+						}
+					}
+				},
+				password:{
+					required:true
+				},
+				passwordConfirm:{
+					required:true,
+					equalTo:"#password"
+				},
+				email:{
+					required:true,
+					email:true,
+				}
+			},{
+				username:{
+					required:"请输入用户名",
+					remote:"用户名已被使用"
+				},
+				password:{
+					required:"请输入密码"
+				},
+				passwordConfirm:{
+					required:"请再次输入密码",
+					equalTo:"两次密码不一致"
+				},
+				email:{
+					required:"请输入邮箱",
+					email:"请输入正确的邮箱格式",
+				}
+			});
+
+
+/*
+			$('#username').keyup(function(){
+			$.post("/register_check/username",
+						{username:$('#username').val()},
+
+						function(rdata, status)
+						{
+							if ( "0" == rdata)
+							{
+								$('.usernameLabel').html("用户名可用");
+								$('.usernameLabel').css({
+									"color":"yellow",
+									"display":"block"
+								});
+							}
+							else  if ( "1" == rdata)
+							{
+								$('.usernameLabel').html("用户名已经被注册");
+								$('.usernameLabel').css({
+									"color":"red",
+									"display":"block"
+								});
+							}
+						}
+				);
+
+			});*/
+
+
+			$('#loginform').submit(function(event){
+				//var ischecked = document.getElementById('rememberpw').checked;
+				//alert("hi");
+
+				if ($('#rememberpw').is(':checked')) {
+					//alert($('#rememberpw').is(':checked'));
+					var date = new Date();
+					date.setTime(date.getTime() + (10*24*60*60*1000));
+					var newusername = $('#username').val();
+					var newpassword = $('#password').val();
+					//alert(newusername + ' ' + newpassword);
+					setCookie('username', newusername, date);
+					setCookie('password', hex_md5(newpassword), date);
+				} else {
+					//alert('clear');
+					clearCookie('username');
+					clearCookie('password');
+					//alert('else');
+				}
+
+				return true;
+			});
+
+
+		});//ready
+
+	</script>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="register"></div>
+		<!--记录数据-->
+		<img class="bg" src="img/login_bg.jpg" />
+		<div id="loginContainer">
+			<div class="loginWelcom">欢迎来到后台管理</div>
+		<form id="loginform" action="/register_page" method="post" name="form">
+			<div class="inputDiv">
+				<div class="loginIcon"><img  src="img/login_name.png" /></div>
+				
+				<input id="username" class="loginInput username" name='username' placeholder="账号" type="text" />
+				<div class="small usernameLabel">请输入账号</div>
+			</div>
+			<div class="inputDiv">
+				<div class="loginIcon"><img  src="img/login_pwd.png" /></div>
+				<input id="password" class="loginInput" name='password' placeholder="密码"  type="password" />
+				<div class="small">请输入密码</div>
+			</div>
+			<div class="inputDiv">
+				<div class="loginIcon"><img  src="img/login_pwd.png" /></div>
+				<input id="passwordConfirm" name="passwordConfirm" class="loginInput" placeholder="确认密码"  type="password" />
+				<div class="small pwconfirmLb">两次密码不相同</div>
+			</div>
+			<div class="inputDiv">
+				<div class="loginIcon"><img  src="img/login_name.png" /></div>
+				<input class="loginInput" name='email' placeholder="邮箱"  type="text"/>
+				<div class="small">请输入密码</div>
+			</div>
+			 <div class="loginRegister"><a href="login.html" class="registerBtn">返回登陆页面</a></div>
+			<div>
+				<input class="loginBtn" type="submit" value="注册" name="form"/>
+			</div>
+		</form>
+		</div>
+	</body>
+			<script type="text/javascript" src="js/public.js" ></script>
+</html>

@@ -1,0 +1,106 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background: #EEEEEE
+}
+a{
+	text-decoration: none;
+}
+#pluginContainer{
+	background: white;
+	box-shadow: 0 0 10px rgba(0,0,0,.3);
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 7px;
+	
+}
+.pluginTitle{
+	box-shadow: 0 0 4px rgba(0,0,0,.3);
+	height: 35px;
+	line-height: 35px;
+	padding-left: 12px;
+	background: #FFFFFF;
+	font-size: 13px;
+	border-bottom: 1px solid gainsboro;
+}
+.addPluginBtn{
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 2px;
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(0,0,0,.05);
+	text-align: center;
+	padding: 6px 12px;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	font-size: 13px;
+	margin: 20px 0 10px 10px;
+	color: black;
+}
+.addPluginBtn:hover{
+	background: gainsboro;
+}
+
+/*table开始*/
+.tableContainer{
+	box-sizing: content-box;
+	padding-right: 10px;
+	padding-left: 10px;
+	
+	
+}
+#table{
+	width: 100%;
+    margin: 0 auto;
+	border: 1px solid #ddd;
+	font-size: 13px;
+	border-collapse: collapse;
+	text-align: left;
+
+	
+
+}
+#table th{
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    border-bottom: 3px solid #6f85bf;
+	    font-weight: 600;
+	    text-align: left;
+}
+#table td{
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+.pluginDelete{
+	
+}
+.blueBut{
+	background: #2dc3e8;
+	border-radius: 3px;
+	padding: 4px 16px;
+	color: white;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+.redBtn{
+	background: #d73d32;
+	border-radius: 3px;
+	padding: 4px 16px;
+	color: white;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+.redBtn:hover{
+	background: #d9534f;
+	border: 1px solid #d43f3a;
+}
+.blueBut:hover{
+	
+	background: #5bc0de !important;
+	border: 1px solid #46b8da;
+	
+}
+/*table结束*/

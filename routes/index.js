@@ -6,7 +6,8 @@ var manage = require('../control/manage');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
+  res.render('main');
 });
 
 router.post('/parking_app', function(req, res, next) {

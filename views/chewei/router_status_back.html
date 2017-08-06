@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_status.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/vue.js" ></script>
+		<title id="name" fileNam="plugin">插件管理</title>
+	</head>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="router_status" isroot="root"></div>
+		<!--记录数据-->
+		<div id="pluginContainer" fileNam="plugin">
+			<div class="pluginTitle">总状态</div>
+		
+			<div class="tableContainer" style="margin-top: 30px;" id="vueApp">
+			<table id="table">
+				<tr v-for="dic in message.values">
+					<td v-for="value in dic">{{value}}</td>
+					
+				</tr>
+								<!--<tr >
+					<td>总路由器台数</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>在线台数</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>	网络中正在观看的直播资源数目</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>从直播网站获取的流的总数</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>直接下载总带宽</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>P2P连接总数</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>P2P转发总带宽</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>P2P转发的平均时延</td>
+					<td>10000</td>
+				</tr>
+								<tr>
+					<td>直播总带宽</td>
+					<td>10000</td>
+				</tr>-->
+				<tr id="cell" class="cell" style="display: none;">
+					<td name="pluginId" style="display: none;">v1.0.1</td>
+					<td name="pluginName">插件一</td>
+					<td class="" name="publishVersion">v1.0.1</td>
+					<td name="pluginDesc" class="changeLog">这是这是个啊是否这是个啊是否这是个</td>
+					<td ><a class="pluginVersion blueBut">版本</a> <a class="pluginDelete redBtn">删除</a></td>
+				</tr>
+			</table>
+			</div>
+			<div style="height: 15px;"></div>
+			
+		</div>
+	</body>
+<script type="text/javascript" src="js/public.js" ></script>
+<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+<script>
+var vm = new Vue({
+  el: '#vueApp',
+  data: {
+    message:{"values":[{"name":"路由器总台数","count":0},{"name":"在线台数","count":0},{"name":"正在观看的直播资源数","count":0},{"name":"从直播网站获取的流","count":0},{"name":"P2P转发的总数","count":0}]},
+    headArr:[],
+  }
+  
+});
+
+myajax(1,"get","",detailCallBack);
+//网路请求
+function refresh(){
+	setTimeout(function(){
+	myajax(1,"get","",detailCallBack);
+},5000);
+
+}
+
+	
+
+    function detailCallBack(data){
+    	 	var arr = data.values;
+    	
+    	//增加观众数
+    	var nump2p = data.values[3].count;
+    	var numporigin = data.values[4].count;
+    	var numwatch = nump2p + numporigin;
+   
+    	//增加p2p转发率
+   
+    	var p2p = parseInt(data.values[arr.length - 1].count);
+    	var all = parseInt(data.values[arr.length - 3].count); 
+    	var  percent  = (p2p / all * 100).toFixed(2) + "%";
+    	
+    	
+    	
+    	data.values.push({"name":"p2p转发率","count":percent});
+    	data.values.splice(5,0,{"name":"观众数","count":numwatch});
+    	
+
+    	vm.message = data;
+    	refresh();
+    	
+    	
+    }
+ </script>
+</html>

@@ -1,0 +1,90 @@
+/*底部返回按钮开始*/
+.bigBackBtn{
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background: #2dc3e8;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+    opacity: 1;
+}
+.bigBackBtn:hover{
+    opacity:1;
+    border: 1px solid deepskyblue;
+    bottom: 19px;
+    right: 29px;
+    background: deepskyblue;
+}
+/*底部返回按钮结束*/
+
+
+/*返回按钮*/
+.backBtn{
+	line-height: 13px;
+	padding: 4px 6px;
+	border: 1px solid rgb(204, 204, 204);
+	cursor: pointer;
+	border-radius: 2px;
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	color:black;
+	
+}
+.backBtn:hover{
+	background: gainsboro;
+}
+/*返回按钮*/
+
+/*禁止文字选中*/
+.fobidSelect{
+    -moz-user-select:none;/*火狐*/
+
+    -webkit-user-select:none;/*webkit浏览器*/
+
+    -ms-user-select:none;/*IE10*/
+
+    -khtml-user-select:none;/*早期浏览器*/
+
+    user-select:none;
+}
+
+/*表单验证错误文字*/
+label.error{
+    color: red;
+    display: inline;
+
+}
+
+ul li{
+    list-style: none;
+}
+
+
+/*table样式*/
+.table{
+	width: 100%;
+    margin: 0 auto;
+	border: 1px solid #ddd;
+	font-size: 13px;
+	/*border-collapse: collapse;*/
+	text-align: left;
+
+}
+
+
+/*一块*/
+.pluginContainer{
+	background: white;
+	box-shadow: 0 0 10px rgba(0,0,0,.3);
+	position: relative;
+	margin: 20px 20px 0px 20px;
+	font-size: 13px;
+}

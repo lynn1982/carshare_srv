@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/all.css"/>
+    <link rel="stylesheet" href="css/login.css" />
+    <script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+    <script type="text/javascript" src="js/jquery.validate.min.js" ></script>
+    <script type="text/javascript" src="js/cookieFunction.js" ></script>
+    <script type="text/javascript" src="js/md5.js" ></script>
+    <title>登陆</title>
+    <style>
+        label.error{
+            font-size:14px;
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function checkForm(form, rulesJson, messagesJson, successFun) {
+
+
+            $(form).validate({
+                invalidHandler: function () {
+                    return false;
+                },
+                /*	submitHandler: function (form) {
+                 successFun(form);
+                 },*/
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element);
+                },
+                rules: rulesJson,
+                messages: messagesJson
+            });
+
+        }
+
+        $(function() {
+
+            checkForm("#loginform",{
+                username:{
+                    required:true
+                },
+                password:{
+                    required:true
+                }
+            },{
+                username:{
+                    required:"请输入用户名"
+                },
+                password:{
+                    required:"请输入密码"
+                }
+            });
+
+            var username = getCookie('username');
+            var password = getCookie('password');
+            //alert('uesrname=' + username + ',password=' + password);
+            $('#username').val(username);
+            $('#password').val(password);
+            $("#loginform").submit(function(event){
+
+                //存储用户名
+                window.sessionStorage.userName = $('#username').val();
+                //var ischecked = document.getElementById('rememberpw').checked;
+                //alert("hi");
+                //alert(hex_md5('aaaa'));
+                if ($('#rememberpw').is(':checked')) {
+                    //alert($('#rememberpw').is(':checked'));
+                    var date = new Date();
+                    date.setTime(date.getTime() + (10*24*60*60*1000));
+                    var newusername = $('#username').val();
+                    var newpassword = $('#password').val();
+                    //alert(newusername + ' ' + newpassword);
+                    setCookie('username', newusername, date);
+                    setCookie('password', hex_md5(newpassword), date);
+                } else {
+                    //alert('clear');
+                    clearCookie('username');
+                    clearCookie('password');
+                    //alert('else');
+                }
+
+                return true;
+            });
+        });
+    </script>
+</head>
+
+<body>
+<!--记录数据-->
+<div id="fileName" fileNam="login"></div>
+<!--记录数据-->
+<img class="bg" src="img/login_bg.jpg" />
+<div id="loginContainer">
+    <div class="loginWelcom">欢迎来到后台管理</div>
+    <form action="/login" method="post" id='loginform' name='loginform'>
+
+        <div class="inputDiv">
+            <div class="loginIcon"><img  src="img/login_name.png" /></div>
+            <input id="username" class="loginInput" placeholder="账号" type="text" name="username"/>
+
+            <div class="small">请输入账号</div>
+        </div>
+
+        <div class="inputDiv">
+            <div class="loginIcon"><img  src="img/login_pwd.png" /></div>
+            <input id="password" class="loginInput" placeholder="密码"  type="password" name="password"/>
+            <div class="small">请输入密码</div>
+        </div>
+        <div class="loginRegister"><a class="getPWBtn">忘记密码？</a><a href="register.html" class="registerBtn">注册</a></div>
+        <div>
+            <input class="loginBtn" type="submit" value="登陆"/>
+        </div>
+
+    </form>
+</div>
+
+</body>
+<script type="text/javascript" src="js/public.js" ></script>
+</html>

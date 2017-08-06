@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <link rel="stylesheet" href="css/all.css"/>
+
+		<link rel="stylesheet" href="css/deviceDetail.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/jquery-form.js" ></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js" ></script>
+		<title fileNam="deviceDetail">插件管理</title>
+	</head>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="deviceDetail"></div>
+		<!--记录数据-->
+
+<!--添加设备类型-->
+		<div class="pluginContainer">
+			<div class="pluginTitle">
+				<a class="backBtn" >取消</a>修改设备类型信息</div>
+			<div class="inputContainer">
+				<form id="addDevice">
+					<span class="nameSpan">名称</span><input class="inputName" type="text" placeholder="设备类型名称" name="name"/>
+					<span class="nameSpan">厂商</span><input class="inputDesc" type="text" name="manufacture" placeholder="厂商名" />
+					<span class="nameSpan">厂商数据模型ID</span><input class="inputDesc" type="text" name="manufactureDataModelId" placeholder="厂商数据模型ID" />
+					<span class="nameSpan">描述</span><textarea class="inputDesc"  name="devDesc" placeholder="设备描述"  style="height: 85px"></textarea>
+				</form>
+				<form id="addPLugin">
+					<span class="nameSpan">选择插件</span>
+					<select class="inputDesc" id="tablePlugin"  name="" >
+						<option id="cellPlugin" class="option pluginId" name="pluginId">未上传插件</option>
+					</select>
+				</form>
+				<!--<form id="addDataModel" method="post" enctype="multipart/form-data">
+					<span class="nameSpan">上传dataModel</span><input class="inputDesc" type="file" name="thumbnail" placeholder="" />
+				</form>-->
+				<input id="changeDevBtn" class="inputSubmit" type="button" value="修改"/>
+			</div>
+			<div style="height: 1px;"></div>
+		</div>
+		<!--添加设备类型-->
+
+		<!--添加dataModelId开始-->
+		<div class="pluginContainer">
+			<div class="pluginTitle">
+				<a class="backBtn" >取消</a>修改dataModel</div>
+			<div class="inputContainer">
+				<form id="addDataModel" method="post" enctype="multipart/form-data">
+					<span class="nameSpan jsonIsExist" name="jsonIsExist">未上传</span><input class="smallInput inputDesc file" type="file" name="thumbnail" placeholder="" />
+				</form>
+				<input id="uploadDataModelBtn" class="smallBtn inputSubmit " type="button" value="上传" />
+			</div>
+			<div style="height: 1px;"></div>
+		</div>
+		<!--添加dataModelId结束-->
+
+		<!--发布固件开始-->
+		<div class="pluginContainer">
+			<div class="pluginTitle">
+				<a class="backBtn" >取消</a>发布固件</div>
+
+			<div class="inputContainer">
+				<form id="">
+					<span class="nameSpan">选择固件版本</span>
+					<select class="inputDesc" id="addfirmwareSelect" >
+						<option id="addfirmwareCell" class="option" name="pluginName">未选择固件版本</option>
+					</select>
+				</form>
+				<input class="inputSubmit addfirmwareBtn" type="button" value="发布" />
+			</div>
+			<div style="height: 1px;"></div>
+		</div>
+
+		<!--发布固件结束-->
+
+		<!--固件-->
+		<div class="pluginContainer" >
+			<div class="pluginTitle">可用固件</div>
+			<a class="addPluginBtn" href="addFirmwareVersion.html">添加固件</a>
+			<div class="tableContainer">
+				<table id="tableFirmware" class="detailTB">
+					<tr>
+						<th>版本号</th>
+						<th>md5</th>
+						<th>修改记录</th>
+						<th>操作</th>
+					</tr>
+					<tr id="cellFirmware" style="display: none">
+						<td name="version">10.1</td>
+						<td name="md5">v1.0.1</td>
+						<td name="changeLog">这是这是个啊是否这是个啊是否这是个</td>
+						<td><a class="pluginDelete redBtn">删除</a></td>
+					</tr>
+				</table>
+			</div>
+			<div style="height: 15px;"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/public.js" ></script>
+	<script type="text/javascript" src="js/netWokr.js" ></script>
+</html>

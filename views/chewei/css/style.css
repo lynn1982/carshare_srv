@@ -1,0 +1,163 @@
+body {
+    margin : 0;
+}
+
+a {
+  color: #00B7FF;
+  text-decoration:none;
+}
+
+.contentcenter {
+    text-align : center;
+}
+
+.right {
+    float : right;
+    margin-right : 50px;
+}
+
+div.content {
+    height : 92%;
+    overflow : auto;
+}
+
+table {
+    margin-left : 10px;
+    border : solid 1px;
+    border-collapse : collapse;
+    width : 98%;
+}
+
+table caption {
+    text-align : left;
+}
+
+th.equipth {
+    background : red;
+}
+
+td ,th {
+    border : solid 1px #ccc;
+    text-align : center;
+}
+
+div.page {
+    float : right;
+    margin-right : 50px;
+}
+
+div.saveandcancle {
+    width : 100%px;
+    text-align : center;
+}
+
+input.saveandcancle, button.saveandcancle {
+    width : 70px;
+    height : 30px;
+    background-color : #FFA500;
+}
+
+td.nothing {
+    color : red;
+}
+
+body.topbd {
+    margin : 0 0;
+    padding : 0 0;
+    height : 88px;
+    background : url(/images/topbg.gif);
+    background-size : 100% 67px;
+    background-repeat : repeat-x;
+}
+
+div.topright {
+    float : right;
+}
+
+ul.topright {
+    margin-top : 6px;
+    list-style : none;
+    float : right;
+    padding-right : 15px;
+    display : block;
+}
+
+li.topright {
+    list-style : none;
+    float : left;
+    padding-right : 10px;
+    display : block;
+    text-align : center;
+}
+
+p.topright {
+    margin-top : 2px;
+}
+
+img.topright {
+    border : 0px;
+}
+
+body.left {
+    background-color : #FFD700;
+}
+
+div.leftmenu {
+    height : 100%;
+    float : left;
+    width : 100%;
+}
+
+ul, li {
+    list-style : none;
+}
+
+.leftmenu ul, li {
+    display : block;
+}
+
+.leftmenu ul li a {
+    display : block;
+    margin-left : 25px;
+    margin-top : 10px;
+}
+
+.leftmenu ul li h3 {
+    display : block;
+    margin-left : 10px;
+    margin-top : 30px;
+}
+
+body.bottom {
+    background-color : #FFA500;
+    margin : 0 0;
+    padding : 0 0;
+    height : 30px;
+}
+
+.place {
+    height : 40px;
+    background : url(/images/righttop.gif);
+    background-repeat : repeat;
+}
+
+.place span {
+    line-height : 40px;
+    font-weight : bold;
+    float : left;
+    margin-left : 20px;
+    color : #dc4e00;
+}
+
+.placeul li {
+    line-height : 40px;
+    float : left;
+    padding-left : 10px;
+    padding-right : 20px;
+    background : url(/images/rlist.gif) right;
+    background-repeat : no-repeat;
+}
+
+.placeul li:last-child {
+    background : none;
+}

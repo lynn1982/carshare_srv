@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_info.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<title id="name" fileNam="plugin">插件管理</title>
+	</head>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="router_info" isroot="root"></div>
+		<!--记录数据-->
+		<div id="pluginContainer" fileNam="plugin">
+			<div class="pluginTitle">路由器信息</div>
+			
+			<div class="tableContainer" style="margin-top: 30px;" id="vueApp">
+			<table id="table">
+				<tr>
+					<th v-for="value in headArr">{{value}}</th>
+				</tr>
+				<tr id="cell" class="cell" v-for="dic in message.values">
+					<td v-for="value in dic">{{value}}</td>
+					<td ><a class="pluginVersion blueBut"  v-bind:deviceId="dic.deviceId" v-on:click="gotocurrent($event)">当前</a> <a class="pluginDelete redBtn"  v-bind:deviceId="dic.deviceId" v-on:click="gotohistory($event)">历史</a></td>	
+				</tr>
+				
+			</table>
+			</div>
+			<div style="height: 15px;"></div>
+			
+		</div>
+		
+	</body>
+<script type="text/javascript" src="js/public.js" ></script>
+<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+<script>
+var vm = new Vue({
+  el: '#vueApp',
+  data: {
+    message:{values:[{"Deviceid":"1","Deviceid2":"1",deviceId:1},{"Deviceid":"1","Deviceid2":"1"},{"Deviceid":"1","Deviceid2":"1"}]},
+    headArr:[],
+  },
+  methods:{
+  	gotocurrent:function(event){
+  		var deviceId = $(event.currentTarget).attr("deviceId");
+		window.localStorage.deviceId = deviceId;
+		window.location.href = "router_currentresourceSmall.html";
+  	},
+  	gotohistory:function(event){
+  		var deviceId = $(event.currentTarget).attr("deviceId");
+		window.localStorage.deviceId = deviceId;
+		window.location.href="router_historyresourceSmall.html";
+  	}
+  }
+  
+});
+
+//获取标题
+ for(var key in vm.message.values[0]){
+ 	vm.headArr.push(key);
+ }
+ vm.headArr[0] = "DeviceId";
+ vm.headArr.push("直播资源");
+
+
+myajax(5,"get","",detailCallBack);
+function fresh(){
+    setTimeout(function(){
+
+   myajax(5,"get","",detailCallBack);          
+
+
+    },5000);
+}
+
+
+function detailCallBack(data){
+	// alert(JSON.stringify(data));
+	vm.message = data;
+	//获取标题
+	vm.headArr = [];
+ for(var key in vm.message.values[0]){
+ 	vm.headArr.push(key);
+ }
+ vm.headArr[0] = "DeviceId";
+ vm.headArr.push("直播资源");
+
+fresh();
+
+}
+</script>
+</html>

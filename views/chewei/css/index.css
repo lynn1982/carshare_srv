@@ -1,0 +1,280 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background:#eee;
+
+}
+img{
+	border: none;
+}
+a{
+	text-decoration: none;
+}
+.fullScreen{
+	left: 0 !important;
+}
+#leftnav .toggleGray{
+	background: #EEEEEE;
+	border-bottom: 2px solid #2dc3e8;
+	/*background: blue;*/
+	
+}
+#leftnav .toggleColor{
+	color: black;
+}
+#leftnav .red{
+	background: red;
+}
+.blue{
+	background: #2dc3e8;
+}
+/*1.头部开始*/
+#header{
+	width: 100%;
+	height: 45px;
+	/*border: 1px solid orange;*/
+	position: relative;
+	background: #2dc3e8;
+}
+.heading{
+	line-height: 45px;
+	/*font-weight: bolder;*/
+	color: white;
+	margin-left: 10px;
+	font-size: 20px;
+	display: inline;
+	*display: inline;
+	zoom: 1;
+	letter-spacing:5px;
+}
+.headNav{
+	border: 1px solid red;
+	width: 500px;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	height: 100%;
+	vertical-align: top;
+	
+}
+.logOut{
+	position: absolute;
+	right: 10%;
+	line-height: 40px;
+}
+.userinfo{
+	/*border: 1px solid red;*/
+	display: inline-block;
+	vertical-align: middle;
+	position: absolute;
+	right: 100px;
+	top: 0;
+}
+.userinfo .userHeader{
+	height: 20px;
+	vertical-align: middle;
+	border: 1px solid white;
+	margin-bottom: 4px;
+}
+.userinfo .userName{
+	line-height: 45px;
+	padding: 0 10px;
+	color: white;
+}
+.userinfo .logout{
+	line-height: 45px;
+	color: black;
+	cursor: pointer;
+}
+/*头部结束*/
+
+/*2.左边导航栏开始*/
+#leftnav{
+	position: absolute;
+	top: 45px;
+	bottom: 0;
+	left: 5px;
+	width: 150px;
+	/*border: 1px solid gainsboro;*/
+	background: white;
+	border-top: none;
+	box-shadow:0 0 10px 0 rgba(0,0,0,.1);
+}
+.navCell{
+	font-size: 12px;
+	height: 36px;
+	background: white;
+	text-align: left;
+	line-height: 36px;
+	color: #737373;
+	border-bottom: 2px solid #f3f3f3;
+	cursor: pointer;
+	position: relative;
+}
+
+.leftBlcok{
+	height: 100%;
+	width: 4px;
+	position: absolute;
+	left: -4px;
+}
+.lefNavIcon{
+	height:25px;
+	vertical-align: middle;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 3px;
+	/*border: 1px solid red;*/
+	border: none;
+}
+/*2.左边导航栏结束*/
+
+/*3.标题导航开始*/
+#titleNav{
+	
+	position: absolute;
+	left: 0px;
+	right: 0;
+	top: 0px;
+	height: 37px;
+	background: white;
+	/*box-shadow: 5px 0 0 0 rgba(0,0,0,.1);*/
+	background-image: linear-gradient(to right,#fff,#f3f3f3);
+	
+}
+#titleNav .titleContainer{
+	height: 100%;
+	padding-left: 30px;
+	cursor: pointer;
+}
+#titleNav .selectTitle{
+	/*display: inline-block;
+	*display: inline;
+	zoom: 1;*/
+	line-height: 37px;
+	font-size: 14px;
+	color: #212121;
+	
+}
+/*箭头*/
+.jiantou{
+	position: absolute;
+	right: 10px;
+	top: 0;
+	height: 37px;
+	width: 37px;
+	/*border: 1px solid red;*/
+	z-index: 20;
+	font-size: 12px;
+	line-height: 37px;
+	text-align: center;
+	color: deepskyblue;
+	background: white;
+
+}
+.jiantou:hover{
+	background:rgba(255,255,255,0.5);
+	
+}
+.jiantou .jtBlock{
+	width: 100%;
+	height: 4px;
+	background: #2dc3e8;
+	position: absolute;
+	top:37px ;
+	right: 0;
+}
+/*3.标题导航结束*/
+
+/*中间iframe容器开始*/
+#middleContainer{
+	position: absolute;
+	left: 158px;
+	top: 45px;
+	right: 0;
+	bottom: 20px;
+	/*border: 1px solid red;*/
+	background: #EEEEEE;
+	overflow: auto;
+	
+	/*box-shadow:0 -2px 10px rgba(0,0,0,0.2) ;*/
+	
+}
+
+.iframeContainer{
+	position: absolute;
+	width: 100%;
+	top: 53px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	/*background: red;*/
+}
+#iframe1{
+	width: 100%;
+	height: 99%;
+	
+}
+
+/*中间iframe容器结束*/
+
+/*底部返回按钮开始*/
+.bigBackBtn{
+	position: fixed;
+	bottom: 20px;
+	right: 30px;
+	background: #2dc3e8;
+	height: 40px;
+	width: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 40px;
+	cursor: pointer;
+	font-size: 12px;
+	color: white;
+	opacity: 1;
+}
+.bigBackBtn:hover{
+	opacity:1;
+	border: 1px solid deepskyblue;
+	bottom: 19px;
+	right: 29px;
+	background: deepskyblue;
+}
+/*底部返回按钮结束*/
+
+
+/*禁止文字选中*/
+.fobidSelect{
+-moz-user-select:none;/*火狐*/
+
+-webkit-user-select:none;/*webkit浏览器*/
+
+-ms-user-select:none;/*IE10*/
+
+-khtml-user-select:none;/*早期浏览器*/
+
+user-select:none;
+}
+
+
+
+/*返回按钮*/
+.backBtn{
+	line-height: 13px;
+	padding: 4px 6px;
+	border: 1px solid rgb(204, 204, 204);
+	cursor: pointer;
+	border-radius: 2px;
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	color:black;
+
+}
+.backBtn:hover{
+	background: gainsboro;
+}

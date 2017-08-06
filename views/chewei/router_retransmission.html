@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_retransmission.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		
+		<title id="name" fileNam="plugin">插件管理</title>
+	</head>
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="router_retransmission"></div>
+		<!--记录数据-->
+		<div id="pluginContainer" fileNam="plugin">
+			<div class="pluginTitle"><a class="backBtn" >返回</a>直播资源转发情况</div>
+			
+			<div class="tableContainer" style="margin-top: 30px;">
+			<div id="table" style="height: 600px">
+	
+			</div>
+			</div>
+			<div style="height: 15px;"></div>
+			
+		</div>
+
+	</body>
+<script type="text/javascript" src="js/public.js" ></script>
+<script type="text/javascript" src="js/echarts.js" ></script>
+<script type="text/javascript">		
+	
+
+//src 提供资源的
+var myjson = {values:[{resouceId:"11",src:"k1",deviceId:"k2"},{resouceId:"11",src:"k2",deviceId:"k3"},{resouceId:"11",src:"k2",deviceId:"k5"},{resouceId:"11",src:"origin",deviceId:"k3"}]};
+function detailCallBack(data){
+
+	myjson = data;
+
+
+var nodesData = [];
+var linksData = [];
+          // {category:1, name: 'k5',value : 7},
+          //{source : 'k5', target : 'k2', weight : 1, name: '母亲'},
+var dataArr = myjson.values;
+	for(var i = 0; i < dataArr.length; i++){
+		var dicData = dataArr[i];
+		var dic1 = {category:1,name:dicData.deviceId,value:5};
+		var dic3 = {category:1,name:dicData.src,value:5};
+		var dic2 ={source:dicData.src,target:dicData.deviceId.toString(),weight:1,name:i};
+		nodesData.push(dic1);
+		nodesData.push(dic3);
+		linksData.push(dic2);
+	}
+
+// alert(JSON.stringify(linksData))
+	   // 路径配置
+        require.config({
+            paths: {
+                echarts: 'echarts/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/force' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('table')); 
+                
+                
+var option = {
+		
+    title : {
+        // text: '人物关系：乔布斯',
+        // subtext: '数据来自人立方',
+        x:'right',
+        y:'bottom'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: '{a} : {b}'
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            restore : {show: true},
+            magicType: {show: true, type: ['force', 'chord']},
+            saveAsImage : {show: true}
+        }
+    },
+    legend: {
+        x: 'left',
+        // data:['家人','朋友']
+        data:[]
+    },
+    series : [
+        {
+        
+            type:'force',
+            // name : "人物关系",
+            ribbonType: false,
+            // categories : [
+            //     {
+            //         name: '人物'
+            //     },
+            //     {
+            //         name: '家人',
+            //         symbol: 'diamond'
+            //     },
+            //     {
+            //         name:'朋友'
+            //     }
+            // ],
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        textStyle: {
+                            color: '#333'
+                        }
+                    },
+                    nodeStyle : {
+                        brushType : 'both',
+                        borderColor : 'rgba(255,215,0,0.4)',
+                        borderWidth : 1
+                    }
+                },
+                emphasis: {
+                    label: {
+                        show: false
+                        // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                    },
+                    nodeStyle : {
+                        //r: 30
+                       
+                    },
+                    linkStyle : {}
+                }
+            },
+            minRadius : 15,
+            maxRadius : 25,
+            gravity: 1.1,
+            scaling: 1.2,
+            draggable: false,
+            linkSymbol: 'arrow',
+            steps: 10,
+            coolDown: 0.9,
+           
+            //preventOverlap: true,
+//          nodes:[
+//              {
+//                  category:0, name: '直播平台', value : 10,
+//                  symbol: 'image://img/2700940901264215.png',
+//                  symbolSize: [60, 35],
+//                  draggable: true,
+//                  itemStyle: {
+//                      normal: {
+//                          label: {
+//                              position: 'right',
+//                              textStyle: {
+//                                  color: 'black'
+//                              },
+//                              
+//                              
+//                          }
+//                      }
+//                  }
+//              },
+//              {category:1, name: 'k2',value : 2},
+//              {category:1, name: 'k3',value : 3},
+//              {category:1, name: 'k4',value : 3},
+//              {category:1, name: 'k5',value : 7},
+// 
+//          ],
+nodes:nodesData,
+links:linksData
+//          links : [
+//              {source : 'k2', target : '直播平台', weight : 1, name: '女儿', itemStyle: {
+//                  normal: {
+//                      width: 1.5,
+//                      color: 'red'
+//                  }
+//              }},
+//              {source : 'k3', target : 'k2', weight : 1, name: '父亲', itemStyle: {
+//                  normal: { color: 'red' }
+//              }},
+//              {source : 'k4', target : 'k2', weight : 2, name: '父亲'},
+//              {source : 'k5', target : 'k2', weight : 1, name: '母亲'},
+//         
+//          ]
+        }
+    ]
+};
+var ecConfig = require('echarts/config');
+function focus(param) {
+    var data = param.data;
+    var links = option.series[0].links;
+    var nodes = option.series[0].nodes;
+    if (
+        data.source != null
+        && data.target != null
+    ) { //点击的是边
+        var sourceNode = nodes.filter(function (n) {return n.name == data.source})[0];
+        var targetNode = nodes.filter(function (n) {return n.name == data.target})[0];
+        console.log("选中了边 " + sourceNode.name + ' -> ' + targetNode.name + ' (' + data.weight + ')');
+    } else { // 点击的是点
+        console.log("选中了" + data.name + '(' + data.value + ')');
+    }
+}
+myChart.on(ecConfig.EVENT.CLICK, focus)
+
+myChart.on(ecConfig.EVENT.FORCE_LAYOUT_END, function () {
+    console.log(myChart.chart.force.getPosition());
+});
+                    
+
+                    
+                    
+                    
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+            }
+        );
+	
+	
+    fresh();
+ 
+}//ajax
+
+
+    var resourceId = window.localStorage.resourceId;
+
+
+ myajax(3,"post",{"resourceId":resourceId},detailCallBack);              
+
+function fresh(){
+    setTimeout(function(){
+
+    myajax(3,"post",{"resourceId":resourceId},detailCallBack);              
+
+
+    },5000);
+}
+
+
+
+
+	
+</script>
+   
+</html>
