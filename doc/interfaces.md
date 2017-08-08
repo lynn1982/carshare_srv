@@ -1,9 +1,21 @@
 
-## 5. 后台管理接口
+## 1. 后台管理接口
 
 |METHOD|PATH|
 |------|----|
 |POST|/parking_manage|
+
+消息枚举定义：
+
+    enum{
+        MSG_TYPE_LOGIN_PHONE,
+        MSG_TYPE_LOGIN_PHONE_BIND,
+        MSG_TYPE_LOGIN_IN，
+        MSG_TYPE_LOGIN_OUT，
+        MSG_TYPE_LOGIN_PHONE_UNBIND，
+        MSG_TYPE_PARKING_PUT,
+    }；
+
 
 ### 5.1 小区信息登录
 #### 5.1.1 注册
