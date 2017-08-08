@@ -19,16 +19,55 @@
 			<div class="pluginTitle">API调试</div>
             <form id="debug" name="debug" action="">
                 <span class="nameSpan">方法</span><select class="inputDesc" id="method" ><option value="GET">GET</option>
-                    <option value="GET">POST</option>
+                    <option value="POST">POST</option>
                 </select>
-                <span class="nameSpan">路径</span><input class="inputDesc" type="text" name="name"></input>
-                <span class="nameSpan">参数</span><textarea class="inputDesc" type="text" name="manufacture" style="height: 160px;"></textarea>
-                <span class="nameSpan">结果</span><textarea class="inputDesc"  name="devDesc" style="height: 200px;"></textarea>
+                <span class="nameSpan">路径</span><input class="inputDesc" type="text" id="path"></input>
+                <span class="nameSpan">参数</span><textarea class="inputDesc" type="text" id="param" style="height: 160px;"></textarea>
+                <span class="nameSpan">结果</span><textarea class="inputDesc"  id="result" style="height: 200px;"></textarea>
             </form>
-            <input class="inputSubmit" type="button" value="提交"></input>
+            <input class="inputSubmit" type="button" onclick="debugSubmit()" value="提交"></input>
             <div style="height: 1px;"></div>
 		</div>
 	</body>
-	<script type="text/javascript" src="js/public.js"></script>
-	<script type="text/javascript" src="js/netWokr.js"></script>
+	<script type="text/javascript">
+        function ajaxRequest(method, url, data, callback) {
+            //创建XMLHttpRequest对象
+            var xmlHttp = new XMLHttpRequest();
+
+            //配置XMLHttpRequest对象
+            xmlHttp.open(method, url);
+
+            //设置回调函数
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    callback(xmlHttp.responseText);
+                }
+            }
+
+            if (data != null) {
+                xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            }
+
+            //发送请求
+            xmlHttp.send(data);
+        }
+
+        function showResult(response) {
+            document.getElementById("result").value=response;
+        }
+
+        function debugSubmit() {
+            var methodSelect = document.getElementById("method");
+            var method = methodSelect.options[methodSelect.selectedIndex].value;
+            var path = document.getElementById("path").value;
+            var url = "http://"+window.location.host + path;
+            
+            if (method == "GET") {
+                ajaxRequest(method, url, null, showResult);
+            } else {
+                var data = document.getElementById("param").value;
+                ajaxRequest(method, url, data, showResult);
+            }
+        }
+    </script>
 </html>
