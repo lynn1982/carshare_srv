@@ -8,44 +8,64 @@
 消息枚举定义：
 
     enum{
-        MSG_TYPE_LOGIN_PHONE,
-        MSG_TYPE_LOGIN_PHONE_BIND,
-        MSG_TYPE_LOGIN_IN，
+        MSG_T_MGMT_NEW_XIAOQU,
+        MSG_T_MGMT_QUERY_XIAOQU,
+        MSG_T_MGMT_UPDATE_XIAOQU，
         MSG_TYPE_LOGIN_OUT，
         MSG_TYPE_LOGIN_PHONE_UNBIND，
         MSG_TYPE_PARKING_PUT,
     }；
 
 
-### 5.1 小区信息登录
-#### 5.1.1 注册
+### 1.1 小区信息登录
+#### 1.1.1 新增小区
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_LOGIN,
+        type: MSG_T_MGMT_NEW_XIAOQU,
+        city:"上海"，
+        district:"浦东"，
         name:"凤凰花园"，
-        addr:"上海市松江区机场东路888号"
+        addr:"上海市浦东新区机场东路888号"，
+        addr_in:"上海市浦东新区机场东路888号"，
+        addr_out:"上海市浦东新区机场东路888号"
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_LOGIN,
-        community: '1',    //返回小区id号
-        ret: 0
-    }
-    or
-    {
-        type: MSG_TYPE_PARKING_MANAGE_LOGIN,
-        ret: 1,
-        msg: "小区已注册"
+        type: MSG_T_MGMT_NEW_XIAOQU,
+        ret: 0, // 0:成功，非0:失败原因
+        err_str:"重复添加"，
     }
 
-#### 5.1.2 小区信息
+#### 1.1.2 查询小区信息
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_INFO,
+        type: MSG_T_MGMT_QUERY_XIAOQU,
+        city:"上海"，
+        district:"浦东"，
+        name:"凤凰花园"，
+    }
+    
+回复报文
+
+    {
+        type: MSG_T_MGMT_QUERY_XIAOQU,
+        ret: 0,
+        data: [
+            {}, //小区1的信息
+            {}, //小区2的信息
+            {}  //小区3的信息        ]
+        ]
+    }
+
+#### 1.1.3 更新小区信息
+上报报文
+
+    {
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
         community: '1'，
         addr_in:"上海市松江区机场东路888号",
         addr_out: "上海市松江区机场东路888号",
@@ -56,9 +76,9 @@
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_INFO,
-        community: '1',    //小区id号
-        ret: 0
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
+        ret: 0, // 0:成功，非0:失败原因
+        err_str:"重复添加"，
     } 
       
 ### 5.2 小区发布共享车位信息
