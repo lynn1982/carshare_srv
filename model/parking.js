@@ -9,10 +9,10 @@ var Parking = sequelize.define('parking_info', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     //community: {type: Sequelize.INTEGER, references: {model: 'community_info', key: 'id'}},
-    //community: {type: Sequelize.INTEGER, allowNull: false},
+    community_id: {type: Sequelize.INTEGER, allowNull: false},
 
     //user: {type: Sequelize.INTEGER, references: {model: 'user', key: 'id'}},
-    //user: {type: Sequelize.INTEGER, allowNull: false},
+    user_id: {type: Sequelize.INTEGER, allowNull: false},
 
     parking_time_start: {type: Sequelize.TIME},
 

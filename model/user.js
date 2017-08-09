@@ -10,13 +10,17 @@ var User = sequelize.define('user', {
 
     wx_id: {type: Sequelize.STRING},
 
+    login_name: {type: Sequelize.STRING(64)},
+
     passwd: {type: Sequelize.STRING},
 
-    phone_num: {type: Sequelize.STRING},
+    phone_num: {type: Sequelize.CHAR(11)},
 
     car_license: {type: Sequelize.STRING},
 
-    score: {type: Sequelize.INTEGER}
+    score: {type: Sequelize.INTEGER},
+
+    is_active: {type: Sequelize.BOOLEAN, defaultValue: false}
     
     }, {
 
@@ -27,14 +31,32 @@ var User = sequelize.define('user', {
 
 var user = User.sync({force: false});
 
-exports.addUser = function(user) {
-    return User.create({
-        wx_name: user.wx_name,
-        wx_id: user.wx_id,
-        phone_num: user.phone_num,
-        passwd: user.passwd,
+
+User.getUsersByQuery = function(query) {
+    return User.findAll({
+        where: query
     });
 };
+
+User.newAndSave = function(user) {
+    return User.create({
+        login_name: user.login_name,
+        passwd: user.passwd,
+        phone_num: user.phone_num,
+    });
+};
+
+User.getUserByPhone = function(phone_num) {
+    return User.findOne({
+        where: {phone_num: phone_num}
+    });
+}
+
+User.getUserByName = function(name) {
+    return User.findOne({
+        where: {login_name: name}
+    });
+}
 
 
 module.exports = User;

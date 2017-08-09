@@ -48,10 +48,12 @@
 |id    |int   |not null auto_increment |primary key|
 |wx_name|varchar(64)||微信用户名|
 |wx_id|varchar(64)||微信id号|
+|login_name|varchar(64)||登录用户名|
 |passwd|char(64)||登录密码|
 |phone_num|char(11)||用户手机号|
 |car_license|char(10)||车牌号|
 |score|int||用户积分|
+|is_active|bool|defalut false|用户是否激活|
 
 #### transaction (用户交易信息)
 |字段   |类型  |说明   |备注   |
@@ -120,71 +122,78 @@
 |------|----|
 |POST|/parking_app|
 
-消息枚举定义：
-
-    enum{
-        MSG_TYPE_LOGIN_PHONE,
-        MSG_TYPE_LOGIN_PHONE_BIND,
-        MSG_TYPE_LOGIN_IN，
-        MSG_TYPE_LOGIN_OUT，
-        MSG_TYPE_LOGIN_PHONE_UNBIND，
-        MSG_TYPE_PARKING_PUT,
-    }；
 
 ### 3.1 用户注册与登录
 
-#### 3.1.1 用户验证手机请求
+#### 3.1.1 用户手机注册
+
+上报报文
+
+    {
+        type: MSG_TYPE_SIGNUP,
+        loginName: "Jack"，
+        phoneNumber:'186xxxxxxxx'
+        passwd: '123456',
+        rePasswd: '123456'
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_SIGNUP,
+        ret：0,
+        userId: 2
+    }
+
+上报报文
+
+    {
+        type: MSG_TYPE_SIGNUP_SMSCODE,
+        userId: 2,
+        smsCode: "1234"，
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_SIGNUP_SMSCODE,
+        ret：0
+    }
+
+#### 3.1.2 用户手机登录
 
 上报报文
 
     {
         type: MSG_TYPE_LOGIN_PHONE,
-        WXuserName: "在路上"，
-        WXuserId: "lsfs88"，
-        phoneNumber:186xxxxxxxx
+        loginId: 'Jack' or '189xxxxxxxx',
+        passwd: 'xxxxxx'
     }
     
 回复报文
 
     {
         type: MSG_TYPE_LOGIN_PHONE,
-        ret：0
+        ret：0,
+        id: 3
     }
 
-#### 3.1.2 用户验证手机绑定
+
+#### 3.1.3 用户微信登录
 
 上报报文
 
     {
-        type: MSG_TYPE_LOGIN_PHONE_BIND,
-        WXuserName: "在路上"，
-        WXuserId: "lsfs88"，
-        phoneNumber:186xxxxxxxx,
-        phoneCheckNumber:1314
-    }
-    
-回复报文
-
-    {
-        type: MSG_TYPE_LOGIN_PHONE_BIND,
-        ret：0
-    }
-
-
-#### 3.1.3 用户登录
-
-上报报文
-
-    {
-        type: MSG_TYPE_LOGIN_IN,
+        type: MSG_TYPE_LOGIN_WX,
         WXuserName: "在路上"，
         WXuserId: "lsfs88"，
     }
     
 回复报文
     {
-        type: MSG_TYPE_LOGIN_IN,
-        ret：0
+        type: MSG_TYPE_LOGIN_WX,
+        ret：0,
+        id: 3
     }
 
 #### 3.1.4 用户注销登录
@@ -193,50 +202,13 @@
 
     {
         type: MSG_TYPE_LOGIN_OUT,
-        WXuserName: "在路上"，
-        WXuserId: "lsfs88"
+        id: 3，
     }
     
 回复报文
 
     {
         type: MSG_TYPE_LOGIN_OUT,
-        ret：0
-    }
-
-#### 3.1.5 用户解绑手机
-
-上报报文
-
-    {
-        type: MSG_TYPE_LOGIN_PHONE_UNBIND,
-        WXuserName: "在路上"，
-        WXuserId: "lsfs88"，
-        phoneNumber:186xxxxxxxx
-    }
-    
-回复报文
-
-    {
-        type: MSG_TYPE_LOGIN_PHONE_UNBIND,
-        ret：0
-    }
-
-#### 3.1.6 用户绑定车牌号
-
-上报报文
-
-    {
-        type: MSG_TYPE_LOGIN_PLATE_NO_BIND,
-        WXuserName: "在路上"，
-        WXuserId: "lsfs88"，
-        plateNo:"沪A.A8888"
-    }
-    
-回复报文
-
-    {
-        type: MSG_TYPE_LOGIN_PLATE_NO_BIND,
         ret：0
     }
 
