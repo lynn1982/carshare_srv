@@ -30,6 +30,9 @@ function message_handle(req, res, next) {
     else if ('MSG_TYPE_LOGIN_PHONE' == req.body.type) {
         login(req, res, next);
     }
+    else if ('MSG_TYPE_LOGIN_OUT' == req.body.type) {
+        loginout(req, res, next);
+    }
 
 }
 
@@ -218,6 +221,18 @@ function login(req, res, next) {
 
         res.send(JSON.stringify(retStr));
     });
+}
+
+
+function loginout(req, res, next) {
+
+    req.session.destroy();
+    var retStr = {
+        type: req.body.type,
+        ret: 0
+    };
+
+    res.send(JSON.stringify(retStr));
 }
 
 module.exports.message_handle = message_handle;
