@@ -242,26 +242,37 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_ADJUST,
-        WXuserId: "lsfs88"，
-        community："小区id"，
-        rate_type:收费类型（包月/计时/计次），
-        rate:收费标准（xx/xx/xx）,
-        parkingShare：可共享的车位数，
-        parkingTotal：总的车位数，
-        parkingInfo：共享车位位置信息（地图坐标），
-        parkingPeriods：共享时间区间，
-        ppsManufacture：收费系统厂商
+        type: MSG_TYPE_PARKING_PUBLISH_MODIFY,
+        parkingId："小区id"，
+        info：共享车位位置信息（地图坐标），
+        timeStart：共享时间区间，
+        timeEnd：收费系统厂商
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_ADJUST,
+        type: MSG_TYPE_PARKING_PUBLISH_MODIFY,
         ret：0
     }
     
+#### 3.2.3 取消共享车位
+
+
+上报报文
+
+    {
+        type: MSG_TYPE_PARKING_PUBLISH_CANCEL,
+        parkingId: 发布共享车位id，
+    }
     
+回复报文
+
+    {
+        type: MSG_TYPE_PARKING_PUBLISH_CANCEL,
+        ret：0
+    }
+       
 
 ### 3.3 用户选择共享车位
 
@@ -291,16 +302,14 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_RESERVE_CANCEL,
-        WXuserId:"lsfs88"，
-        community:"小区id"，
-        orderNumber:订单号
+        type: MSG_TYPE_PARKING_ORDER_CANCEL,
+        orderId:订单号
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_RESERVE_CANCEL,
+        type: MSG_TYPE_PARKING_ORDER_CANCEL,
         ret：0
     }
 

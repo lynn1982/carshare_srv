@@ -34,7 +34,7 @@ Parking.belongsTo(User, {foreignKey: 'user_id'});
 
 var parking = Parking.sync({force: false});
 
-var addInfo = function(parking) {
+Parking.addInfo = function(parking) {
     return Parking.create({
         user_id: parking.user_id,
         community_id: parking.community_id,
@@ -44,5 +44,22 @@ var addInfo = function(parking) {
     });
 };
 
+Parking.getDataById = function(id) {
+    return Parking.findOne({
+        where: {id: id}
+    });
+};
+
+Parking.deletePublish = function(data) {
+    data.destroy();
+};
+
+Parking.updatePublish = function(data, newInfo) {
+    data.info = newInfo.info;
+    data.parking_time_start = newInfo.time_start;
+    data.parking_time_end = newInfo.time_end;
+
+    data.save();
+};
+
 module.exports = Parking;
-module.exports.addInfo = addInfo;

@@ -45,4 +45,14 @@ Transaction.newAndSave = function(order) {
     });
 };
 
+Transaction.getOrderById = function(orderId) {
+    return Transaction.findOne({
+        where: {id: orderId}
+    });
+};
+
+Transaction.deleteOrder = function(order) {
+    order.destroy();
+};
+
 module.exports = Transaction;

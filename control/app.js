@@ -11,19 +11,19 @@ var eventproxy = require('eventproxy');
 function message_handle(req, res, next) {
 
     if ('MSG_TYPE_PARKING_PUBLISH' == req.body.type) {
-        publish(req, res);
+        publish(req, res, next);
     }
     else if ('MSG_TYPE_PARKING_PUBLISH_MODIFY' == req.body.type) {
-        publish_modify(req, res);
+        publish_modify(req, res, next);
     }
     else if ('MSG_TYPE_PARKING_PUBLISH_CANCEL' == req.body.type) {
-        publish_cancel(req, res);
+        publish_cancel(req, res, next);
     }
     else if ('MSG_TYPE_PARKING_ORDER' == req.body.type) {
         order(req, res, next);
     }
     else if ('MSG_TYPE_PARKING_ORDER_CANCEL' == req.body.type) {
-        order_cancel(req, res);
+        order_cancel(req, res, next);
     }
     else if ('MSG_TYPE_SIGNUP' == req.body.type) {
         signup(req, res, next);
@@ -37,7 +37,7 @@ function message_handle(req, res, next) {
 
 }
 
-function publish(req, res) {
+function publish(req, res, next) {
     
     var user_id = req.session.user.id;
     var community_id = req.body.communityId;
@@ -66,12 +66,86 @@ function publish(req, res) {
     });
 }
 
-function publish_modify(req, res) {
+function publish_modify(req, res, next) {
+
+    var id = req.body.parkingId;
+    var time_start = req.body.timeStart;
+    var time_end = req.body.timeEnd;
+    var info = req.body.info;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('pub_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var data = await Parking.getDataById(id);
+        if (!data) {
+            ep.emit('pub_err','车位信息错误');
+            return;
+        }
+
+        var newInfo = {
+            info: info,
+            time_start: time_start,
+            time_end: time_end
+        };
+
+        Parking.updatePublish(data, newInfo);
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
 
 }
 
-function publish_cancel(req, res) {
-    
+function publish_cancel(req, res, next) {
+
+    var id = req.body.parkingId;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('pub_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var data = await Parking.getDataById(id);
+        if (!data) {
+            ep.emit('pub_err','车位信息错误');
+            return;
+        }
+
+        Parking.deletePublish(data);
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+
+
 }
 
 function order(req, res, next) {
@@ -116,9 +190,41 @@ function order(req, res, next) {
     });
 }
 
-function order_cancel(req, res) {
+function order_cancel(req, res, next) {
     
-}
+    var id = req.body.orderId;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var order = await Order.getOrderById(id);
+        if (!order) {
+            ep.emit('order_err','订单号错误');
+            return;
+        }
+
+        Order.deleteOrder(order);
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+
+};
 
 function signup(req, res, next) {
     var login_name = validator.trim(req.body.loginName);
@@ -197,7 +303,7 @@ function signup(req, res, next) {
 
     }) ();
     
-}
+};
 
 function login(req, res, next) {
 
