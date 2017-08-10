@@ -36,10 +36,10 @@ var parking = Parking.sync({force: false});
 
 var addInfo = function(parking) {
     return Parking.create({
-        user: parking.user,
-        community: parking.community,
-        parking_time_start: parking.parking_time_start,
-        parking_time_end: parking.parking_time_end,
+        user_id: parking.user_id,
+        community_id: parking.community_id,
+        parking_time_start: parking.time_start,
+        parking_time_end: parking.time_end,
         info: parking.info
     });
 };

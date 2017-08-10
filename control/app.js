@@ -38,7 +38,7 @@ function message_handle(req, res, next) {
 
 function publish(req, res) {
     
-    var user_id = req.body.userId;
+    var user_id = req.session.user.id;
     var community_id = req.body.communityId;
     var time_start = req.body.timeStart;
     var time_end = req.body.timeEnd;

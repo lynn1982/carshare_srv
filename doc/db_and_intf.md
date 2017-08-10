@@ -202,7 +202,6 @@
 
     {
         type: MSG_TYPE_LOGIN_OUT,
-        id: 3，
     }
     
 回复报文
@@ -223,7 +222,6 @@
 
     {
         type: MSG_TYPE_PARKING_PUBLISH,
-        userId: "lsfs88"，
         communityId："小区id"，
         timeStart：共享时间区间，
         timeEnd：共享时间区间，
