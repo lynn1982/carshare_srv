@@ -271,21 +271,18 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_RESERVE,
-        WXuserId:"lsfs88"，
-        community:"小区id"，
-        reserveType:"immediately",
-        parkingPeriod:"2017-7-25 16:00|2017-7-25 20:00"，
+        type: MSG_TYPE_PARKING_ORDER,
+        communityId:"小区id"，
+        mode:"instant",
         parkingInfo："预定车位信息"
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_RESERVE,
+        type: MSG_TYPE_PARKING_ORDER,
         ret：0,
-        bill:"支付链接",
-        orderNumber:订单号
+        orderId:订单号
     }
 
 #### 3.3.2 取消预定

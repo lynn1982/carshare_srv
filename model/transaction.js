@@ -1,10 +1,12 @@
 
 var Sequelize = require('sequelize');
 var sequelize = require('../lib/mysql');
+var Community = require('./community');
+var User = require('./user');
 
 var Transaction = sequelize.define('transaction', {
 
-    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true};
+    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     //community: {type: Sequelize.INTEGER, references: {model: 'community_info', key: 'id'}},
 
@@ -33,5 +35,14 @@ Transaction.belongsTo(Community, {foreignKey: 'community_id'});
 Transaction.belongsTo(User, {foreignKey: 'user_id'});
 
 var transaction = Transaction.sync({force: false});
+
+Transaction.newAndSave = function(order) {
+    return Transaction.create({
+        user_id: order.user_id,
+        community_id: order.community_id,
+        info: order.info,
+        mode: order.mode 
+    });
+};
 
 module.exports = Transaction;

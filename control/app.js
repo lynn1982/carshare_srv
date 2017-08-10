@@ -1,6 +1,7 @@
 
 var Parking = require('../model/parking');
 var User = require('../model/user');
+var Order = require('../model/transaction');
 var crypto = require('crypto');
 var validator = require('validator');
 var eventproxy = require('eventproxy');
@@ -19,7 +20,7 @@ function message_handle(req, res, next) {
         publish_cancel(req, res);
     }
     else if ('MSG_TYPE_PARKING_ORDER' == req.body.type) {
-        order(req, res);
+        order(req, res, next);
     }
     else if ('MSG_TYPE_PARKING_ORDER_CANCEL' == req.body.type) {
         order_cancel(req, res);
@@ -73,8 +74,46 @@ function publish_cancel(req, res) {
     
 }
 
-function order(req, res) {
+function order(req, res, next) {
 
+    var community_id = req.body.communityId;
+    var user_id = req.session.user.id;
+    var mode = req.body.mode;
+    var info = req.body.parkingInfo;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    var newOrder = {
+        user_id: user_id,
+        community_id: community_id,
+        mode: mode,
+        info: info
+    }; 
+
+    Order.newAndSave(newOrder).then((order) => {
+        if (!order) {
+            ep.emit('order_err', '数据库错误');
+            return;
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            orderId: order.id
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
 }
 
 function order_cancel(req, res) {
