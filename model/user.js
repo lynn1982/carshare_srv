@@ -50,13 +50,18 @@ User.getUserByPhone = function(phone_num) {
     return User.findOne({
         where: {phone_num: phone_num}
     });
-}
+};
 
 User.getUserByName = function(name) {
     return User.findOne({
         where: {login_name: name}
     });
-}
+};
 
+User.getUserById = function(id) {
+    return User.findOne({
+        where: {id: id}
+    });
+};
 
 module.exports = User;

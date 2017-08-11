@@ -5,10 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var config = require('./config');
+var auth = require('./middleware/auth');
 
 var app = express();
 
@@ -24,14 +26,22 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(config.session_secret));
 app.use(express.static(path.join(__dirname, 'public/chewei')));
 
 app.use(session({
     secret: config.session_secret,
+    store: new RedisStore({
+        port: config.redis_port,
+        host: config.redis_host,
+        db: config.redis_db,
+        pass: config.redis_password,
+    }),
     resave: false,
     saveUninitialized: false
 }));
+
+app.use(auth.authUser);
 
 app.use('/', routes);
 app.use('/users', users);

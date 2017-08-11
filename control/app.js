@@ -5,6 +5,8 @@ var Order = require('../model/transaction');
 var crypto = require('crypto');
 var validator = require('validator');
 var eventproxy = require('eventproxy');
+var authMiddleWave = require('../middleware/auth');
+var config = require('../config');
 
 
 
@@ -33,6 +35,9 @@ function message_handle(req, res, next) {
     }
     else if ('MSG_TYPE_LOGIN_OUT' == req.body.type) {
         loginout(req, res, next);
+    }
+    else {
+        next();
     }
 
 }
@@ -356,7 +361,8 @@ function login(req, res, next) {
             return;
         }
 
-        req.session.user = user;
+        //req.session.user = user;
+        authMiddleWave.gen_session(user, res);
 
         var retStr = {
             type: req.body.type,
@@ -372,6 +378,7 @@ function login(req, res, next) {
 function loginout(req, res, next) {
 
     req.session.destroy();
+    res.clearCookie(config.auth_cookie_name, {path: '/'});
     var retStr = {
         type: req.body.type,
         ret: 0
