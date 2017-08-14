@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "alidayu-node-sdk": "^1.0.2",
     "body-parser": "~1.15.1",
     "connect-redis": "^3.3.0",
     "cookie-parser": "~1.4.3",

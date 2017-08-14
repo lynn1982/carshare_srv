@@ -7,7 +7,13 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var authMiddleWave = require('../middleware/auth');
 var config = require('../config');
+var smskey = require('../middleware/smskey');
 
+var AliDayu = require('alidayu-node-sdk');
+var smsClient = new AliDayu({
+    app_key: 'xxxxx',
+    app_secret: 'xxxxx'
+});
 
 
 function message_handle(req, res, next) {
@@ -35,6 +41,12 @@ function message_handle(req, res, next) {
     }
     else if ('MSG_TYPE_LOGIN_OUT' == req.body.type) {
         loginout(req, res, next);
+    }
+    else if ('MSG_TYPE_SIGN_SMS_SEND' == req.body.type) {
+        sms_send(req, res, next);
+    }
+    else if ('MSG_TYPE_SIGN_SMS_VERIFY' == req.body.type) {
+        sms_verify(req, res, next);
     }
     else {
         next();
@@ -385,6 +397,76 @@ function loginout(req, res, next) {
     };
 
     res.send(JSON.stringify(retStr));
+}
+
+function sms_send(req, res, next) {
+
+    phoneNum = req.body.phoneNumber;
+    console.log('phone:'+ phoneNum);
+
+    var range = function(start, end) {
+        var array = [];
+        for (i=0; i<start; ++i) {
+            array.push(i);
+        }
+        return array;
+    };
+
+    var randomstr = range(0,6).map(function(x) {
+        return Math.floor(Math.random()*10);
+    }).join('');
+
+    console.log(randomstr);
+
+    smskey.saveCode(phoneNum, randomstr);
+
+    smsClient.smsSend({
+        rec_num: phoneNum,
+        sms_free_sign_name: '阿里大于的应用名',
+        sms_template_code: '类型模板ID',
+        sms_param: {
+            number: randomstr
+        }
+    }).then(function(data) {
+        console.log('send sms success');
+        var retStr = {
+            type: req.body.type,
+            ret: 0
+        };
+        res.send(JSON.stringify(retStr));
+    }).catch(function(error) {
+        console.log('send sms fail');
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: 'send sms fail'
+        };
+        res.send(JSON.stringify(retStr));
+    });
+}
+
+function sms_verify(req, res, next) {
+    
+    var phoneNum = req.body.phoneNumber;
+    var code = req.body.code;
+
+    smskey.getCode(phoneNum, function(reply) {
+        if (reply == code) {
+            var retStr = {
+                type: req.body.type,
+                ret: 0
+            };
+            res.send(JSON.stringify(retStr));
+        }
+        else {
+            var retStr = {
+                type: req.body.type,
+                ret: 1,
+                msg: '验证码错误'
+            };
+            res.send(JSON.stringify(retStr));
+        }
+    });
 }
 
 module.exports.message_handle = message_handle;
