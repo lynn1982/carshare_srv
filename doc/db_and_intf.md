@@ -118,19 +118,19 @@
 ***
 ## 3. 后台与APP接口
 
+### 3.1 用户注册与登录
+
 |METHOD|PATH|
 |------|----|
-|POST|/parking_app|
+|POST|/user|
 
-
-### 3.1 用户注册与登录
 
 #### 3.1.1 用户手机注册
 
 上报报文
 
     {
-        type: MSG_TYPE_SIGNUP,
+        type: MSG_TYPE_USER_SIGNUP,
         loginName: "Jack"，
         phoneNumber:'186xxxxxxxx'
         passwd: '123456',
@@ -140,7 +140,7 @@
 回复报文
 
     {
-        type: MSG_TYPE_SIGNUP,
+        type: MSG_TYPE_USER_SIGNUP,
         ret：0,
         userId: 2
     }
@@ -148,24 +148,45 @@
 上报报文
 
     {
-        type: MSG_TYPE_SIGNUP_SMSCODE,
-        userId: 2,
-        smsCode: "1234"，
+        type: MSG_TYPE_USER_SMS_SEND,
+        phoneNumber: '18925617845',
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_SIGNUP_SMSCODE,
+        type: MSG_TYPE_USER_SMS_SEND,
+        ret：0
+
+    }
+上报报文
+
+    {
+        type: MSG_TYPE_USER_SMS_VERIFY,
+        phoneNumber: '18925617845',
+        code: "123467"，
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_USER_SMS_VERIFY,
         ret：0
     }
+    or
+    {
+        type: MSG_TYPE_USER_SMS_VERIFY,
+        ret：1,
+        msg: '验证码错误'
+    }
+
 
 #### 3.1.2 用户手机登录
 
 上报报文
 
     {
-        type: MSG_TYPE_LOGIN_PHONE,
+        type: MSG_TYPE_USER_LOGIN,
         loginId: 'Jack' or '189xxxxxxxx',
         passwd: 'xxxxxx'
     }
@@ -173,7 +194,7 @@
 回复报文
 
     {
-        type: MSG_TYPE_LOGIN_PHONE,
+        type: MSG_TYPE_USER_LOGIN,
         ret：0,
         id: 3
     }
@@ -184,14 +205,14 @@
 上报报文
 
     {
-        type: MSG_TYPE_LOGIN_WX,
+        type: MSG_TYPE_USER_LOGIN_WX,
         WXuserName: "在路上"，
         WXuserId: "lsfs88"，
     }
     
 回复报文
     {
-        type: MSG_TYPE_LOGIN_WX,
+        type: MSG_TYPE_USER_LOGIN_WX,
         ret：0,
         id: 3
     }
@@ -201,19 +222,23 @@
 上报报文
 
     {
-        type: MSG_TYPE_LOGIN_OUT,
+        type: MSG_TYPE_USER_LOGINOUT,
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_LOGIN_OUT,
+        type: MSG_TYPE_USER_LOGINOUT,
         ret：0
     }
 
 
 
 ### 3.2 用户发布共享车位信息
+
+|METHOD|PATH|
+|------|----|
+|POST|/parking|
 
 #### 3.2.1 添加共享车位信息
 
@@ -242,7 +267,7 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_PUBLISH_MODIFY,
+        type: MSG_TYPE_PARKING_MODIFY,
         parkingId："小区id"，
         info：共享车位位置信息（地图坐标），
         timeStart：共享时间区间，
@@ -252,7 +277,7 @@
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_PUBLISH_MODIFY,
+        type: MSG_TYPE_PARKING_MODIFY,
         ret：0
     }
     
@@ -262,19 +287,23 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_PUBLISH_CANCEL,
+        type: MSG_TYPE_PARKING_CANCEL,
         parkingId: 发布共享车位id，
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_PUBLISH_CANCEL,
+        type: MSG_TYPE_PARKING_CANCEL,
         ret：0
     }
        
 
 ### 3.3 用户选择共享车位
+
+|METHOD|PATH|
+|------|----|
+|POST|/parking|
 
 #### 3.3.1 预定车位
 
