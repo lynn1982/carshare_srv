@@ -5,7 +5,14 @@ var eventproxy = require('eventproxy');
 
 exports.userRequired = function(req, res, next) {
     if (!req.session || !req.session.user) {
-        return res.status(403).send('forbidden!');
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: '请登录后操作'
+        };
+
+        res.send(JSON.stringify(retStr));
+        //return res.status(403).send('forbidden!');
     }
 
     next();
