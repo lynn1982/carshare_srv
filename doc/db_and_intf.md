@@ -148,7 +148,7 @@
 上报报文
 
     {
-        type: MSG_TYPE_USER_SMS_SEND,
+        type: MSG_TYPE_USER_GET_VERCODE,
         phoneNumber: '18925617845',
     }
     
