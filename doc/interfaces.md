@@ -170,3 +170,47 @@
         dateStart: '2017-02-15',
         dateEnd: '2017-02-25'
     }
+
+## 2. 后台与APP接口
+
+### 2.1 用户注册与登录
+
+|METHOD|PATH|
+|------|----|
+|POST|/user|
+
+
+#### 2.1.1 获取手机验证码
+
+上报报文
+
+    {
+        type: MSG_TYPE_USER_GET_VERCODE,
+        phoneNumber: '18925617845'
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_USER_GET_VERCODE,
+        ret：0
+
+    }
+
+#### 2.1.2 手机验证码登陆
+
+上报报文
+
+    {
+        type: MSG_TYPE_USER_VERCODE_LOGIN,
+        phoneNumber: '18925617845',
+        verCode: '1234'
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_USER_VERCODE_LOGIN,
+        ret：0
+
+    }
