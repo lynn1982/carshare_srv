@@ -194,7 +194,6 @@
     {
         type: MSG_TYPE_USER_GET_VERCODE,
         ret：0
-
     }
 
 #### 2.1.2 手机验证码登陆
@@ -212,5 +211,90 @@
     {
         type: MSG_TYPE_USER_VERCODE_LOGIN,
         ret：0
-
     }
+
+### 2.2 车位查询预定
+
+|METHOD|PATH|
+|------|----|
+|POST|/user|
+
+
+#### 2.2.1 获取周边车位信息
+上报报文
+```
+    {
+        type: MSG_TYPE_GET_AREA_CHEWEI,
+        longitude: 116.404,
+        latitude: 39.915,
+        longitude: 500
+    }
+```
+    
+回复报文
+```
+    {
+        type: MSG_TYPE_GET_AREA_CHEWEI,
+        ret：0,
+        info: [
+            {
+                name: "万科一期",
+                xiaoquid: "1",
+                longitude: 116.404,
+    	        latitude: 39.915,
+                num: 10
+            },
+            {
+                name: "万科二期",
+                xiaoquid: "2",
+                longitude: 116.404,
+    	        latitude: 39.915,
+                num: 10
+            },
+        ]
+    }
+```
+#### 2.2.1 获取小区车位信息
+上报报文
+```
+    {
+        type: MSG_TYPE_GET_XIAOQU_CHEWEI,
+        xiaoquid: '1',
+        list: [
+            {
+                timeDuration: "13:00~15:00",
+                num: 30,
+                price: 10
+            },
+            {
+                timeDuration: "15:00~15:00",
+                num: 10,
+                price: 15
+            },
+        ]
+    }
+```
+    
+回复报文
+```
+    {
+        type: MSG_TYPE_GET_AREA_CHEWEI,
+        ret：0,
+        info: [
+            {
+                name: "万科一期",
+                xiaoquid: "1",
+                longitude: 116.404,
+    	        latitude: 39.915,
+                num: 10
+            },
+            {
+                name: "万科二期",
+                xiaoquid: "2",
+                longitude: 116.404,
+    	        latitude: 39.915,
+                num: 10
+            },
+        ]
+    }
+```
