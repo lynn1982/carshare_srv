@@ -227,7 +227,8 @@
         type: MSG_TYPE_GET_AREA_CHEWEI,
         longitude: 116.404,
         latitude: 39.915,
-        longitude: 500
+        lonScope: 2,
+        latScope: 2
     }
 ```
     
