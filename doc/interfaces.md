@@ -262,19 +262,7 @@
 ```
     {
         type: MSG_TYPE_GET_XIAOQU_CHEWEI,
-        xiaoquid: '1',
-        list: [
-            {
-                timeDuration: "13:00~15:00",
-                num: 30,
-                price: 10
-            },
-            {
-                timeDuration: "15:00~15:00",
-                num: 10,
-                price: 15
-            },
-        ]
+        communityId: '1'
     }
 ```
     
