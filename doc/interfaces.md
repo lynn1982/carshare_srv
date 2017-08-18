@@ -237,22 +237,24 @@
     {
         type: MSG_TYPE_GET_AREA_CHEWEI,
         ret：0,
-        info: [
-            {
-                name: "万科一期",
-                xiaoquid: "1",
-                longitude: 116.404,
-    	        latitude: 39.915,
-                num: 10
-            },
-            {
-                name: "万科二期",
-                xiaoquid: "2",
-                longitude: 116.404,
-    	        latitude: 39.915,
-                num: 10
-            },
-        ]
+        data: {
+            info: [
+                {
+                    name: "万科一期",
+                    communityId: "1",
+                    longitude: 116.404,
+    	            latitude: 39.915,
+                    num: 10
+                },
+                {
+                    name: "万科二期",
+                    communityId: "2",
+                    longitude: 116.404,
+    	            latitude: 39.915,
+                    num: 10
+                },
+            ]
+        }
     }
 ```
 #### 2.2.1 获取小区车位信息
@@ -279,23 +281,24 @@
 回复报文
 ```
     {
-        type: MSG_TYPE_GET_AREA_CHEWEI,
+        type: MSG_TYPE_GET_XIAOQU_CHEWEI,
         ret：0,
-        info: [
-            {
-                name: "万科一期",
-                xiaoquid: "1",
-                longitude: 116.404,
-    	        latitude: 39.915,
-                num: 10
-            },
-            {
-                name: "万科二期",
-                xiaoquid: "2",
-                longitude: 116.404,
-    	        latitude: 39.915,
-                num: 10
-            },
-        ]
+        data: {
+            communityId: '1',
+            name: "万科一期",
+            addr: "浦东新区世纪达到1000号",
+            list: [
+                {
+                    timeDuration: "13:00~15:00",
+                    num: 30,
+                    price: 10
+                },
+                {
+                    timeDuration: "15:00~15:00",
+                    num: 10,
+                    price: 15
+                },
+            ]
+        }
     }
 ```
