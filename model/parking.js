@@ -9,10 +9,10 @@ var Parking = sequelize.define('parking_info', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     //community: {type: Sequelize.INTEGER, references: {model: 'community_info', key: 'id'}},
-    community_id: {type: Sequelize.INTEGER, allowNull: false},
+    //community_id: {type: Sequelize.INTEGER},
 
     //user: {type: Sequelize.INTEGER, references: {model: 'user', key: 'id'}},
-    user_id: {type: Sequelize.INTEGER, allowNull: false},
+    //user_id: {type: Sequelize.INTEGER},
 
     parking_time_start: {type: Sequelize.TIME},
 
@@ -29,8 +29,8 @@ var Parking = sequelize.define('parking_info', {
     }
 );
 
-Parking.belongsTo(Community, {foreignKey: 'community_id'});
-Parking.belongsTo(User, {foreignKey: 'user_id'});
+Parking.belongsTo(Community, {foreignKey: 'community_id',  onDelete: 'SET NULL', constraints: false});
+Parking.belongsTo(User, {foreignKey: 'user_id',  onDelete: 'SET NULL', constraints: false});
 
 var parking = Parking.sync({force: false});
 
@@ -60,6 +60,12 @@ Parking.updatePublish = function(data, newInfo) {
     data.parking_time_end = newInfo.time_end;
 
     data.save();
+};
+
+Parking.getInfoByCommunityid = function(communityId) {
+    return Parking.findAll({
+        where: {community_id: communityId}
+    });
 };
 
 module.exports = Parking;

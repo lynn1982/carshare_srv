@@ -18,6 +18,29 @@ exports.userRequired = function(req, res, next) {
     next();
 };
 
+exports.mgmtRequired = function(req, res, next) {
+    if (!req.session.user) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: '请登录后操作'
+        };
+
+        res.send(JSON.stringify(retStr));
+    }
+    else if (!req.session.user.is_mgmt) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: '需要管理员权限'
+        };
+
+        res.send(JSON.stringify(retStr));
+    }
+    else {
+        next();
+    }
+};
 
 exports.gen_session = function(user, res) {
     var auth_token = user.id + '$$$$';

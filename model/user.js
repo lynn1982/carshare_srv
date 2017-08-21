@@ -14,13 +14,15 @@ var User = sequelize.define('user', {
 
     passwd: {type: Sequelize.STRING},
 
-    phone_num: {type: Sequelize.CHAR(11)},
+    phone_num: {type: Sequelize.CHAR(11), unique: true},
 
     car_license: {type: Sequelize.STRING},
 
     score: {type: Sequelize.INTEGER},
 
-    is_active: {type: Sequelize.BOOLEAN, defaultValue: false}
+    is_active: {type: Sequelize.BOOLEAN, defaultValue: false},
+
+    is_mgmt: {type: Sequelize.BOOLEAN, defaultValue: false},
     
     }, {
 
@@ -43,6 +45,8 @@ User.newAndSave = function(user) {
         login_name: user.login_name,
         passwd: user.passwd,
         phone_num: user.phone_num,
+        is_active: user.is_active,
+        is_mgmt: user.is_mgmt
     });
 };
 
@@ -63,5 +67,10 @@ User.getUserById = function(id) {
         where: {id: id}
     });
 };
+
+User.setUserActive = function(user) {
+    user.is_active = true;
+    user.save();
+}
 
 module.exports = User;

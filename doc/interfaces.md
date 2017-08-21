@@ -224,7 +224,7 @@
 上报报文
 ```
     {
-        type: MSG_TYPE_GET_AREA_CHEWEI,
+        type: MSG_T_GET_AREA_CHEWEI,
         longitude: 116.404,
         latitude: 39.915,
         lonScope: 2,
@@ -277,12 +277,16 @@
             addr: "浦东新区世纪达到1000号",
             list: [
                 {
-                    timeDuration: "13:00~15:00",
+                    timeStart: "13:00",
+                    timeEnd: "15:00",
+                    type: "time",
                     num: 30,
                     price: 10
                 },
                 {
-                    timeDuration: "15:00~15:00",
+                    timeStart: "16:00",
+                    timeEnd: "19:00",
+                    type: "time",
                     num: 10,
                     price: 15
                 },

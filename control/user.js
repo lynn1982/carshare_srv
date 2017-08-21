@@ -15,6 +15,7 @@ var smsClient = new AliDayu({
 
 
 exports.message_handle = function(req, res, next) {
+    console.log('req.body='+JSON.stringify(req.body));
     if ('MSG_TYPE_USER_SIGNUP' == req.body.type) {
         signup(req, res, next);
     }
@@ -24,11 +25,17 @@ exports.message_handle = function(req, res, next) {
     else if ('MSG_TYPE_USER_LOGINOUT' == req.body.type) {
         loginout(req, res, next);
     }
-    else if ('MSG_TYPE_USER_SMS_SEND' == req.body.type) {
+    else if ('MSG_TYPE_USER_GET_VERCODE' == req.body.type) {
         smsSend(req, res, next);
     }
     else if ('MSG_TYPE_USER_SMS_VERIFY' == req.body.type) {
         smsVerify(req, res, next);
+    }
+    else if ('MSG_TYPE_USER_VERCODE_LOGIN' == req.body.type) {
+        verLogin(req, res, next);
+    }
+    else if ('MSG_TYPE_USER_ADD_MGMT' == req.body.type) {
+        addXiaoquMgmt(req, res, next);
     }
     else {
         next();
@@ -49,7 +56,6 @@ function signup(req, res, next) {
             ret: 1,
             msg: msg
         };
-        console.log('msg:'+msg);
 
         res.send(JSON.stringify(retStr));
     });
@@ -64,7 +70,7 @@ function signup(req, res, next) {
         return;
     }
 
-    if (!validator.isNumeric(phone_num)) {
+    if (!validator.isNumeric(phone_num) || !validator.isLength(phone_num, 11)) {
         ep.emit('prop_err', '手机号码不合法');
         return;
     }
@@ -152,6 +158,7 @@ function login(req, res, next) {
             ep.emit('login_error', '用户不存在');
             return;
         }
+        console.log('isActive:'+user.is_active+',isMgmt:'+user.is_mgmt);
 
         var md5 = crypto.createHash('md5');
         var pass = md5.update(passwd).digest('base64');
@@ -161,7 +168,7 @@ function login(req, res, next) {
             return;
         }
 
-        if (!user.is_active) {
+        if (!user.is_active && !user.is_mgmt) {
             ep.emit('login_error', '此用户还没有激活');
             return;
         }
@@ -194,8 +201,13 @@ function loginout(req, res, next) {
 
 function smsSend(req, res, next) {
 
-    phoneNum = req.body.phoneNumber;
-    console.log('phone:'+ phoneNum);
+    var phoneNum = req.body.phoneNumber;
+
+    //for test start
+    res.send(JSON.stringify({type:req.body.type,ret:0}));
+    return;
+    //for test end
+
 
     var range = function(start, end) {
         var array = [];
@@ -241,25 +253,163 @@ function smsSend(req, res, next) {
 function smsVerify(req, res, next) {
     
     var phoneNum = req.body.phoneNumber;
-    var code = req.body.code;
+    var code = req.body.verCode;
+    var ep = new eventproxy();
+
+    ep.fail(next);
+
+    ep.on('login_error', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg 
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
 
     smskey.getCode(phoneNum, function(reply) {
-        if (reply == code) {
+        if (reply.toString() === code.toString()) {
             var retStr = {
                 type: req.body.type,
                 ret: 0
             };
             res.send(JSON.stringify(retStr));
+
+            User.getUserById(req.session.user.id).then((user) => {
+                if (!user) {
+                    ep.emit('err', '数据库错误');
+                    return;
+                }
+
+                User.setUserActive(user);
+            });
         }
         else {
-            var retStr = {
-                type: req.body.type,
-                ret: 1,
-                msg: '验证码错误'
-            };
-            res.send(JSON.stringify(retStr));
+            
+            ep.emit('err', '验证码错误');
         }
     });
 }
 
+function verLogin(req, res, next) {
 
+    var phoneNum = req.body.phoneNumber;
+    var code = req.body.verCode;
+    var ep = new eventproxy();
+
+    ep.fail(next);
+
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg 
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if (phoneNum ==='') {
+        ep.emit('err', '手机号码不能为空');
+        return;
+    }
+
+    if (!validator.isNumeric(phoneNum) || !validator.isLength(phoneNum, 11)) {
+        ep.emit('err', '手机号码不合法');
+        return;
+    }
+
+    (async () => {
+        var user = await User.getUserByPhone(phoneNum);
+
+        if (user && user.is_active) {
+            ep.emit('err', '用户已存在');
+            return;
+        }
+
+        //get vercode from redis and compare
+        //suppose the result is correct, then do
+        //
+
+        if (user) {
+
+            await User.setUserActive(user);
+            authMiddleWave.gen_session(user, res);
+
+        }
+        else {
+            var newUser = {
+                phone_num: phoneNum,
+                is_active: true
+            };
+
+            await User.newAndSave(newUser);
+
+        }
+
+        res.send(JSON.stringify({type:req.body.type,ret:0}));
+
+    }) ()
+
+}
+
+function addXiaoquMgmt(req, res, next) {
+    var phone = req.body.phoneNumber;
+    var passwd = req.body.passwd; 
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('prop_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+        console.log('msg:'+msg);
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if (!validator.isNumeric(phone) || !validator.isLength(phone, 11)) {
+        ep.emit('prop_err', '手机号码不合法');
+        return;
+    }
+
+    (async () => {
+        var user = await User.getUserByPhone(phone);
+         
+        if (user) {
+            ep.emit('prop_err', '手机号码已被使用');
+            return;
+        }
+
+        var md5 = crypto.createHash('md5');
+        var pass = md5.update(passwd).digest('base64');
+
+        var newUser = {
+            passwd: pass,
+            phone_num: phone,
+            is_mgmt: true,
+        };
+
+        var user = await User.newAndSave(newUser);
+
+        if (!user) {
+            ep.emit('prop_err', '数据库错误');
+            return;
+        }
+        else {
+            var retStr = {
+                type: req.body.type,
+                ret: 0,
+                userId: user.id
+            };
+
+            res.send(JSON.stringify(retStr));
+        }
+
+
+    }) ();
+
+}

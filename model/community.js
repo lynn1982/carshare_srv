@@ -2,6 +2,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('../lib/mysql');
 var Pps = require('./pps');
+var User = require('./user');
 
 var Community = sequelize.define('community_info', {
 
@@ -18,7 +19,9 @@ var Community = sequelize.define('community_info', {
     latitude: {type: Sequelize.STRING(64)},
 
     //pps_manufacture: {type: Sequelize.INTEGER, references: {model: 'pps_manufacture', key: 'id'}},
-    pps_id: {type: Sequelize.INTEGER, allowNull: false},
+    //pps_id: {type: Sequelize.INTEGER, allowNull: false},
+
+    //mgmt_id: {type: Sequelize.INTEGER, allowNull: false},
 
     parking_num_total: {type: Sequelize.INTEGER},
 
@@ -34,7 +37,7 @@ var Community = sequelize.define('community_info', {
 
     rate: {type: Sequelize.INTEGER},
 
-    is_checked: {type: Sequelize.BOOLEAN}
+    is_checked: {type: Sequelize.BOOLEAN, defaultValue: false}
 
     },{
 
@@ -43,9 +46,74 @@ var Community = sequelize.define('community_info', {
     }
 );
 
-Community.belongsTo(Pps, {foreignKey: 'pps_id'});
+Community.belongsTo(Pps, {foreignKey: 'pps_id',  onDelete: 'SET NULL', constraints: false});
+Community.belongsTo(User, {foreignKey: 'mgmt_id',  onDelete: 'SET NULL', constraints: false});
 
 
 var community = Community.sync({force: false});
  
+
+Community.newAndSave = function(xiaoqu) {
+
+    return Community.create({
+        name: xiaoqu.name,
+        addr_in: xiaoqu.addr_in,
+        addr_out: xiaoqu.addr_out,
+        longitude: xiaoqu.longitude,
+        latitude: xiaoqu.latitude,
+        pps_id: xiaoqu.pps_id,
+        mgmt_id: xiaoqu.mgmt_id,
+        parking_num_total: xiaoqu.parking_num_total,
+        parking_time_start: xiaoqu.parking_time_start,
+        parking_time_end: xiaoqu.parking_time_end,
+        rate_type: xiaoqu.rate_type,
+        rate: xiaoqu.rate
+    });
+    
+};
+
+Community.updateXiaoqu = function(xiaoqu, newData) {
+
+    xiaoqu.name = newData.name;
+    xiaoqu.addr_in = newData.addr_in;
+    xiaoqu.addr_out = newData.addr_out;
+    xiaoqu.longitude = newData.longitude;
+    xiaoqu.latitude = newData.latitude;
+    xiaoqu.pps_id = newData.pps_id;
+    xiaoqu.parking_num_total = newData.parking_num_total;
+    xiaoqu.parking_time_start = newData.parking_time_start;
+    xiaoqu.parking_time_end = newData.parking_time_end;
+    xiaoqu.rate_type = newData.rate_type;
+    xiaoqu.rate = newData.rate;
+
+    xiaoqu.save();
+};
+
+Community.getXiaoquByUser = function(userId) {
+
+    return Community.findAll({
+        where: {mgmt_id: userId}
+    });
+};
+
+Community.getXiaoquById = function(id) {
+    
+    return Community.findOne({
+        where: {id: id}
+    });
+};
+
+Community.deleteXiaoqu = function(xiaoqu) {
+    xiaoqu.destroy();
+};
+
+Community.getXiaoquByScope = function(lonStart, lonEnd, latStart, latEnd) {
+    return Community.findAll({
+        where: {
+            'longitude': {'$between': [lonStart, lonEnd]},
+            'latitude': {'$between': [latStart, latEnd]}
+        }
+    });
+};
+
 module.exports = Community;

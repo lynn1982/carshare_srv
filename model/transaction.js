@@ -31,8 +31,8 @@ var Transaction = sequelize.define('transaction', {
     }
 );
 
-Transaction.belongsTo(Community, {foreignKey: 'community_id'});
-Transaction.belongsTo(User, {foreignKey: 'user_id'});
+Transaction.belongsTo(Community, {foreignKey: 'community_id', onDelete: 'SET NULL', constraints: false});
+Transaction.belongsTo(User, {foreignKey: 'user_id',  onDelete: 'SET NULL', constraints: false});
 
 var transaction = Transaction.sync({force: false});
 
