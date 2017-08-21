@@ -217,7 +217,7 @@
 
 |METHOD|PATH|
 |------|----|
-|POST|/user|
+|POST|/xiaoqu|
 
 
 #### 2.2.1 获取周边车位信息
@@ -261,7 +261,7 @@
 上报报文
 ```
     {
-        type: MSG_TYPE_GET_XIAOQU_CHEWEI,
+        type: MSG_T_GET_XIAOQU_CHEWEI,
         communityId: '1'
     }
 ```
