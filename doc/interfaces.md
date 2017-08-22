@@ -175,11 +175,9 @@
 
 ### 2.1 用户注册与登录
 
-|属性|值|
-|:----|:-----|
-|METHOD|POST|
-|PATH|/user|
-|消息类型|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO|
+|METHOD|PATH|MSG TYPE|
+|:----:|:-----:|:----|
+|POST|/user|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO|
 
 
 #### 2.1.1 获取手机验证码
@@ -261,9 +259,9 @@
 
 ### 2.2 车位查询预定
 
-|METHOD|PATH|
-|------|----|
-|POST|/xiaoqu|
+|METHOD|PATH|MSG TYPE|
+|------|----|:----|
+|POST|/xiaoqu|MSG_T_GET_AREA_CHEWEI<br>MSG_T_GET_XIAOQU_CHEWEI<br>MSG_T_BOOK_CHEWEI_PRE<br>MSG_T_BOOK_CHEWEI_POST<br>MSG_T_CHEWEI_CANCEL_BOOKING|
 
 
 #### 2.2.1 获取周边车位信息
@@ -338,5 +336,52 @@
                 },
             ]
         }
+    }
+```
+#### 2.2.3 预定车位（PRE PAY）
+上报报文
+```
+    {
+        type: MSG_T_BOOK_CHEWEI_PRE,
+        uid: '1'
+    }
+```
+回复报文
+```
+    {
+        type: MSG_T_BOOK_CHEWEI_PRE,
+        ret：0
+    }
+```
+
+#### 2.2.4 预定车位（POST PAY）
+上报报文
+```
+    {
+        type: MSG_T_BOOK_CHEWEI_POST,
+        communityId: '1'
+    }
+```
+回复报文
+```
+    {
+        type: MSG_T_BOOK_CHEWEI_POST,
+        ret：0
+    }
+```
+
+#### 2.2.4 取消车位预定
+上报报文
+```
+    {
+        type: MSG_T_CHEWEI_CANCEL_BOOKING,
+        uid: '1'
+    }
+```
+回复报文
+```
+    {
+        type: MSG_T_CHEWEI_CANCEL_BOOKING,
+        ret：0
     }
 ```
