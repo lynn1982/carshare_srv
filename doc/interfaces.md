@@ -368,7 +368,7 @@
         type: MSG_TYPE_PARKING_ORDER_PRE,
         uid: '1',
         communityId: g_communityId,
-    		timeStart: "13:00",
+        timeStart: "13:00",
         timeEnd: "15:00"
     }
 ```
@@ -389,7 +389,7 @@
         type: MSG_TYPE_PARKING_ORDER_POST,
         uid: '1',
         communityId: "1",
-    		timeStart: "13:00",
+        timeStart: "13:00",
         timeEnd: "15:00",
         orderNumber: "123", //订单号
         pay: pay //成功支付的金额
