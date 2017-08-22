@@ -175,10 +175,10 @@
 
 ### 2.1 用户注册与登录
 
-|||
-|----|-----|
-|METHOD|PATH|
-|POST|/user|
+|属性|值|
+|:----|:-----|
+|METHOD|POST|
+|PATH|/user|
 |消息类型|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO|
 
 
