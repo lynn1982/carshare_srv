@@ -41,7 +41,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.use(auth.authUser);
+//app.use(auth.authUser);
 
 app.use('/', routes);
 app.use('/users', users);

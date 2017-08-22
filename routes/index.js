@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/user', user.message_handle);
-router.post('/parking', auth.userRequired, park.message_handle);
-router.post('/xiaoqu', auth.mgmtRequired, xiaoqu.message_handle);
+router.post('/parking', /*auth.userRequired,*/auth.getUser,  park.message_handle);
+router.post('/xiaoqu', /*auth.mgmtRequired,*/auth.getUser,  xiaoqu.message_handle);
 
 module.exports = router;

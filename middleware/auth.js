@@ -87,4 +87,37 @@ exports.authUser = function(req, res, next) {
     }
 };
 
+exports.getUser = function(req, res, next) {
+
+    var uid = req.body.uid;
+    var ep = new eventproxy();
+    ep.fail(next);
+
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+    });
+
+    if (!uid) {
+        ep.emit('err', '用户id不能为空');
+        return;
+    }
+
+    (async () => {
+        var user = await User.getUserById(uid);
+        if (!user) {
+            ep.emit('err', '用户id错误');
+            return;
+        }
+
+        req.session.user = user;
+
+        return next();
+
+    }) ()
+};
+
 

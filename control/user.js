@@ -296,6 +296,7 @@ function verLogin(req, res, next) {
 
     var phoneNum = req.body.phoneNumber;
     var code = req.body.verCode;
+    var uid;
     var ep = new eventproxy();
 
     ep.fail(next);
@@ -335,6 +336,7 @@ function verLogin(req, res, next) {
         if (user) {
 
             await User.setUserActive(user);
+            uid = user.id;
             authMiddleWave.gen_session(user, res);
 
         }
@@ -344,11 +346,12 @@ function verLogin(req, res, next) {
                 is_active: true
             };
 
-            await User.newAndSave(newUser);
+            var newuser = await User.newAndSave(newUser);
+            uid = newuser.id;
 
         }
 
-        res.send(JSON.stringify({type:req.body.type,ret:0}));
+        res.send(JSON.stringify({type:req.body.type, ret:0, uid: uid}));
 
     }) ()
 
