@@ -221,7 +221,7 @@
         type: "MSG_TYPE_USER_CHANGE_INFO",
         uid: '1', //是uid,还是accesstoken?
         name: "黎明", //以下字段为可选字段
-        sex: "男",
+        sex: "male",//or "female"
         chepai: "沪A-00001"
     }
 ```

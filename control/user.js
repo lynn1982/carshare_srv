@@ -37,6 +37,9 @@ exports.message_handle = function(req, res, next) {
     else if ('MSG_TYPE_USER_ADD_MGMT' == req.body.type) {
         addXiaoquMgmt(req, res, next);
     }
+    else if ('MSG_TYPE_USER_CHANGE_INFO' == req.body.type) {
+        changeUserInfo(req, res, next);
+    }
     else {
         next();
     }
@@ -415,4 +418,40 @@ function addXiaoquMgmt(req, res, next) {
 
     }) ();
 
+}
+
+function changeUserInfo(req, res, next) {
+
+    var id = req.body.uid;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+   (async () => {
+        var user = await User.getUserById(id);
+        if (!user) {
+            ep.emit('err', '用户不存在');
+            return;
+        }
+
+        var newUser = {
+            login_name: req.body.name,
+            sex: req.body.sex,
+            car_license: req.body.chepai
+        };
+
+        await User.updateUser(user, newUser);
+
+        res.send(JSON.stringify({type: req.body.type, ret: 0}));
+
+    }) ()
 }

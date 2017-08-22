@@ -14,6 +14,8 @@ var User = sequelize.define('user', {
 
     passwd: {type: Sequelize.STRING},
 
+    sex: {type: Sequelize.ENUM, values: ['male', 'female']},
+
     phone_num: {type: Sequelize.CHAR(11), unique: true},
 
     car_license: {type: Sequelize.STRING},
@@ -71,6 +73,14 @@ User.getUserById = function(id) {
 User.setUserActive = function(user) {
     user.is_active = true;
     user.save();
-}
+};
+
+User.updateUser = function(user, newUser) {
+    user.login_name = newUser.login_name;
+    user.sex = newUser.sex;
+    user.car_license = newUser.car_license;
+
+    user.save();
+};
 
 module.exports = User;
