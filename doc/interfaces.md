@@ -213,6 +213,27 @@
         ret：0
     }
 
+#### 2.1.3 修改用户信息
+
+上报报文
+```
+    {
+        type: "MSG_TYPE_USER_CHANGE_INFO",
+        uid: '1', //是uid,还是accesstoken?
+        name: "黎明", //以下字段为可选字段
+        sex: "男",
+        chepai: "沪A-00001"
+    }
+```
+    
+回复报文
+```
+    {
+        type: "MSG_TYPE_USER_CHANGE_INFO",
+        ret：0
+    }
+```
+
 ### 2.2 车位查询预定
 
 |METHOD|PATH|
