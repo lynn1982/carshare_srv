@@ -175,9 +175,11 @@
 
 ### 2.1 用户注册与登录
 
+|||
+|----|-----|
 |METHOD|PATH|
-|------|----|
 |POST|/user|
+|消息类型|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO|
 
 
 #### 2.1.1 获取手机验证码
@@ -213,7 +215,29 @@
         ret：0
     }
 
-#### 2.1.3 修改用户信息
+
+#### 2.1.3 获取用户信息
+
+上报报文
+```
+    {
+        type: "MSG_TYPE_USER_GET_INFO",
+        uid: '1', //是uid,还是accesstoken?
+    }
+```
+    
+回复报文
+```
+    {
+        type: "MSG_TYPE_USER_CHANGE_INFO",
+        ret：0,
+        name: "黎明", //以下字段为可选字段
+        sex: "male",//or "female"
+        chepai: "沪A-00001"
+    }
+```
+
+#### 2.1.4 修改用户信息
 
 上报报文
 ```
