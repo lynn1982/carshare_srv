@@ -37,6 +37,9 @@ exports.message_handle = function(req, res, next) {
     else if ('MSG_TYPE_USER_ADD_MGMT' == req.body.type) {
         addXiaoquMgmt(req, res, next);
     }
+    else if ('MSG_TYPE_USER_GET_INFO' == req.body.type) {
+        getUserInfo(req, res, next);
+    }
     else if ('MSG_TYPE_USER_CHANGE_INFO' == req.body.type) {
         changeUserInfo(req, res, next);
     }
@@ -418,6 +421,32 @@ function addXiaoquMgmt(req, res, next) {
 
     }) ();
 
+}
+
+function getUserInfo(req, res, next) {
+
+    /*var id = req.body.uid;
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });*/
+	var retStr = {
+            type: req.body.type,
+            ret: 0,
+	    phone: "18616996666",
+	    name: "LiMing",
+	    sex: "male", // female
+	    chepai: "AA-00001"
+        };
+
+        res.send(JSON.stringify(retStr));
 }
 
 function changeUserInfo(req, res, next) {
