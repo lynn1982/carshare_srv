@@ -4,7 +4,7 @@
       * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#111-新增小区)
       * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#112-查询小区信息)
       * [更新小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#113-更新小区信息)
-* [车位查询预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
+* [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
     * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户注册与登录)
         * [获取手机验证码](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#211-获取手机验证码)
         * [手机验证码登陆](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#212-手机验证码登陆)
@@ -13,10 +13,10 @@
     * [车位查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#22-车位查询)
         * [获取周边车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取周边车位信息)
         * [获取小区车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取小区车位信息)
-    * [车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#23-预定车位)
-        * [预定车位(pre-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#231-预定车位pre-pay)
-        * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-预定车位post-pay)
-        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-取消车位预定)
+    * [车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#23-预定车位)
+        * [预定车位(pre-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#231-预定车位pre-pay)
+        * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-预定车位post-pay)
+        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-取消车位预定)
 
 ## 1. 后台管理接口
 
@@ -280,7 +280,7 @@
 
 |METHOD|PATH|MSG TYPE|
 |------|----|:----|
-|POST|/xiaoqu|MSG_T_GET_AREA_CHEWEI<br>MSG_T_GET_XIAOQU_CHEWEI<br>MSG_T_BOOK_CHEWEI_PRE<br>MSG_T_BOOK_CHEWEI_POST<br>MSG_T_CHEWEI_CANCEL_BOOKING|
+|POST|/xiaoqu|MSG_T_GET_AREA_CHEWEI<br>MSG_T_GET_XIAOQU_CHEWEI|
 
 
 #### 2.2.1 获取周边车位信息
@@ -358,18 +358,21 @@
     }
 ```
 ### 2.3 预定车位
+|METHOD|PATH|MSG TYPE|
+|------|----|:----|
+|POST|/parking|MSG_TYPE_PARKING_ORDER_PRE<br>MSG_TYPE_PARKING_ORDER_POST<br>MSG_TYPE_PARKING_ORDER_CANCEL|
 #### 2.3.1 预定车位（PRE PAY）
 上报报文
 ```
     {
-        type: MSG_T_BOOK_CHEWEI_PRE,
+        type: MSG_TYPE_PARKING_ORDER_PRE,
         uid: '1'
     }
 ```
 回复报文
 ```
     {
-        type: MSG_T_BOOK_CHEWEI_PRE,
+        type: MSG_TYPE_PARKING_ORDER_PRE,
         ret：0
     }
 ```
@@ -378,14 +381,14 @@
 上报报文
 ```
     {
-        type: MSG_T_BOOK_CHEWEI_POST,
+        type: MSG_TYPE_PARKING_ORDER_POST,
         communityId: '1'
     }
 ```
 回复报文
 ```
     {
-        type: MSG_T_BOOK_CHEWEI_POST,
+        type: MSG_TYPE_PARKING_ORDER_POST,
         ret：0
     }
 ```
@@ -394,14 +397,14 @@
 上报报文
 ```
     {
-        type: MSG_T_CHEWEI_CANCEL_BOOKING,
+        type: MSG_TYPE_PARKING_ORDER_CANCEL,
         uid: '1'
     }
 ```
 回复报文
 ```
     {
-        type: MSG_T_CHEWEI_CANCEL_BOOKING,
+        type: MSG_TYPE_PARKING_ORDER_CANCEL,
         ret：0
     }
 ```
