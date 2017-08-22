@@ -246,7 +246,8 @@
         uid: '1', //是uid,还是accesstoken?
         name: "黎明", //以下字段为可选字段
         sex: "male",//or "female"
-        chepai: "沪A-00001"
+        chepai: "沪A-00001",
+        phone: "18616996666"
     }
 ```
     
