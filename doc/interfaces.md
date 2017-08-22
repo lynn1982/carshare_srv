@@ -366,14 +366,19 @@
 ```
     {
         type: MSG_TYPE_PARKING_ORDER_PRE,
-        uid: '1'
+        uid: '1',
+        communityId: g_communityId,
+    		timeStart: "13:00",
+        timeEnd: "15:00"
     }
 ```
 回复报文
 ```
     {
         type: MSG_TYPE_PARKING_ORDER_PRE,
-        ret：0
+        ret：0,
+        orderNumber: "123", //订单号
+        pay: pay //需要支付的金额
     }
 ```
 
@@ -382,8 +387,13 @@
 ```
     {
         type: MSG_TYPE_PARKING_ORDER_POST,
-        communityId: '1'
-    }
+        uid: '1',
+        communityId: "1",
+    		timeStart: "13:00",
+        timeEnd: "15:00",
+        orderNumber: "123", //订单号
+        pay: pay //成功支付的金额
+    }
 ```
 回复报文
 ```
@@ -398,8 +408,9 @@
 ```
     {
         type: MSG_TYPE_PARKING_ORDER_CANCEL,
-        uid: '1'
-    }
+        uid: '1',
+        orderNumber: "123", //订单号
+    }
 ```
 回复报文
 ```
