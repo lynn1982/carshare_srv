@@ -8,10 +8,10 @@ exports.message_handle = function(req, res, next) {
     var msgType = req.body.type;
 
     if ('MSG_T_MGMT_NEW_XIAOQU' == msgType) { 
-        add(req, res, next);
+        addXiaoqu(req, res, next);
     }
     else if ('MSG_T_MGMT_QUERY_XIAOQU' == msgType) {
-        query(req, res, next);
+        queryXiaoqu(req, res, next);
     }
     else if ('MSG_T_MGMT_UPDATE_XIAOQU' == msgType) {
         update(req, res, next);
@@ -33,7 +33,7 @@ exports.message_handle = function(req, res, next) {
     }
 };
 
-function add(req, res, next) {
+function addXiaoqu(req, res, next) {
 
     var name = req.body.name;
     var addr_in = req.body.addr_in;
@@ -59,6 +59,8 @@ function add(req, res, next) {
     var newXiaoqu = {
         mgmt_id: req.session.user.id,
         name: name,
+        city: req.body.city,
+        district: req.body.district,
         addr_in: addr_in,
         addr_out: req.body.addr_out,
         longitude: req.body.longitude,
@@ -82,13 +84,44 @@ function add(req, res, next) {
             var retStr = {
                 type: req.body.type,
                 ret: 0,
-                id: xiaoqu.id
+                cid: xiaoqu.id
             };
 
             res.send(JSON.stringify(retStr));
         }
 
     }) ()
+
+}
+
+function queryXiaoqu(req, res, next) {
+   
+   var city = req.body.city;
+   var district = req.body.district; 
+   var name = req.body.name;
+   var list = [];
+
+   (async () => {
+
+        var xiaoqus = await Community.queryXiaoqu(name, city, district);
+
+        if (xiaoqus.length > 0) {
+            
+            for (var i =0; i < xiaoqus.length; i++) {
+                list.push(xiaoqus[i]);
+            }
+
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+
+   }) ()
 
 }
 
@@ -125,7 +158,7 @@ function query(req, res, next) {
 
 function update(req, res, next) {
 
-    var id = req.body.id;
+    var id = req.body.cid;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -148,17 +181,19 @@ function update(req, res, next) {
         }
         
         var newXiaoqu = {
-            name: name,
-            addr_in: addr_in,
+            name: req.body.name,
+            addr_in: req.body.addr_in,
             addr_out: req.body.addr_out,
+            city: req.body.city,
+            district: req.body.district,
             longitude: req.body.longitude,
-            lantitude: req.body.lantitude,
+            latitude: req.body.latitude,
             pps_id: req.body.pps_id,
             parking_num_total: req.body.parking_num_total,
             parking_time_start: req.body.timeStart,
             parking_time_end: req.body.timeEnd,
-            rate_type: req.body.rate_type,
-            rate: req.body.rate
+            rate_type: req.body.rateType,
+            rate: req.body.price
         };
 
         Community.updateXiaoqu(xiaoqu, newXiaoqu);
@@ -176,7 +211,7 @@ function update(req, res, next) {
 
 function publish(req, res, next) {
 
-    var id = req.body.id;
+    var id = req.body.cid;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -217,7 +252,7 @@ function publish(req, res, next) {
 
 function del(req, res, next) {
 
-    var id = req.body.id;
+    var id = req.body.cid;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -255,7 +290,7 @@ function del(req, res, next) {
 
 function getXiaoquInfo(req, res, next) {
    
-    var id = req.body.communityId;
+    var id = req.body.cid;
     var list = [];
 
     var ep = new eventproxy();
@@ -289,7 +324,7 @@ function getXiaoquInfo(req, res, next) {
         list.push(info);
 
         var data = {
-            communityId: id,
+            cid: id,
             name: xiaoqu.name,
             addr: xiaoqu.addr_in,
             list: list
@@ -333,7 +368,7 @@ function getAreaChewei(req, res, next) {
             for (var i = 0; i < xiaoqus.length; i++) {
                 var info = {
                     name: xiaoqus[i].name,
-                    communityId: xiaoqus[i].id,
+                    cid: xiaoqus[i].id,
                     longitude: xiaoqus[i].longitude,
                     lantitude: xiaoqus[i].latitude,
                     num: xiaoqus[i].parking_num_remain

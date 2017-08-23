@@ -10,6 +10,10 @@ var Community = sequelize.define('community_info', {
 
     name: {type: Sequelize.STRING},
 
+    city: {type: Sequelize.STRING},
+
+    district: {type: Sequelize.STRING},
+
     addr_in: {type: Sequelize.STRING},
 
     addr_out: {type: Sequelize.STRING},
@@ -57,6 +61,8 @@ Community.newAndSave = function(xiaoqu) {
 
     return Community.create({
         name: xiaoqu.name,
+        city: xiaoqu.city,
+        district: xiaoqu.district,
         addr_in: xiaoqu.addr_in,
         addr_out: xiaoqu.addr_out,
         longitude: xiaoqu.longitude,
@@ -75,6 +81,8 @@ Community.newAndSave = function(xiaoqu) {
 Community.updateXiaoqu = function(xiaoqu, newData) {
 
     xiaoqu.name = newData.name;
+    xiaoqu.city = newData.city;
+    xiaoqu.district = newData.district;
     xiaoqu.addr_in = newData.addr_in;
     xiaoqu.addr_out = newData.addr_out;
     xiaoqu.longitude = newData.longitude;
@@ -85,6 +93,7 @@ Community.updateXiaoqu = function(xiaoqu, newData) {
     xiaoqu.parking_time_end = newData.parking_time_end;
     xiaoqu.rate_type = newData.rate_type;
     xiaoqu.rate = newData.rate;
+    xiaoqu.is_checked = newData.is_checked;
 
     xiaoqu.save();
 };
@@ -112,6 +121,19 @@ Community.getXiaoquByScope = function(lonStart, lonEnd, latStart, latEnd) {
         where: {
             'longitude': {'$between': [lonStart, lonEnd]},
             'latitude': {'$between': [latStart, latEnd]}
+        }
+    });
+};
+
+Community.queryXiaoqu = function(name, city, district) {
+    var str = '%';
+    str.concat(name, '%');
+
+    return Community.findAll({
+        where: {
+            name: {'$like': str},
+            city: city,
+            district: district
         }
     });
 };

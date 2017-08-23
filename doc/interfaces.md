@@ -20,10 +20,6 @@
 
 ## 1. 后台管理接口
 
-|METHOD|PATH|
-|------|----|
-|POST|/parking_manage|
-
 消息枚举定义：
 
     enum{
@@ -35,9 +31,35 @@
         MSG_TYPE_PARKING_PUT,
     }；
 
+### 1.1 小区管理员登录
 
-### 1.1 小区信息登录
-#### 1.1.1 新增小区
+|METHOD|PATH|
+|------|----|
+|POST|/user|
+
+上报报文
+
+    {
+        type: MSG_TYPE_USER_ADD_MGMT,
+        phoneNumber:"18913425678"，
+        passwd:"111111"，
+    }
+    
+回复报文
+
+    {
+        type: MSG_TYPE_USER_ADD_MGMT,
+        ret: 0,
+        uid: 2
+    }
+
+### 1.2 小区信息登录
+
+|METHOD|PATH|
+|------|----|
+|POST|/xiaoqu|
+
+#### 1.2.1 新增小区
 上报报文
 
     {
@@ -45,9 +67,17 @@
         city:"上海"，
         district:"浦东"，
         name:"凤凰花园"，
-        addr:"上海市浦东新区机场东路888号"，
+        //addr:"上海市浦东新区机场东路888号"，
         addr_in:"上海市浦东新区机场东路888号"，
-        addr_out:"上海市浦东新区机场东路888号"
+        addr_out:"上海市浦东新区机场东路888号",
+        longitude: "233.121",
+        latitude: "110.432",
+        pps_id: "2",
+        parking_num_total: "200",
+        timeStart: "10:00",
+        timeEnd: "18:00",
+        rate_type: "time",
+        rate: "10"
     }
     
 回复报文
@@ -55,10 +85,11 @@
     {
         type: MSG_T_MGMT_NEW_XIAOQU,
         ret: 0, // 0:成功，非0:失败原因
-        err_str:"重复添加"，
+        cid: 2,
+        msg:"重复添加"  //非0:失败原因
     }
 
-#### 1.1.2 查询小区信息
+#### 1.2.2 查询小区信息
 上报报文
 
     {
@@ -80,16 +111,24 @@
         ]
     }
 
-#### 1.1.3 更新小区信息
+#### 1.2.3 更新小区信息
 上报报文
 
     {
         type: MSG_T_MGMT_UPDATE_XIAOQU,
-        community: '1'，
+        cid: '1'，
+        //以下非必须
         addr_in:"上海市松江区机场东路888号",
         addr_out: "上海市松江区机场东路888号",
-        pps_manufacture: '12',
-        parking_num_total: '200'       
+        city: "上海",
+        district: '浦东',
+        longitude: '221.342',
+        latitude: '551.733',
+        parking_num_total: '200',
+        timeStart: '10:00',
+        timeEnd: '19:00',
+        rateType: 'time',
+        price: '10'
     }
     
 回复报文
@@ -97,36 +136,37 @@
     {
         type: MSG_T_MGMT_UPDATE_XIAOQU,
         ret: 0, // 0:成功，非0:失败原因
-        err_str:"重复添加"，
+        msg:"重复添加"，
     } 
       
-### 5.2 小区发布共享车位信息
+### 1.3 小区发布共享车位信息
+
+|METHOD|PATH|
+|------|----|
+|POST|/xiaoqu|
+
+
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_PUBLISH,
-        community: '1'，
-        timeStart: '09:00:00',
-        timeEnd: '16:00:00' ,
-        rateType: 'hour',
-        rate: '10'      
+        type: MSG_T_MGMT_PUBLISH_XIAOQU,
+        cid: '1'，
     }
     
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_PUBLISH,
-        community: '1',    //小区id号
+        type: MSG_T_MGMT_PUBLISH_XIAOQU,
         ret: 0
     } 
     
-### 5.3 统计信息
-#### 5.3.1 住宅小区日常车辆进出统计
+### 1.4 统计信息
+#### 1.4.1 住宅小区日常车辆进出统计
 上报报文
 
     {
         type: MSG_TYPE_PARKING_MANAGE_CAR_STAT,
-        community: '1'，
+        cid: '1'，
         dateStart: '2017-02-15',
         dateEnd: '2017-02-25'
     }
@@ -135,7 +175,7 @@
 
     {
         type: MSG_TYPE_PARKING_MANAGE_CAR_STAT,
-        community: '1',    //返回小区id号
+        cid: '1',    //返回小区id号
         ret: 0,
         data: [
            {
@@ -304,14 +344,14 @@
             info: [
                 {
                     name: "万科一期",
-                    communityId: "1",
+                    cid: "1",
                     longitude: 116.404,
     	            latitude: 39.915,
                     num: 10
                 },
                 {
                     name: "万科二期",
-                    communityId: "2",
+                    cid: "2",
                     longitude: 116.404,
     	            latitude: 39.915,
                     num: 10
@@ -325,7 +365,7 @@
 ```
     {
         type: MSG_T_GET_XIAOQU_CHEWEI,
-        communityId: '1'
+        cid: '1'
     }
 ```
     
@@ -335,7 +375,7 @@
         type: MSG_TYPE_GET_XIAOQU_CHEWEI,
         ret：0,
         data: {
-            communityId: '1',
+            cid: '1',
             name: "万科一期",
             addr: "浦东新区世纪达到1000号",
             list: [
@@ -367,7 +407,7 @@
     {
         type: MSG_TYPE_PARKING_ORDER_PRE,
         uid: '1',
-        communityId: g_communityId,
+        cid: g_communityId,
         timeStart: "13:00",
         timeEnd: "15:00"
     }
@@ -388,7 +428,7 @@
     {
         type: MSG_TYPE_PARKING_ORDER_POST,
         uid: '1',
-        communityId: "1",
+        cid: "1",
         timeStart: "13:00",
         timeEnd: "15:00",
         orderNumber: "123", //订单号

@@ -330,10 +330,10 @@ function verLogin(req, res, next) {
     (async () => {
         var user = await User.getUserByPhone(phoneNum);
 
-        if (user && user.is_active) {
+        /*if (user && user.is_active) {
             ep.emit('err', '用户已存在');
             return;
-        }
+        }*/
 
         //get vercode from redis and compare
         //suppose the result is correct, then do
@@ -341,7 +341,7 @@ function verLogin(req, res, next) {
 
         if (user) {
 
-            await User.setUserActive(user);
+            //await User.setUserActive(user);
             uid = user.id;
             authMiddleWave.gen_session(user, res);
 
@@ -349,7 +349,7 @@ function verLogin(req, res, next) {
         else {
             var newUser = {
                 phone_num: phoneNum,
-                is_active: true
+                //is_active: true
             };
 
             var newuser = await User.newAndSave(newUser);
@@ -412,7 +412,7 @@ function addXiaoquMgmt(req, res, next) {
             var retStr = {
                 type: req.body.type,
                 ret: 0,
-                userId: user.id
+                uid: user.id
             };
 
             res.send(JSON.stringify(retStr));
