@@ -425,7 +425,7 @@ function addXiaoquMgmt(req, res, next) {
 
 function getUserInfo(req, res, next) {
 
-    /*var id = req.body.uid;
+    var id = req.body.uid;
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
@@ -436,17 +436,25 @@ function getUserInfo(req, res, next) {
         };
 
         res.send(JSON.stringify(retStr));
-    });*/
-	var retStr = {
+    });
+
+    (async () => {
+        var user = await User.getUserById(id);
+        if (!user) {
+            ep.emit('err', '用户不存在');
+            return;
+        }
+
+        var retStr = {
             type: req.body.type,
             ret: 0,
-	    phone: "18616996666",
-	    name: "LiMing",
-	    sex: "male", // female
-	    chepai: "AA-00001"
+            phone: user.phone_num,
+            sex: user.sex,
+            chepai: user.car_license
         };
 
         res.send(JSON.stringify(retStr));
+    }) ()
 }
 
 function changeUserInfo(req, res, next) {
