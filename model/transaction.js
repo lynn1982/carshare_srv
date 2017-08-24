@@ -22,7 +22,9 @@ var Transaction = sequelize.define('transaction', {
 
     amount: {type: Sequelize.INTEGER},
 
-    per_amount: {type: Sequelize.INTEGER}
+    per_amount: {type: Sequelize.INTEGER},
+
+    state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel']}
 
     },{
 
@@ -41,7 +43,8 @@ Transaction.newAndSave = function(order) {
         user_id: order.user_id,
         community_id: order.community_id,
         info: order.info,
-        mode: order.mode 
+        mode: order.mode,
+        state: order.state
     });
 };
 
@@ -53,6 +56,15 @@ Transaction.getOrderById = function(orderId) {
 
 Transaction.deleteOrder = function(order) {
     order.destroy();
+};
+
+Transaction.updateOrder = function(order, newOrder) {
+    order.in_time = newOrder.in_time;
+    order.out_time = newOrder.out_time;
+    order.amount = newOrder.amount;
+    order.state = newOrder.state;
+
+    order.save();
 };
 
 module.exports = Transaction;
