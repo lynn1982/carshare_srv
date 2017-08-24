@@ -385,14 +385,16 @@
                     timeEnd: "15:00",
                     type: "time",
                     num: 30,
-                    price: 10
+                    price: 10,
+                    priceType: 0, //0："元/小时"， 1："元/次"
                 },
                 {
                     timeStart: "16:00",
                     timeEnd: "19:00",
                     type: "time",
                     num: 10,
-                    price: 15
+                    price: 15,
+                    priceType: 0, //0："元/小时"， 1："元/次"
                 },
             ]
         }
