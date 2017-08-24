@@ -16,7 +16,8 @@
     * [车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#23-预定车位)
         * [预定车位(pre-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#231-预定车位pre-pay)
         * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-预定车位post-pay)
-        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-取消车位预定)
+        * [获取我的预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-获取我的预定)
+        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#234-取消车位预定)
 
 ## 1. 后台管理接口
 
