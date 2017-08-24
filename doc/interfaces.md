@@ -462,10 +462,10 @@
           communityName: "万科一期",
           timeStart: "13:00",
           timeEnd: "15:00",
-          price: "",
-          priceType: "元/小时", //"元/小时"或"元/次"
-          totalPrice: "30", //单位：元
-          deposit: "15" //单位：元
+          price: "10",   //单价，单位：元
+          priceType: 0, //0："元/小时"， 1："元/次"
+          totalPrice: "30", //总价，单位：元
+          deposit: "15" //订金，单位：元
         }
     }
 ```
