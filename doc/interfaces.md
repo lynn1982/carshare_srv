@@ -400,7 +400,7 @@
 ### 2.3 预定车位
 |METHOD|PATH|MSG TYPE|
 |------|----|:----|
-|POST|/parking|MSG_TYPE_PARKING_ORDER_PRE<br>MSG_TYPE_PARKING_ORDER_POST<br>MSG_TYPE_PARKING_ORDER_CANCEL|
+|POST|/parking|MSG_TYPE_PARKING_ORDER_PRE<br>MSG_TYPE_PARKING_ORDER_POST<br>MSG_TYPE_PARKING_GET_MY_ORDER<br>MSG_TYPE_PARKING_ORDER_CANCEL|
 #### 2.3.1 预定车位（PRE PAY）
 上报报文
 ```
@@ -443,7 +443,33 @@
     }
 ```
 
-#### 2.3.3 取消车位预定
+#### 2.3.3 获取我的预定
+上报报文
+```
+    {
+        type: MSG_TYPE_PARKING_GET_MY_ORDER,
+        uid: '1',
+    }
+```
+回复报文
+```
+    {
+        type: MSG_TYPE_PARKING_GET_MY_ORDER,
+        ret：0,
+        data: { //统一加data字段，是为了后端实现方便，可以将回复报文统一成type-ret-data-msg的格式，这个你根据情况看，改了就通知我，不改先放着也行
+          orderNumber: "123", //订单号
+          communityName: "万科一期",
+          timeStart: "13:00",
+          timeEnd: "15:00",
+          price: "",
+          priceType: "元/小时", //"元/小时"或"元/次"
+          totalPrice: "30", //单位：元
+          deposit: "15" //单位：元
+        }
+    }
+```
+
+#### 2.3.4 取消车位预定
 上报报文
 ```
     {
