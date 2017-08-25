@@ -27,6 +27,9 @@ exports.message_handle = function(req, res, next) {
     else if ('MSG_TYPE_PARKING_ORDER_CANCEL' == req.body.type) {
         orderCancel(req, res, next);
     }
+    else if ('MSG_TYPE_PARKING_GET_MY_ORDER' == req.body.type) {
+        getMyOrder(req, res, next);
+    }
     else {
         next();
     }
@@ -317,4 +320,49 @@ function orderCancel(req, res, next) {
 
 }
 
+function getMyOrder(req, res, next) {
+    
+    var uid = req.body.uid;
+    var data = [];
 
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order', function(data) {
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            data: data
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var orders = await Order.getOrdersByUser(uid);
+        
+        if (orders.length == 0) {
+            ep.emit('order', []);
+            return;
+        }
+
+        for (var i in orders) {
+            var xiaoqu = await Community.getXiaoquById(orders[i].community_id);
+            
+            var list = {
+                orderNumber: orders[i].id,
+                communityName: xiaoqu.name,
+                price: xiaoqu.rate,
+                priceType: xiaoqu.rate_type,
+                deposit: xiaoqu.rate,
+                timeStart: orders[i].in_time,
+                timeEnd: orders[i].out_time,
+                totalPrice: orders[i].amount
+            };
+
+            data.push(list);
+        }
+
+        ep.emit('order', data);
+
+    }) ()
+}

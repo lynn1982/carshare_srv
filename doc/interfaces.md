@@ -459,16 +459,18 @@
     {
         type: MSG_TYPE_PARKING_GET_MY_ORDER,
         ret：0,
-        data: { //统一加data字段，是为了后端实现方便，可以将回复报文统一成type-ret-data-msg的格式，这个你根据情况看，改了就通知我，不改先放着也行
-          orderNumber: "123", //订单号
-          communityName: "万科一期",
-          timeStart: "13:00",
-          timeEnd: "15:00",
-          price: "10",   //单价，单位：元
-          priceType: 0, //0："元/小时"， 1："元/次"
-          totalPrice: "30", //总价，单位：元
-          deposit: "15" //订金，单位：元
-        }
+        data: [
+            { //统一加data字段，是为了后端实现方便，可以将回复报文统一成type-ret-data-msg的格式，这个你根据情况看，改了就通知我，不改先放着也行
+                orderNumber: "123", //订单号
+                communityName: "万科一期",
+                timeStart: "13:00",
+                timeEnd: "15:00",
+                price: "10",   //单价，单位：元
+                priceType: 0, //0："元/小时"， 1："元/次"
+                totalPrice: "30", //总价，单位：元
+                deposit: "15" //订金，单位：元
+           }
+        ]
     }
 ```
 

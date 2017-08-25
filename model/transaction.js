@@ -67,4 +67,10 @@ Transaction.updateOrder = function(order, newOrder) {
     order.save();
 };
 
+Transaction.getOrdersByUser = function(uid) {
+    return Transaction.findAll({
+        where: {user_id: uid}
+    });
+};
+
 module.exports = Transaction;
