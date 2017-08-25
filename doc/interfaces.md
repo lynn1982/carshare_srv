@@ -383,18 +383,16 @@
                 {
                     timeStart: "13:00",
                     timeEnd: "15:00",
-                    type: "time",
+                    type: "hour",//"month":按月收费,"time":按次收费,"hour":按时收费,
                     num: 30,
                     price: 10,
-                    priceType: 0, //0："元/小时"， 1："元/次"
                 },
                 {
                     timeStart: "16:00",
                     timeEnd: "19:00",
-                    type: "time",
+                    type: "hour",//"month":按月收费,"time":按次收费,"hour":按时收费,
                     num: 10,
                     price: 15,
-                    priceType: 0, //0："元/小时"， 1："元/次"
                 },
             ]
         }
@@ -466,7 +464,7 @@
                 timeStart: "13:00",
                 timeEnd: "15:00",
                 price: "10",   //单价，单位：元
-                priceType: 0, //0："元/小时"， 1："元/次"
+                priceType: "hour",//"month":按月收费,"time":按次收费,"hour":按时收费
                 totalPrice: "30", //总价，单位：元
                 deposit: "15" //订金，单位：元
            }
