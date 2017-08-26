@@ -382,13 +382,15 @@
             addr: "浦东新区世纪达到1000号",
             list: [
                 {
-                    timeStart: "13:00",
+                    resId: 1,
+                    timeStart: "13:00",
                     timeEnd: "15:00",
                     type: "hour",//"month":按月收费,"time":按次收费,"hour":按时收费,
                     num: 30,
                     price: 10,
                 },
                 {
+                    resId: 2,
                     timeStart: "16:00",
                     timeEnd: "19:00",
                     type: "hour",//"month":按月收费,"time":按次收费,"hour":按时收费,
@@ -410,6 +412,7 @@
         type: MSG_TYPE_PARKING_ORDER_PRE,
         uid: '1',
         cid: g_communityId,
+        resId: 1,
         timeStart: "13:00",
         timeEnd: "15:00"
     }
@@ -419,6 +422,7 @@
     {
         type: MSG_TYPE_PARKING_ORDER_PRE,
         ret：0,
+        resId: 1,
         orderNumber: "123", //订单号
         pay: pay //需要支付的金额
     }
