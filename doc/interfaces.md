@@ -434,11 +434,8 @@
     {
         type: MSG_TYPE_PARKING_ORDER_POST,
         uid: '1',
-        //cid: "1",
-        //timeStart: "13:00",//该值是否由收费系统上报?
-        //timeEnd: "15:00",
         orderNumber: "123", //订单号
-        pay: pay //成功支付的金额
+        //pay: pay //成功支付的金额
     }
 ```
 回复报文
