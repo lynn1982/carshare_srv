@@ -1,5 +1,6 @@
 
 var Community = require('../model/community');
+var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 
 
@@ -190,6 +191,8 @@ function update(req, res, next) {
             latitude: req.body.latitude,
             pps_id: req.body.pps_id,
             parking_num_total: req.body.parking_num_total,
+            parking_num_share: req.body.parking_num_share,
+            parking_num_remain: req.body.parking_num_remain,
             parking_time_start: req.body.timeStart,
             parking_time_end: req.body.timeEnd,
             rate_type: req.body.rateType,
@@ -312,8 +315,11 @@ function getXiaoquInfo(req, res, next) {
             ep.emit('err', '获取小区信息失败');
             return;
         }
+
+        var c_resId = 'c_' + id;
         
-        var info = {
+        var c_info = {
+            resId: c_resId,
             timeStart: xiaoqu.parking_time_start,
             timeEnd: xiaoqu.parking_time_end,
             num: xiaoqu.parking_num_remain,
@@ -321,7 +327,24 @@ function getXiaoquInfo(req, res, next) {
             price: xiaoqu.rate
         };
         
-        list.push(info);
+        list.push(c_info);
+
+        var parkings = await Parking.getInfoByCommunityId(id);
+        if (parkings.length > 0) {
+            for (var i in parkings) {
+                p_resId = 'p_' + parkings[i].id;
+                var p_info = {
+                    resId: p_resId,
+                    timeStart: parkings[i].parking_time_start,
+                    timeEnd: parkings[i].parking_time_end,
+                    num: 1,
+                    type: parkings[i].rate_type,
+                    price: parkings[i].rate
+                };
+
+                list.push(p_info);
+            }
+        }
 
         var data = {
             cid: id,
