@@ -18,6 +18,10 @@ var Parking = sequelize.define('parking_info', {
 
     parking_time_end:  {type: Sequelize.TIME},
 
+    rate_type: {type: Sequelize.ENUM, values: ['month','time','hour']},
+
+    rate: {type: Sequelize.INTEGER},
+
     info: {type: Sequelize.STRING},
 
     is_checked: {type: Sequelize.BOOLEAN}
@@ -38,8 +42,10 @@ Parking.addInfo = function(parking) {
     return Parking.create({
         user_id: parking.user_id,
         community_id: parking.community_id,
-        parking_time_start: parking.time_start,
-        parking_time_end: parking.time_end,
+        parking_time_start: parking.parking_time_start,
+        parking_time_end: parking.parking_time_end,
+        rate_type: parking.rate_type,
+        rate: parking.rate,
         info: parking.info
     });
 };
@@ -56,13 +62,15 @@ Parking.deletePublish = function(data) {
 
 Parking.updatePublish = function(data, newInfo) {
     data.info = newInfo.info;
-    data.parking_time_start = newInfo.time_start;
-    data.parking_time_end = newInfo.time_end;
+    data.parking_time_start = newInfo.parking_time_start;
+    data.parking_time_end = newInfo.parking_time_end;
+    data.rate_type = newInfo.rate_type;
+    data.rate = newInfo.rate;
 
     data.save();
 };
 
-Parking.getInfoByCommunityid = function(communityId) {
+Parking.getInfoByCommunityId = function(communityId) {
     return Parking.findAll({
         where: {community_id: communityId}
     });

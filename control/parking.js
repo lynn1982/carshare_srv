@@ -6,6 +6,7 @@ var eventproxy = require('eventproxy');
 
 
 exports.message_handle = function(req, res, next) {
+    console.log('req='+JSON.stringify(req.body));
     if ('MSG_TYPE_PARKING_PUBLISH' == req.body.type) {
         publish(req, res, next);
     }
@@ -38,17 +39,16 @@ exports.message_handle = function(req, res, next) {
 function publish(req, res, next) {
     
     var user_id = req.session.user.id;
-    var community_id = req.body.communityId;
-    var time_start = req.body.timeStart;
-    var time_end = req.body.timeEnd;
-    var info = req.body.info;
+    var cid = req.body.cid;
 
     var parking = {
         user_id: user_id,
-        community_id: community_id,
-        parking_time_start: time_start,
-        parking_time_end: time_end,
-        info: info
+        community_id: cid,
+        parking_time_start: req.body.timeStart,
+        parking_time_end: req.body.timeEnd,
+        rate_type: req.body.rateType,
+        rate: req.body.price,
+        info: req.body.info
     };
 
     Parking.addInfo(parking).then((data)=> {
@@ -67,9 +67,6 @@ function publish(req, res, next) {
 function modify(req, res, next) {
 
     var id = req.body.parkingId;
-    var time_start = req.body.timeStart;
-    var time_end = req.body.timeEnd;
-    var info = req.body.info;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -91,9 +88,11 @@ function modify(req, res, next) {
         }
 
         var newInfo = {
-            info: info,
-            time_start: time_start,
-            time_end: time_end
+            info: req.body.info,
+            parking_time_start: req.body.timeStart,
+            parking_time_end: req.body.timeEnd,
+            rate_type: req.body.rateType,
+            rate: req.body.price
         };
 
         Parking.updatePublish(data, newInfo);
@@ -191,8 +190,12 @@ function order(req, res, next) {
 
 function orderPre(req, res, next) {
 
-    var uid = req.body.uid;
+    var uid = req.session.user.id;
     var cid = req.body.cid;
+    var resId = req.body.resId;
+
+    var resr = resId.split('_');
+    var pay;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -207,17 +210,30 @@ function orderPre(req, res, next) {
     });
 
     (async () => {
-        var xiaoqu = await Community.getXiaoquById(cid);
-        if (!xiaoqu) {
-            ep.emit('order_err', '小区信息错误');
-            return;
-        }
 
-        var pay = xiaoqu.rate;
+        if (resr[0] === 'c') {
+            var xiaoqu = await Community.getXiaoquById(resr[1]);
+            if (!xiaoqu) {
+                ep.emit('order_err', '小区信息错误');
+                return;
+            }
+
+            pay = xiaoqu.rate;
+        }
+        else {
+            var parking = await Parking.getDataById(resr[1]);
+            if (!parking) {
+                ep.emit('order_err', '车位信息错误');
+                return;
+            }
+
+            pay = parking.rate;
+        }
 
         var newOrder ={
             user_id: uid,
             community_id: cid,
+            info: resId,
             state: 'pre'
         };
 
@@ -230,6 +246,7 @@ function orderPre(req, res, next) {
         var retStr = {
             type: req.body.type,
             ret: 0,
+            resId: resId,
             orderNumber: order.id,
             pay: pay
         };
@@ -242,9 +259,9 @@ function orderPre(req, res, next) {
 function orderPost(req, res, next) {
 
     var id = req.body.orderNumber;
-    var pay = req.body.pay;
-    var timeStart = req.body.timeStart;
-    var timeEnd = req.body.timeEnd;
+    //var pay = req.body.pay;
+    //var timeStart = req.body.timeStart;
+    //var timeEnd = req.body.timeEnd;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -268,7 +285,7 @@ function orderPost(req, res, next) {
         var newOrder = {
             //in_time: timeStart,
             //out_time: timeEnd,
-            amount: pay,
+            //amount: pay,
             state: 'finish'
         };
 
@@ -322,7 +339,7 @@ function orderCancel(req, res, next) {
 
 function getMyOrder(req, res, next) {
     
-    var uid = req.body.uid;
+    var uid = req.session.user.id;
     var data = [];
 
     var ep = new eventproxy();

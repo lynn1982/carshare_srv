@@ -448,6 +448,7 @@ function getUserInfo(req, res, next) {
         var retStr = {
             type: req.body.type,
             ret: 0,
+            name: user.login_name,
             phone: user.phone_num,
             sex: user.sex,
             chepai: user.car_license
@@ -483,7 +484,8 @@ function changeUserInfo(req, res, next) {
         var newUser = {
             login_name: req.body.name,
             sex: req.body.sex,
-            car_license: req.body.chepai
+            car_license: req.body.chepai,
+            phone_num: req.body.phone
         };
 
         await User.updateUser(user, newUser);
