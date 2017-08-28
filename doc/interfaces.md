@@ -514,7 +514,7 @@
             date: "2017.8.11",
             timeStart: "13:00",
             timeEnd: "15:00",
-            xiaoquName: "万科一期",
+            communityName: "万科一期",
             totalPrice: "30"
           }
         ]
