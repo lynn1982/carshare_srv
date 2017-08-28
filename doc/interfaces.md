@@ -490,3 +490,31 @@
         ret：0
     }
 ```
+### 2.4 个人信息查询
+|METHOD|PATH|MSG TYPE|
+|------|----|:----|
+|POST|/parking|MSG_TYPE_GET_HISTORY_PARK_INFO|
+#### 2.4.1 查看我的历史停车信息
+上报报文
+```
+    {
+        type: MSG_TYPE_GET_HISTORY_PARK_INFO,
+        uid: '1'
+    }
+```
+回复报文
+```
+    {
+        type: MSG_TYPE_GET_HISTORY_PARK_INFO,
+        ret：0,
+        data: [
+          {
+            date: "2017.8.11",
+            timeStart: "13:00",
+            timeEnd: "15:00",
+            xiaoquName: "万科一期",
+            totalPrice: "30"
+          }
+        ]
+    }
+```
