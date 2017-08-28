@@ -509,13 +509,20 @@
     {
         type: MSG_TYPE_GET_HISTORY_PARK_INFO,
         ret：0,
-        data: [
-          {
+        data: [ //按时间排序，最近的记录在最前面
+          {
             date: "2017.8.11",
             timeStart: "13:00",
             timeEnd: "15:00",
             communityName: "万科一期",
             totalPrice: "30"
+          },
+          {
+            date: "2017.8.10",
+            timeStart: "9:00",
+            timeEnd: "15:00",
+            communityName: "三湘世纪",
+            totalPrice: "45"
           }
         ]
     }
