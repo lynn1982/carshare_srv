@@ -18,6 +18,8 @@
         * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-预定车位post-pay)
         * [获取我的预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-获取我的预定)
         * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#234-取消车位预定)
+     * [个人信息查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#24-个人信息查询)
+        * [查看我的历史停车信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#241-查看我的历史停车信息)
 
 ## 1. 后台管理接口
 
@@ -488,5 +490,40 @@
     {
         type: MSG_TYPE_PARKING_ORDER_CANCEL,
         ret：0
+    }
+```
+### 2.4 个人信息查询
+|METHOD|PATH|MSG TYPE|
+|------|----|:----|
+|POST|/parking|MSG_TYPE_GET_HISTORY_PARK_INFO|
+#### 2.4.1 查看我的历史停车信息
+上报报文
+```
+    {
+        type: MSG_TYPE_GET_HISTORY_PARK_INFO,
+        uid: '1'
+    }
+```
+回复报文
+```
+    {
+        type: MSG_TYPE_GET_HISTORY_PARK_INFO,
+        ret：0,
+        data: [ //按时间排序，最近的记录在最前面
+          {
+            date: "2017.8.11",
+            timeStart: "13:00",
+            timeEnd: "15:00",
+            communityName: "万科一期",
+            totalPrice: "30"
+          },
+          {
+            date: "2017.8.10",
+            timeStart: "9:00",
+            timeEnd: "15:00",
+            communityName: "三湘世纪",
+            totalPrice: "45"
+          }
+        ]
     }
 ```
