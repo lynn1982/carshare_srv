@@ -501,7 +501,9 @@
 ```
     {
         type: MSG_TYPE_GET_HISTORY_PARK_INFO,
-        uid: '1'
+        uid: '1',
+        startIdx: 100,
+        num: 20
     }
 ```
 回复报文
