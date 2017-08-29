@@ -73,4 +73,20 @@ Transaction.getOrdersByUser = function(uid) {
     });
 };
 
+Transaction.queryOrder = function(query) {
+    return Transaction.findOne({
+        where: query
+    });
+};
+
+
+Transaction.getOrdersByLimit = function(uid, limit, offset, order) {
+    return Transaction.findAll({
+        where: {user_id: uid},
+        'limit': limit,
+        'offset': offset,
+        'order': order
+    });
+};
+
 module.exports = Transaction;

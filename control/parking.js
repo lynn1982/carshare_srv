@@ -31,6 +31,9 @@ exports.message_handle = function(req, res, next) {
     else if ('MSG_TYPE_PARKING_GET_MY_ORDER' == req.body.type) {
         getMyOrder(req, res, next);
     }
+    else if ('MSG_TYPE_GET_HISTORY_PARK_INFO' == req.body.type) {
+        getHistoryPark(req, res, next);
+    }
     else {
         next();
     }
@@ -338,8 +341,45 @@ function orderCancel(req, res, next) {
 }
 
 function getMyOrder(req, res, next) {
+
+    var uid = req.session.user.id;
+    var data;
+
+    (async () => {
+        var order = Order.queryOrder({'user_id': uid, 'state': 'pre'});
+
+        if (!order) {
+            var xiaoqu = await Community.getXiaoquById(order.community_id);
+            
+            data = {
+                orderNumber: order.id,
+                communityName: xiaoqu.name,
+                price: xiaoqu.rate,
+                priceType: xiaoqu.rate_type,
+                deposit: xiaoqu.rate,
+                timeStart: orders.in_time,
+                timeEnd: orders.out_time,
+                totalPrice: orders.amount
+            };
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            data: data
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+}
+
+
+function getHistoryPark(req, res, next) {
     
     var uid = req.session.user.id;
+    var start = parseInt(req.body.startIdx) - 1;
+    var num = parseInt(req.body.num);
     var data = [];
 
     var ep = new eventproxy();
@@ -355,8 +395,8 @@ function getMyOrder(req, res, next) {
     });
 
     (async () => {
-        var orders = await Order.getOrdersByUser(uid);
-        
+        var orders = await Order.getOrdersByLimit(uid, num, start, [['createdAt', 'desc']]);
+                
         if (orders.length == 0) {
             ep.emit('order', []);
             return;
@@ -366,11 +406,8 @@ function getMyOrder(req, res, next) {
             var xiaoqu = await Community.getXiaoquById(orders[i].community_id);
             
             var list = {
-                orderNumber: orders[i].id,
+                date: orders[i].createdAt,
                 communityName: xiaoqu.name,
-                price: xiaoqu.rate,
-                priceType: xiaoqu.rate_type,
-                deposit: xiaoqu.rate,
                 timeStart: orders[i].in_time,
                 timeEnd: orders[i].out_time,
                 totalPrice: orders[i].amount
