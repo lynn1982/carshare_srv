@@ -10,6 +10,7 @@
         * [手机验证码登陆](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#212-手机验证码登陆)
         * [获取用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#213-获取用户信息)
         * [修改用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#214-修改用户信息)
+        * [用户注销登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#215-用户注销登录)
     * [车位查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#22-车位查询)
         * [获取周边车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取周边车位信息)
         * [获取小区车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取小区车位信息)
@@ -239,7 +240,7 @@
 
 |METHOD|PATH|MSG TYPE|
 |:----:|:-----:|:----|
-|POST|/user|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO|
+|POST|/user|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO<br>MSG_TYPE_USER_LOGINOUT|
 
 
 #### 2.1.1 获取手机验证码
@@ -316,6 +317,21 @@
 ```
     {
         type: "MSG_TYPE_USER_CHANGE_INFO",
+        ret：0
+    }
+```
+#### 2.1.5 用户注销登录
+
+上报报文
+```
+    {
+        type: MSG_TYPE_USER_LOGINOUT,
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_TYPE_USER_LOGINOUT,
         ret：0
     }
 ```
