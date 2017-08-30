@@ -360,24 +360,22 @@
     {
         type: MSG_TYPE_GET_AREA_CHEWEI,
         ret：0,
-        data: {
-            info: [
-                {
-                    name: "万科一期",
-                    cid: "1",
-                    longitude: 116.404,
-    	            latitude: 39.915,
-                    num: 10
-                },
-                {
-                    name: "万科二期",
-                    cid: "2",
-                    longitude: 116.404,
-    	            latitude: 39.915,
-                    num: 10
-                },
-            ]
-        }
+        data: [
+          {
+            name: "万科一期",
+            cid: "1",
+            longitude: 116.404,
+            latitude: 39.915,
+            num: 10
+          },
+          {
+            name: "万科二期",
+            cid: "2",
+            longitude: 116.404,
+    	      latitude: 39.915,
+            num: 10
+          },
+        ]
     }
 ```
 #### 2.2.1 获取小区车位信息
