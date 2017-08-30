@@ -1,93 +1,169 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/all.css"/>
+		<link rel="stylesheet" href="css/all.css" />
 		<link rel="stylesheet" href="css/public.css" />
 		<link rel="stylesheet" href="css/router_currentsource.css" />
-		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
 		<script type="text/javascript" src="js/vue.js"></script>
 		<title id="name" fileNam="plugin">小区管理</title>
 	</head>
+
 	<body>
 		<!--记录数据-->
 		<div id="fileName" fileNam="router_historyresource" isroot="root"></div>
 		<!--记录数据-->
 		<div id="pluginContainer" fileNam="plugin" isroot="root">
-			<div class="pluginTitle"><!-- <a class="backBtn" >返回</a> -->小区信息</div>
+			<div class="pluginTitle">
+				<!-- <a class="backBtn" >返回</a> -->小区信息</div>
 
-            <div>
-                <table style="margin-left:20px">
-                    <tr>
-                        <td>城市:</td><td><select><option selected="selected" value="上海">上海</option>
-                            <option value="北京">北京</option>
-                            <option value="深圳">深圳</option>
-                        </select></td>
-                        <td>区：</td><td><select><option selected="selected" value="徐汇">徐汇</option>
-                            <option value="静安">静安</option>
-                            <option value="浦东">浦东</option>
-                        </select></td>
-                        <td>名称:</td><td><input type="text" style="width:300px;" name="name"></input></td>
-                    </tr>
-                </table>
-                <table style="margin-left:20px">
-                    <tr>
-                        <td>地址:</td><td><input type="text" style="width:600px;" name="addr"></input></td>
-                    </tr>
-                </table>
-                <table style="margin-left:20px">
-                    <tr>
-                        <td><button type='button'>添加</button></td>
-                    </tr>
-                </table>
-            </div>
+			<div>
+				<table style="margin-left:20px">
+					<tr>
+						<td>城市:</td>
+						<td>
+							<select>
+								<option selected="selected" value="上海">上海</option>
+								<option value="北京">北京</option>
+								<option value="深圳">深圳</option>
+							</select>
+						</td>
+						<td>区：</td>
+						<td>
+							<select>
+								<option selected="selected" value="徐汇">徐汇</option>
+								<option value="静安">静安</option>
+								<option value="浦东">浦东</option>
+							</select>
+						</td>
+						<td>名称:</td>
+						<td><input type="text" style="width:300px;" name="name"></input>
+						</td>
+					</tr>
+				</table>
+				<table style="margin-left:20px">
+					<tr>
+						<td>地址:</td>
+						<td><input type="text" style="width:600px;" name="addr"></input>
+						</td>
+					</tr>
+				</table>
+				<table style="margin-left:20px">
+					<tr>
+						<td><button type='button'>添加</button></td>
+					</tr>
+				</table>
+			</div>
+			<div style="height: 20px;background: rgba(0,0,0,0.05);"></div>
+
 			<div class="pluginTitle">小区信息</div>
 			<div class="tableContainer" id="vueApp">
-                <table id="table">
-                    <tr>
-                        <th v-for="value in headArr">{{value}}</th>
-                    </tr>
-                    <tr id="cell" class="cell" v-for="dic in message.values">
-                        <td v-for="value in dic">{{value}}</td>
-                        <!--<td ><a class="pluginVersion blueBut" href="router_retransmission.html">详情</a></td>-->
-                    </tr>
-                </table>
-            </div>
+				<table id="table" style="margin-top: 10px;">
+					<tr>
+						<th>小区名称</th>
+						<th>城市</th>
+						<th>区</th>
+						<th>进入地址</th>
+						<th>出来地址</th>
+						<th>经度</th>
+						<th>纬度</th>
+						<th>车位数量</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
+						<th>价格</th>
+						<th style="text-align: center;">管理</th>
+					</tr>
+					<tr id="cell" class="cell" v-for="dic in message">
+						<td>{{dic.name}}</td>
+						<td>{{dic.city}}</td>
+						<td>{{dic.district}}</td>
+						<td>{{dic.addr_in}}</td>
+						<td>{{dic.addr_out}}</td>
+						<td>{{dic.longitude}}</td>
+						<td>{{dic.latitude}}</td>
+						<td>{{dic.parking_num_total}}</td>
+						<td>{{dic.timeStart}}</td>
+						<td>{{dic.timeEnd}}</td>
+						<td>{{dic.rate}}</td>
+
+						<td style="text-align: center;">
+							<a class="pluginVersion blueBut" href="editXiaoq.html">编辑</a>
+							<a v-bind:pps_id="dic.pps_id" class="pluginDelete redBtn">删除</a>
+						</td>
+						<!--<td ><a class="pluginVersion blueBut" href="router_retransmission.html">详情</a></td>-->
+					</tr>
+
+				</table>
+			</div>
 			<div style="height: 15px;"></div>
 		</div>
 	</body>
-<script type="text/javascript" src="js/public.js" ></script>
-<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
-<script>
-	var vm = new Vue({
-  el: '#vueApp',
-  data: {
-    message:{values:[{"Deviceid":"1","Deviceid2":"1"},{"Deviceid":"1","Deviceid2":"1"},{"Deviceid":"1","Deviceid2":"1"}]},
-    headArr:[],
-  }
-  
-});
+	<script type="text/javascript" src="js/public.js"></script>
+	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+	<script>
+		var vm = new Vue({
+			el: '#vueApp',
+			data: {
+				message: [{
+					type: "MSG_T_MGMT_NEW_XIAOQU",
+					city: "上海",
+					district: "浦东",
+					name: "凤凰花园",
+					//addr:"上海市浦东新区机场东路888号",
+					addr_in: "上海市浦东新区机场东路888号",
+					addr_out: "上海市浦东新区机场东路888号",
+					longitude: "233.121",
+					latitude: "110.432",
+					pps_id: "2",
+					parking_num_total: "200",
+					timeStart: "10:00",
+					timeEnd: "18:00",
+					rate_type: "time",
+					rate: "10"
+				}],
 
-//获取标题
- for(var key in vm.message.values[0]){
- 	vm.headArr.push(key);
- }
-// vm.headArr.push("直播资源");
-	
-	
-	
-myajax(4,"get","",detailCallBack);
+			}
 
-function detailCallBack(data){
-	// alert(data);
-	vm.message = data;
-	//获取标题
-	vm.headArr = [];
- for(var key in vm.message.values[0]){
- 	vm.headArr.push(key);
- }
-}
-	
+		});
+		//删除http请求
+		function deleteXiaoqu(pps_id) {
+			alert("pps_id是：" + pps_id);
 
- </script>
+//			$.ajax({
+//				type: "post",
+//				url: allDeviceUrl,
+//				async: true,
+//				cache: false,
+//				success: function() {
+//
+//					window.location.reload(); //删除成功刷新
+//				},
+//				error: function() {
+//					alert("删除失败");
+//				}
+//			}); //ajax
+
+		}//deleteXiaoqu
+
+		//删除 
+		$(".pluginDelete").on("click", function() {
+			var pps_id = $(this).attr("pps_id");
+			var confirm1 = confirm("确定删除？");
+			if(confirm) {
+				deleteXiaoqu(pps_id);
+			}
+
+		});
+	/*说明
+	 1.添加小区:editXiaoqu.html
+	 
+	 
+	 
+	 
+	 */
+		
+	</script>
+
 </html>
