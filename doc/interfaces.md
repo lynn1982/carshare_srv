@@ -4,6 +4,7 @@
    * [信息管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#12-信息管理)
       * [查询设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#121-查询设备厂商信息)
    * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
+      * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
    * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
    * [小区信息登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-小区信息登录)
       * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#111-新增小区)
