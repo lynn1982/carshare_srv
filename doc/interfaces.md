@@ -4,6 +4,7 @@
    * [信息管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#12-信息管理)
       * [查询设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#121-查询设备厂商信息)
    * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
+      * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
    * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
    * [小区信息登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-小区信息登录)
       * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#111-新增小区)
@@ -61,13 +62,43 @@
 #### 1.2.3 修改设备厂商信息
 #### 1.2.4 删除设备厂商信息
 #### 1.2.5 查询小区信息
-
 #### 1.2.6 增加小区信息
 #### 1.2.7 修改小区信息
 #### 1.2.8 删除小区信息
 #### 1.2.9 修改小区统一管理的共享车位信息
 ### 1.3 业务数据查询
-#### 1.3.1 查询某个小区的车辆进出记录
+#### 1.3.1 查询车辆进出记录
+上报报文
+```
+    {
+        type: ???,
+    }
+```    
+回复报文
+```
+    {
+        type: ???,
+        ret: 0,
+        data: [
+          {
+            chepai: "沪A-111111",
+            cname: "万科一期",
+            date: "2017-1-1",
+            inTime: "12:00",
+            outTime: "14:00",
+            isPay: "是"
+          },
+          {
+            chepai: "沪B-111111",
+            cname: "万科二期",
+            date: "2017-2-2",
+            inTime: "15:00",
+            outTime: "16:00",
+            isPay: "否"
+          }
+        ];
+    }
+```
 #### 1.3.2 查询某个设备厂商的账单明细
 #### 1.3.3 查询某个小区的账单明细
 #### 1.3.4 查询某个用户的账单明细
