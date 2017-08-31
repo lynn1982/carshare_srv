@@ -1,6 +1,10 @@
 ## 目录
 * [后台管理接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#1-后台管理接口)
-   * [用户]()
+   * [用户](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-用户)
+   * [信息管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#12-信息管理)
+      * [查询设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#121-查询设备厂商信息)
+   * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
+   * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
    * [小区信息登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-小区信息登录)
       * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#111-新增小区)
       * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#112-查询小区信息)
@@ -29,10 +33,35 @@
 #### 1.1.2 退出
 ### 1.2 信息管理
 #### 1.2.1 查询设备厂商信息
+上报报文
+```
+    {
+        type: ???,
+    }
+```    
+回复报文
+```
+    {
+        type: ???,
+        ret: 0,
+        data: [
+          {
+            id: 1,
+            name: "设备生产厂商1",
+            phone: "18616999999",
+            contacts: "赵先生",
+            email: "zhao@changshang.com",
+            parkNum: 10,
+            regDate: "2017-8-31"
+          }
+        ];
+    }
+```
 #### 1.2.2 增加设备厂商信息
 #### 1.2.3 修改设备厂商信息
 #### 1.2.4 删除设备厂商信息
 #### 1.2.5 查询小区信息
+
 #### 1.2.6 增加小区信息
 #### 1.2.7 修改小区信息
 #### 1.2.8 删除小区信息
