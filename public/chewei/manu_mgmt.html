@@ -21,23 +21,17 @@
 					<!-- <a class="backBtn" >返回</a> -->筛选</div>
 
 				<div>
-					<table style="margin-left:20px;margin-top:20px;">
+					<table style="margin-left:20px;margin-top:20px;margin-bottom:20px">
 						<tr>
 							<td>厂商名称:</td>
 							<td><input id="addr" type="text" style="width:600px;" name="addr"></isindex></td>
 							<td><button  class="redBtn" v-on:click="refresh"  style="background:orange;margin-left:20px;">筛选</button></td>
 						</tr>
 					</table>
-					<table style="margin-left:20px;margin-bottom: 10px;margin-top: 5px;">
-						<tr>
-							<td><button class="blueBut" v-on:click="add" type='button'>添加</button></td>
-							
-						</tr>
-					</table>
 				</div>
 				<div style="height: 20px;background: rgba(0,0,0,0.05);"></div>
 
-				<div class="pluginTitle">厂商信息</div>
+                <div class="pluginTitle"><a>厂商信息</a><button class="blueBut" v-on:click="add" type='button' style="float:right;argin-right:20px;">添加</button></div>
 				<div class="tableContainer" >
 					<table id="table" style="margin-top: 10px;">
 						<tr>
