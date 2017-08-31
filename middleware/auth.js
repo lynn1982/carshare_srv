@@ -75,6 +75,7 @@ exports.authUser = function(req, res, next) {
         if (!auth_token) {
             return next();
         }
+        console.log('auth token:'+auth_token);
 
         var auth = auth_token.split('$$$$');
         var user_id = auth[0];

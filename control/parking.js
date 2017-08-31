@@ -237,7 +237,9 @@ function orderPre(req, res, next) {
             user_id: uid,
             community_id: cid,
             info: resId,
-            state: 'pre'
+            state: 'pre',
+            in_time: req.body.timeStart,
+            out_time: req.body.timeEnd
         };
 
         var order = await Order.newAndSave(newOrder);
@@ -289,7 +291,7 @@ function orderPost(req, res, next) {
             //in_time: timeStart,
             //out_time: timeEnd,
             //amount: pay,
-            state: 'finish'
+            state: 'progress'
         };
 
         await Order.updateOrder(order, newOrder);
@@ -346,7 +348,7 @@ function getMyOrder(req, res, next) {
     var data;
 
     (async () => {
-        var order = Order.queryOrder({'user_id': uid, 'state': 'pre'});
+        var order = Order.queryOrder({'user_id': uid, 'state': 'progress'});
 
         if (!order) {
             var xiaoqu = await Community.getXiaoquById(order.community_id);
@@ -406,7 +408,6 @@ function getHistoryPark(req, res, next) {
             var xiaoqu = await Community.getXiaoquById(orders[i].community_id);
             
             var list = {
-                date: orders[i].createdAt,
                 communityName: xiaoqu.name,
                 timeStart: orders[i].in_time,
                 timeEnd: orders[i].out_time,

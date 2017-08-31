@@ -44,7 +44,9 @@ Transaction.newAndSave = function(order) {
         community_id: order.community_id,
         info: order.info,
         mode: order.mode,
-        state: order.state
+        state: order.state,
+        in_time: order.in_time,
+        out_time: order.out_time
     });
 };
 

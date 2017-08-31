@@ -426,11 +426,10 @@
 ```
     {
         type: MSG_TYPE_PARKING_ORDER_PRE,
-        uid: '1',
         cid: g_communityId,
         resId: 1,
-        timeStart: "13:00",
-        timeEnd: "15:00"
+        timeStart: "2017-08-14 13:00:00",
+        timeEnd: "2017-08-14 15:00:00"
     }
 ```
 回复报文
@@ -527,16 +526,14 @@
         ret：0,
         data: [ //按时间排序，最近的记录在最前面
           {
-            date: "2017.8.11",
-            timeStart: "13:00",
-            timeEnd: "15:00",
+            timeStart: "2017-08-11 13:00:00",
+            timeEnd: "2017-08-11 15:00:00",
             communityName: "万科一期",
             totalPrice: "30"
           },
           {
-            date: "2017.8.10",
-            timeStart: "9:00",
-            timeEnd: "15:00",
+            timeStart: "2017-08-10 9:00:00",
+            timeEnd: "2017-08-10 15:00:00",
             communityName: "三湘世纪",
             totalPrice: "45"
           }
