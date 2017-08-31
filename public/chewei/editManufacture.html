@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/jquery-form.js"></script>
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/addPlugin.css" />
+		<title fileNam="addLircDevice">编辑厂商信息</title>
+	</head>
+
+	<body>
+		<!--记录数据-->
+		<div id="fileName" fileNam="xiaoquManager"></div>
+		<!--记录数据-->
+		<div id="pluginContainer">
+			<div class="pluginTitle">
+				<a class="backBtn">取消</a>编辑厂商信息</div>
+
+			<form id="addPluginForm">
+				<div class="inputContainer">
+					<span class="nameSpan">厂商名称</span><input v-bind:value="info.name" class="inputName" type="text" name="name" placeholder="" />
+					<span class="nameSpan">联系人</span><input v-bind:value="info.contacts" class="inputName" type="text" name="contacts" placeholder="" />
+					<span class="nameSpan">联系人手机</span><input v-bind:value="info.phone" class="inputName" type="text" name="phone" placeholder="" />
+					<span class="nameSpan">Email</span><input  v-bind:value="info.email" class="inputName" type="text" name="email" placeholder="" />
+					<input class="inputSubmit" type="button" value="提交" onclick="apply()"/>
+				</div>
+			</form>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script>
+		var info = JSON.parse(localStorage.info);
+		var vm = new Vue({
+			el: '#pluginContainer',
+			data:{
+				info:info
+			},
+			methods:{
+			}
+		});
+		
+		
+		function apply() {
+            var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+            var type;
+            var data = {};
+
+            if (info.action == "add") {
+                type = "MSG_T_MGMT_NEW_XIAOQU";
+            } else {
+                type = "MSG_T_MGMT_UPDATE_XIAOQU";
+            }
+
+            alert(JSON.stringify(data));
+
+			$("#addPluginForm").ajaxSubmit({
+				type: 'post',
+				url: url,
+				cache: false,
+                data: {
+                    type: type,
+                    id: info.id
+                },
+                success: function(data) {
+					alert("成功");
+				},
+				error: function() {
+					alert("失败");
+				}
+			}); //ajax
+		} //editXiaoqu
+		
+	</script>
+	<script type="text/javascript" src="js/public.js"></script>
+</html>

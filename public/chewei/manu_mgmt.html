@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_currentsource.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<title id="name" fileNam="plugin">小区管理</title>
+	</head>
+
+	<body onload="load()">
+		<div id="vueApp">
+			<!--记录数据-->
+			<div id="fileName" fileNam="router_historyresource" isroot="root"></div>
+			<!--记录数据-->
+			<div id="pluginContainer" fileNam="plugin" isroot="root">
+				<div class="pluginTitle">
+					<!-- <a class="backBtn" >返回</a> -->筛选</div>
+
+				<div>
+					<table style="margin-left:20px;margin-top: 10px;margin-bottom: 5px;">
+						<tr>
+							<td>城市:</td>
+							<td>
+								<select id="city">
+									<option selected="selected" value="上海">上海</option>
+									<option value="北京">北京</option>
+									<option value="深圳">深圳</option>
+								</select>
+							</td>
+							<td>区：</td>
+							<td>
+								<select id="district">
+									<option selected="selected" value="徐汇">徐汇</option>
+									<option value="静安">静安</option>
+									<option value="浦东">浦东</option>
+								</select>
+							</td>
+							<td>名称:</td>
+							<td><input id="xqname"  type="text" style="width:427px;" name="name"></input>
+							</td>
+						</tr>
+					</table>
+					<table style="margin-left:20px;">
+						<tr>
+							<td>地址:</td>
+							<td><input id="addr" type="text" style="width:600px;" name="addr"></isindex>
+							</td>
+						</tr>
+					</table>
+					<table style="margin-left:20px;margin-bottom: 10px;margin-top: 5px;">
+						<tr>
+							<td><button class="blueBut" v-on:click="add" type='button'>添加</button></td>
+							<td><button  class="redBtn" v-on:click="refresh"  style="background: orange;">刷新</button></td>
+							
+						</tr>
+					</table>
+				</div>
+				<div style="height: 20px;background: rgba(0,0,0,0.05);"></div>
+
+				<div class="pluginTitle">小区信息</div>
+				<div class="tableContainer" >
+					<table id="table" style="margin-top: 10px;">
+						<tr>
+							<th>厂商名称</th>
+							<th>联系人</th>
+							<th>联系人手机</th>
+							<th>Email</th>
+							<th>停车场数目</th>
+							<th>注册时间</th>
+							<th style="text-align: center;">管理</th>
+						</tr>
+						<tr id="cell" class="cell" v-for="dic in message">
+							<td>{{dic.name}}</td>
+							<td>{{dic.contacts}}</td>
+							<td>{{dic.phone}}</td>
+							<td>{{dic.email}}</td>
+							<td>{{dic.parkNum}}</td>
+							<td>{{dic.regDate}}</td>
+							<td style="text-align: center;">
+								<a v-on:click="edit($event)" class="pluginVersion blueBut edit">编辑</a>
+								<a v-on:click="deleteXiaoqu($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
+							</td>
+							<!--<td ><a class="pluginVersion blueBut" href="router_retransmission.html">详情</a></td>-->
+						</tr>
+
+					</table>
+				</div>
+				<div style="height: 15px;"></div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/public.js"></script>
+	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+	<script>
+        var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var editPage = "editManufacture.html";
+		var vm = new Vue({
+			el: '#vueApp',
+			data: {
+                message: []
+			},
+			methods: {
+				
+				getInfo: function(dic) {
+					return JSON.stringify(dic);
+				},
+				//添加
+				add:function(){
+					localStorage.info = "";
+					location.href = editPage;
+				},
+				//删除小区
+				deleteReq: function(info) {
+					alert("info是：" + info);
+					//			$.ajax({
+					//				type: "post",
+					//				url: allDeviceUrl,
+					//				async: true,
+					//				cache: false,
+					//				success: function(data) {
+					//				
+					//					window.location.reload(); //删除成功刷新
+					//				},
+					//				error: function() {
+					//					alert("删除失败");
+					//				}
+					//			}); //ajax
+				},
+				//删除小区
+				deleteXiaoqu: function(athis) {
+					var info = $(athis.currentTarget).attr("info");
+					var confirm1 = confirm("确定删除？");
+					if(confirm) {
+						this.deleteReq(info);
+					}
+				},
+				edit: function(athis) {
+					var info = $(athis.currentTarget).next().attr("info");
+					localStorage.info = info;
+					$(athis.currentTarget).attr({
+						href: editPage
+					})
+				},
+				//刷新
+				refresh:function(){
+                    var _self = this;
+					var city = $("#city option:selected").val();
+					var district = $("#city option:selected").val();
+					var name = $("#xqname").val();
+					var addr = $("#addr").val();
+					var param = {
+						city:city,
+						district:district,
+						name:name,
+						addr:addr
+					}
+					alert(JSON.stringify(param));
+					//			$.ajax({
+					//				type: "post",
+					//				url: allDeviceUrl,
+					//				async: true,
+					//				cache: false,
+					//				success: function() {
+					//					vm.message = data.data;
+					//					window.location.reload(); //删除成功刷新
+					//				},
+					//				error: function() {
+					//					alert("刷新失败");
+					//				}
+					//			}); //ajax
+                    _self.loadTestData();
+					
+				},
+                loadTestData: function() {
+                    var _self = this;
+                    var message = [
+                    {
+                        type: "MSG_T_MGMT_NEW_XIAOQU",
+                        id: 1,
+                        name: "设备生产厂商1",
+                        phone: "18616999999",
+                        contacts: "赵先生",
+                        email: "zhao@changshang.com",
+                        parkNum: 10,
+                        regDate: "2017-8-31"
+                    }
+                    ];
+                    _self.message = message;
+                },
+                reload: function() {
+                    var _self = this;
+                    var query = {
+                        type: "MSG_T_MGMT_QUERY_XIAOQU"
+                    };
+
+                    $.ajax({
+                        type: "post",
+                        url: g_url,
+                        timeout: 3000,  //3s
+                        async: true,    //异步
+                        data: JSON.stringify(query),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            alert(data);
+                            if (data.ret == 0) {
+                                vm.message = data.data;
+                            }
+                        },
+                        error: function() {
+                            _self.loadTestData();
+                        }
+                    });
+                }
+			}
+
+		});
+
+        function load() {
+            vm.reload();
+        }
+	</script>
+
+</html>
