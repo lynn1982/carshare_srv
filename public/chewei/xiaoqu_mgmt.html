@@ -11,7 +11,7 @@
 		<title id="name" fileNam="plugin">小区管理</title>
 	</head>
 
-	<body>
+	<body onload="load()">
 		<div id="vueApp">
 			<!--记录数据-->
 			<div id="fileName" fileNam="router_historyresource" isroot="root"></div>
@@ -107,27 +107,11 @@
 	<script type="text/javascript" src="js/public.js"></script>
 	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
 	<script>
+        var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
 		var vm = new Vue({
 			el: '#vueApp',
 			data: {
-				message: [{
-					type: "MSG_T_MGMT_NEW_XIAOQU",
-					city: "上海",
-					district: "浦东",
-					name: "凤凰花园",
-					//addr:"上海市浦东新区机场东路888号",
-					addr_in: "上海市浦东新区机场东路888号",
-					addr_out: "上海市浦东新区机场东路888号",
-					longitude: "233.121",
-					latitude: "110.432",
-					pps_id: "2",
-					parking_num_total: "200",
-					timeStart: "10:00",
-					timeEnd: "18:00",
-					rate_type: "time",
-					rate: "10"
-				}]
-
+                message: []
 			},
 			methods: {
 				
@@ -136,7 +120,7 @@
 				},
 				//添加
 				add:function(){
-                    localStorage.info = JSON.stringify({action: "add"});
+					localStorage.info = "";
 					location.href = "editXiaoqu.html";
 				},
 				//删除小区
@@ -173,6 +157,7 @@
 				},
 				//刷新
 				refresh:function(){
+                    var _self = this;
 					var city = $("#city option:selected").val();
 					var district = $("#city option:selected").val();
 					var name = $("#xqname").val();
@@ -197,11 +182,62 @@
 					//					alert("刷新失败");
 					//				}
 					//			}); //ajax
+                    _self.loadTestData();
 					
-				}
+				},
+                loadTestData: function() {
+                    var _self = this;
+                    var message = [{
+                        type: "MSG_T_MGMT_NEW_XIAOQU",
+                        city: "上海",
+                        district: "浦东",
+                        name: "凤凰",
+                        //addr:"上海市浦东新区机场东路888号",
+                        addr_in: "上海市浦东新区机场东路888号",
+                        addr_out: "上海市浦东新区机场东路888号",
+                        longitude: "233.121",
+                        latitude: "110.432",
+                        pps_id: "2",
+                        parking_num_total: "200",
+                        timeStart: "10:00",
+                        timeEnd: "18:00",
+                        rate_type: "time",
+                        rate: "10"
+                    }];
+                    _self.message = message;
+                },
+                reload: function() {
+                    var _self = this;
+                    var query = {
+                        type: "MSG_T_MGMT_QUERY_XIAOQU"
+                    };
+
+                    $.ajax({
+                        type: "post",
+                        url: g_url,
+                        timeout: 3000,  //3s
+                        async: true,    //异步
+                        data: JSON.stringify(query),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            alert(data);
+                            if (data.ret == 0) {
+                                vm.message = data.data;
+                            }
+                        },
+                        error: function() {
+                            _self.loadTestData();
+                        }
+                    });
+                }
 			}
 
 		});
+
+        function load() {
+            vm.reload();
+        }
 	</script>
 
 </html>

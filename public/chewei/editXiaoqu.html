@@ -23,7 +23,7 @@
 
 			<form id="addPluginForm">
 				<div class="inputContainer">
-					<span class="nameSpan">cid</span><input v-bind:value="info.cid" class="inputName" type="text" name="cid" placeholder="" />
+                    <!--<span class="nameSpan">cid</span><input v-bind:value="info.cid" class="inputName" type="text" name="cid" placeholder="" />-->
 					<span class="nameSpan">city</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />
 					<span class="nameSpan">district</span><input v-bind:value="info.district" class="inputName" type="text" name="district" placeholder="" />
 					<span class="nameSpan">name</span><input v-bind:value="info.name" class="inputName" type="text" name="name" placeholder="" />
@@ -62,14 +62,22 @@
 		
 		
 		function editXiaoqu() {
-            url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
-            alert(info.action);
+            var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+            var type;
+
+            if (info.action == "add") {
+                type = "MSG_T_MGMT_NEW_XIAOQU";
+            } else {
+                type = "MSG_T_MGMT_UPDATE_XIAOQU";
+            }
+
 			$("#addPluginForm").ajaxSubmit({
 				type: 'post',
 				url: url,
 				cache: false,
 				data: { //除表单里面的其他参数
-                    type: ""
+                    type: type,
+                    cid: info.cid
 				},
 				success: function(data) {
 					alert("成功");
