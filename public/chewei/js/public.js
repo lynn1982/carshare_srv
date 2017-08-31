@@ -18,6 +18,8 @@ function backBtn(){
 
 function setTitleHeader() {
 	
+	var xiaoquManager = '<a href="editXiaoqu.html" class="selectTitle" target="iframe1">/ 编辑小区信息</a>';
+	
 	//插件
 	var addPlugin =
 		'<a href="addPlugin.html" class="selectTitle" target="iframe1">/ 添加插件</a>';
@@ -43,7 +45,7 @@ function setTitleHeader() {
      
      
      
-    var titleJson = {lircDeviceDetail:lircDeviceDetail,addLircDevice:addLircDevice,"addCode1":addCode1,"addPlugin":addPlugin,"pluginVersion":pluginVersion,"addPluginVersion":addPluginVersion,"addDevice":addDevice,"deviceDetail":deviceDetail,"addFirmwareVersion":addFirmwareVersion,"router_retransmission":router_retransmission,"router_currentresourceSmall":router_currentresourceSmall,"router_historyresourceSmall":router_historyresourceSmall};
+    var titleJson = {xiaoquManager:xiaoquManager,lircDeviceDetail:lircDeviceDetail,addLircDevice:addLircDevice,"addCode1":addCode1,"addPlugin":addPlugin,"pluginVersion":pluginVersion,"addPluginVersion":addPluginVersion,"addDevice":addDevice,"deviceDetail":deviceDetail,"addFirmwareVersion":addFirmwareVersion,"router_retransmission":router_retransmission,"router_currentresourceSmall":router_currentresourceSmall,"router_historyresourceSmall":router_historyresourceSmall};
       //删除
      $(".titleContainer",parent.document).find(".selectTitle").not(":first").remove();
     var fileName = $("#fileName").attr("fileNam");

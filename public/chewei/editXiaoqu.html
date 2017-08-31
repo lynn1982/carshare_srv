@@ -5,23 +5,23 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
-		<script type="text/javascript" src="js/jquery.validate.min.js" ></script>
-		<script type="text/javascript" src="js/jquery-form.js" ></script>
-		<link rel="stylesheet" href="css/all.css"/>
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/jquery-form.js"></script>
+		<link rel="stylesheet" href="css/all.css" />
 		<link rel="stylesheet" href="css/addPlugin.css" />
-		<title fileNam="addLircDevice">添加红外码库</title>
+		<title fileNam="addLircDevice">编辑小区信息</title>
 	</head>
 
 	<body>
 		<!--记录数据-->
-		<div id="fileName" fileNam="addLircDevice"></div>
+		<div id="fileName" fileNam="xiaoquManager"></div>
 		<!--记录数据-->
 		<div id="pluginContainer">
 			<div class="pluginTitle">
-				<a class="backBtn" >取消</a>编辑小区</div>
+				<a class="backBtn">取消</a>编辑小区</div>
 
-			<form  id="addPluginForm" >
+			<form id="addPluginForm">
 				<div class="inputContainer">
 					<!--<span class="nameSpan">设备类型</span><input class="inputName" type="text" name="devType" placeholder="设备类型" />-->
 					<!--<span class="nameSpan">设备类型</span>
@@ -29,25 +29,62 @@
 						<option id="cellDevType" class="option" name="devType"></option>
 						<option  class="option" name="pluginId">电视机</option>
 					</select>-->
-					<span class="nameSpan">city</span><input class="inputName" type="text" name="city" placeholder="" />
-					<span class="nameSpan">district</span><input class="inputName" type="text" name="district" placeholder="" />
-					<span class="nameSpan">name</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">addr_in</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">addr_out</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">longitude</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">latitude</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">pps_id</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">parking_num_total</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">timeStart</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">timeEnd</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">rate_type</span><input class="inputName" type="text" name="modelName" placeholder="" />
-					<span class="nameSpan">rate</span><input class="inputName" type="text" name="modelName" placeholder="" />
+					<span class="nameSpan">cid</span><input v-bind:value="info.cid" class="inputName" type="text" name="cid" placeholder="" />
+					<span class="nameSpan">city</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />
+					<span class="nameSpan">district</span><input v-bind:value="info.district" class="inputName" type="text" name="district" placeholder="" />
+					<span class="nameSpan">name</span><input v-bind:value="info.name" class="inputName" type="text" name="name" placeholder="" />
+					<span class="nameSpan">addr_in</span><input  v-bind:value="info.addr_in" class="inputName" type="text" name="addr_in" placeholder="" />
+					<span class="nameSpan">addr_out</span><input v-bind:value="info.addr_out" class="inputName" type="text" name="addr_out" placeholder="" />
+					<span class="nameSpan">longitude</span><input v-bind:value="info.longitude" class="inputName" type="text" name="longitude" placeholder="" />
+				    <span class="nameSpan">latitude</span><input v-bind:value="info.latitude" class="inputName" type="text" name="latitude" placeholder="" />
+				    <span class="nameSpan">pps_id</span><input v-bind:value="info.pps_id" class="inputName" type="text" name="pps_id" placeholder="" />
 					
-					<input class="inputSubmit" type="button" value="添加红外设备" />
+					<span class="nameSpan">parking_num_total</span><input v-bind:value="info.parking_num_total" class="inputName" type="text" name="parking_num_total" placeholder="" />
+					<span class="nameSpan">timeStart</span><input v-bind:value="info.timeStart" class="inputName" type="text" name="timeStart" placeholder="" />
+					<span class="nameSpan">timeEnd</span><input v-bind:value="info.timeEnd" class="inputName" type="text" name="timeEnd" placeholder="" />
+					<span class="nameSpan">rate_type</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" />
+					<span class="nameSpan">rate</span><input v-bind:value="info.rate" class="inputName" type="text" name="rate" placeholder="" />
+
+					<input class="inputSubmit" type="button" value="编辑/新增 小区" />
 				</div>
 			</form>
 		</div>
 	</body>
-		<script type="text/javascript" src="js/public.js" ></script>
-		<script type="text/javascript" src="js/netWokr.js" ></script>
+
+	<script type="text/javascript" src="js/vue.js"></script>
+	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
+	<script>
+		var info = JSON.parse(localStorage.info);
+		var vm = new Vue({
+			el: '#pluginContainer',
+			data:{
+				info:info
+			},
+			methods:{
+				
+			}
+			
+		});
+		
+		
+		function editXiaoqu() {
+			$("#addVersionForm").ajaxSubmit({
+				type: 'post',
+				url: "",
+				cache: false,
+				data: { //除表单里面的其他参数
+
+				},
+				success: function(data) {
+					alert("成功");
+				},
+				error: function() {
+					alert("失败");
+				}
+			}); //ajax
+		} //editXiaoqu
+		
+		
+	</script>
+	<script type="text/javascript" src="js/public.js"></script>
 </html>
