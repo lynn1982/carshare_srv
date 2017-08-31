@@ -21,47 +21,35 @@
 					<!-- <a class="backBtn" >返回</a> -->筛选</div>
 
 				<div>
-					<table style="margin-left:20px;margin-top: 10px;margin-bottom: 5px;">
+					<table style="margin-left:20px;margin-top:20px;margin-bottom:20px;">
 						<tr>
 							<td>城市:</td>
 							<td>
 								<select id="city">
-									<option selected="selected" value="上海">上海</option>
+                                    <option selected="selected" value="无">无</option>
+									<option value="上海">上海</option>
 									<option value="北京">北京</option>
 									<option value="深圳">深圳</option>
 								</select>
 							</td>
-							<td>区：</td>
+							<td style="padding-left:20px;">区：</td>
 							<td>
 								<select id="district">
-									<option selected="selected" value="徐汇">徐汇</option>
+									<option selected="selected" value="无">无</option>
+									<option value="徐汇">徐汇</option>
 									<option value="静安">静安</option>
 									<option value="浦东">浦东</option>
 								</select>
 							</td>
-							<td>名称:</td>
-							<td><input id="xqname"  type="text" style="width:427px;" name="name"></input>
-							</td>
-						</tr>
-					</table>
-					<table style="margin-left:20px;">
-						<tr>
-							<td>地址:</td>
-							<td><input id="addr" type="text" style="width:600px;" name="addr"></isindex>
-							</td>
-						</tr>
-					</table>
-					<table style="margin-left:20px;margin-bottom: 10px;margin-top: 5px;">
-						<tr>
-							<td><button class="blueBut" v-on:click="add" type='button'>添加</button></td>
-							<td><button  class="redBtn" v-on:click="refresh"  style="background: orange;">刷新</button></td>
-							
+							<td style="padding-left:20px;">名称:</td>
+							<td><input id="xqname"  type="text" style="width:427px;" name="name"></input></td>
+							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
 						</tr>
 					</table>
 				</div>
 				<div style="height: 20px;background: rgba(0,0,0,0.05);"></div>
 
-				<div class="pluginTitle">小区信息</div>
+                <div class="pluginTitle"><a>小区信息</a><button class="blueBut" v-on:click="add" type='button' style="float:right;argin-right:20px;">添加</button></div>
 				<div class="tableContainer" >
 					<table id="table" style="margin-top: 10px;">
 						<tr>
