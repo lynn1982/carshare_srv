@@ -354,6 +354,7 @@ function verLogin(req, res, next) {
 
             var newuser = await User.newAndSave(newUser);
             uid = newuser.id;
+            authMiddleWave.gen_session(newuser, res);
 
         }
 
