@@ -136,7 +136,7 @@
 				},
 				//添加
 				add:function(){
-					localStorage.info = "";
+                    localStorage.info = JSON.stringify({action: "add"});
 					location.href = "editXiaoqu.html";
 				},
 				//删除小区

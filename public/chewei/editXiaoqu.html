@@ -23,12 +23,6 @@
 
 			<form id="addPluginForm">
 				<div class="inputContainer">
-					<!--<span class="nameSpan">设备类型</span><input class="inputName" type="text" name="devType" placeholder="设备类型" />-->
-					<!--<span class="nameSpan">设备类型</span>
-					<select class="inputDesc" id="tableDevType"  name="devType" >
-						<option id="cellDevType" class="option" name="devType"></option>
-						<option  class="option" name="pluginId">电视机</option>
-					</select>-->
 					<span class="nameSpan">cid</span><input v-bind:value="info.cid" class="inputName" type="text" name="cid" placeholder="" />
 					<span class="nameSpan">city</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />
 					<span class="nameSpan">district</span><input v-bind:value="info.district" class="inputName" type="text" name="district" placeholder="" />
@@ -45,7 +39,7 @@
 					<span class="nameSpan">rate_type</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" />
 					<span class="nameSpan">rate</span><input v-bind:value="info.rate" class="inputName" type="text" name="rate" placeholder="" />
 
-					<input class="inputSubmit" type="button" value="编辑/新增 小区" />
+					<input class="inputSubmit" type="button" value="提交" onclick="editXiaoqu()"/>
 				</div>
 			</form>
 		</div>
@@ -68,12 +62,14 @@
 		
 		
 		function editXiaoqu() {
-			$("#addVersionForm").ajaxSubmit({
+            url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+            alert(info.action);
+			$("#addPluginForm").ajaxSubmit({
 				type: 'post',
-				url: "",
+				url: url,
 				cache: false,
 				data: { //除表单里面的其他参数
-
+                    type: ""
 				},
 				success: function(data) {
 					alert("成功");
