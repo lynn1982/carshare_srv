@@ -56,14 +56,14 @@
 							<th>小区名称</th>
 							<th>城市</th>
 							<th>区</th>
-							<th>进入地址</th>
-							<th>出来地址</th>
+							<th>入口地址</th>
+                            <!--<th>出口地址</th>-->
 							<th>经度</th>
 							<th>纬度</th>
 							<th>车位数量</th>
-							<th>开始时间</th>
+							<!--<th>开始时间</th>
 							<th>结束时间</th>
-							<th>价格</th>
+                            <th>价格</th>-->
 							<th style="text-align: center;">管理</th>
 						</tr>
 						<tr id="cell" class="cell" v-for="dic in message">
@@ -71,15 +71,16 @@
 							<td>{{dic.city}}</td>
 							<td>{{dic.district}}</td>
 							<td>{{dic.addr_in}}</td>
-							<td>{{dic.addr_out}}</td>
+                            <!--<td>{{dic.addr_out}}</td>-->
 							<td>{{dic.longitude}}</td>
 							<td>{{dic.latitude}}</td>
 							<td>{{dic.parking_num_total}}</td>
-							<td>{{dic.timeStart}}</td>
-							<td>{{dic.timeEnd}}</td>
-							<td>{{dic.rate}}</td>
+							<!--<td>{{dic.timeStart}}</td>
+                            <td>{{dic.timeEnd}}</td>
+                            <td>{{dic.rate}}</td>-->
 
 							<td style="text-align: center;">
+								<a v-on:click="parkMgmt($event)" class="pluginVersion blueBut edit">车位管理</a>
 								<a v-on:click="edit($event)" class="pluginVersion blueBut edit">编辑</a>
 								<a v-on:click="deleteXiaoqu($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
 							</td>
@@ -143,6 +144,13 @@
 						href: "editXiaoqu.html"
 					})
 				},
+                parkMgmt: function(athis) {
+                    var info = $(athis.currentTarget).next().attr("info");
+                    localStorage.info = info;
+                    $(athis.currentTarget).attr({
+                        href: "editXiaoquPark.html"
+					})
+                },
 				//刷新
 				refresh:function(){
                     var _self = this;
