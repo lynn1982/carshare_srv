@@ -4,6 +4,9 @@ var user = require('../control/user');
 var park = require('../control/parking');
 var auth = require('../middleware/auth');
 var xiaoqu = require('../control/xiaoqu');
+var config = require('../config');
+var crypto = require('crypto');
+var User = require('../model/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,7 +16,30 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/user', user.message_handle);
-router.post('/parking', /*auth.userRequired,*/auth.getUser,  park.message_handle);
-router.post('/xiaoqu', /*auth.mgmtRequired,*/auth.getUser,  xiaoqu.message_handle);
+router.post('/parking', auth.userRequired, park.message_handle);
+router.post('/xiaoqu', auth.userRequired, xiaoqu.message_handle);
+
+router.get('/create_admin', function(req, res, next) {
+
+    (async() => {
+        var user = await User.getUserByName(config.admin);
+
+        if (user) {
+            User.deleteUser(user);
+        }
+        
+        var md5 = crypto.createHash('md5');
+        var pass = md5.update(config.admin_passwd).digest('base64');
+        var admin = {
+            login_name: config.admin,
+            passwd: pass,
+            role: 'super'
+        };
+
+        User.newAndSave(admin);
+    
+        res.redirect('/');
+    }) ()
+});
 
 module.exports = router;

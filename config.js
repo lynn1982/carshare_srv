@@ -14,7 +14,10 @@ var config = {
     redis_passwd: '',
 
     session_secret: 'chewei_secret',
-    auth_cookie_name: 'chewei'
+    auth_cookie_name: 'chewei',
+
+    admin: 'admin',
+    admin_passwd: 'admin'
 };
 
 module.exports = config;

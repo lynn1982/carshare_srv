@@ -33,6 +33,11 @@
 #### 1.1.1 登陆
 #### 1.1.2 退出
 ### 1.2 信息管理
+
+|METHOD|PATH|
+|------|----|
+|POST|/pps|
+
 #### 1.2.1 查询设备厂商信息
 上报报文
 ```
@@ -115,23 +120,122 @@
         ret: 0,
     }
 ```
+
+|METHOD|PATH|
+|------|----|
+|POST|/xiaoqu|
+
 #### 1.2.5 查询小区信息
+上报报文
+
+    {
+        type: MSG_T_MGMT_QUERY_XIAOQU,
+        city:"上海"，
+        district:"浦东"，
+        name:"凤凰花园"，
+    }
+    
+回复报文
+
+    {
+        type: MSG_T_MGMT_QUERY_XIAOQU,
+        ret: 0,
+        data: [
+            {}, //小区1的信息
+            {}, //小区2的信息
+            {}  //小区3的信息        ]
+        ]
+    }
+
 #### 1.2.6 增加小区信息
+上报报文
+
+    {
+        type: MSG_T_MGMT_NEW_XIAOQU,
+        city:"上海"，
+        district:"浦东"，
+        name:"凤凰花园"，
+        //addr:"上海市浦东新区机场东路888号"，
+        addr_in:"上海市浦东新区机场东路888号"，
+        addr_out:"上海市浦东新区机场东路888号",
+        longitude: "233.121",
+        latitude: "110.432",
+        pps_id: "2",
+        parking_num_total: "200",
+        timeStart: "10:00",
+        timeEnd: "18:00",
+        rate_type: "time",
+        rate: "10"
+    }
+    
+回复报文
+
+    {
+        type: MSG_T_MGMT_NEW_XIAOQU,
+        ret: 0, // 0:成功，非0:失败原因
+        cid: 2,
+        msg:"重复添加"  //非0:失败原因
+    }
+
 #### 1.2.7 修改小区信息
+上报报文
+
+    {
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
+        cid: '1'，
+        //以下非必须
+        addr_in:"上海市松江区机场东路888号",
+        addr_out: "上海市松江区机场东路888号",
+        city: "上海",
+        district: '浦东',
+        longitude: '221.342',
+        latitude: '551.733',
+        parking_num_total: '200',
+        timeStart: '10:00',
+        timeEnd: '19:00',
+        rateType: 'time',
+        price: '10'
+    }
+    
+回复报文
+
+    {
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
+        ret: 0, // 0:成功，非0:失败原因
+        msg:"重复添加"，
+    } 
+
 #### 1.2.8 删除小区信息
+上报报文
+```
+    {
+        type: MSG_T_MGMT_DELETE_XIAOQU,
+        cid: 1,
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_DELETE_XIAOQU,
+        ret: 0,
+    }
+```
+
 #### 1.2.9 修改小区统一管理的共享车位信息
 ### 1.3 业务数据查询
 #### 1.3.1 查询车辆进出记录
 上报报文
 ```
     {
-        type: ???,
+        type: MSG_T_MGMT_CAR_STAT,
+        chepai: 'xxxxx' //查询条件:车牌或者小区
+        cname: '万科一期'
     }
 ```    
 回复报文
 ```
     {
-        type: ???,
+        type: MSG_T_MGMT_CAR_STAT,
         ret: 0,
         data: [
           {
@@ -154,8 +258,70 @@
     }
 ```
 #### 1.3.2 查询某个设备厂商的账单明细
+上报报文
+```
+    {
+        type: MSG_T_MGMT_PPS_ACCOUNT,
+        id: 2,
+        dateStart: '2017-08-11',
+        dateEnd: '2017-08-31'
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_PPS_ACCOUNT,
+        ret: 0,
+        data: {
+            income: 1200,
+            ...
+        }
+    }
+```
 #### 1.3.3 查询某个小区的账单明细
+上报报文
+```
+    {
+        type: MSG_T_MGMT_XIAOQU_ACCOUNT,
+        cid: 1,
+        dateStart: '2017-08-11',
+        dateEnd: '2017-08-31'
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_XIAOQU_ACCOUNT,
+        ret: 0,
+        data: {
+            income: 1200,
+            ...
+        }
+    }
+```
+
 #### 1.3.4 查询某个用户的账单明细
+上报报文
+```
+    {
+        type: MSG_TYPE_USER_ACCOUNT,
+        uid: 1,
+        dateStart: '2017-08-11',
+        dateEnd: '2017-08-31'
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_TYPE_USER_ACCOUNT,
+        ret: 0,
+        data: {
+            income: 1200,
+            ...
+        }
+    }
+```
+
 ### 1.4 账号管理
 ```
    平台管理员拥有超级权限
@@ -198,92 +364,6 @@
         uid: 2
     }
 
-### 1.2 小区信息登录
-
-|METHOD|PATH|
-|------|----|
-|POST|/xiaoqu|
-
-#### 1.2.1 新增小区
-上报报文
-
-    {
-        type: MSG_T_MGMT_NEW_XIAOQU,
-        city:"上海"，
-        district:"浦东"，
-        name:"凤凰花园"，
-        //addr:"上海市浦东新区机场东路888号"，
-        addr_in:"上海市浦东新区机场东路888号"，
-        addr_out:"上海市浦东新区机场东路888号",
-        longitude: "233.121",
-        latitude: "110.432",
-        pps_id: "2",
-        parking_num_total: "200",
-        timeStart: "10:00",
-        timeEnd: "18:00",
-        rate_type: "time",
-        rate: "10"
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_NEW_XIAOQU,
-        ret: 0, // 0:成功，非0:失败原因
-        cid: 2,
-        msg:"重复添加"  //非0:失败原因
-    }
-
-#### 1.2.2 查询小区信息
-上报报文
-
-    {
-        type: MSG_T_MGMT_QUERY_XIAOQU,
-        city:"上海"，
-        district:"浦东"，
-        name:"凤凰花园"，
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_QUERY_XIAOQU,
-        ret: 0,
-        data: [
-            {}, //小区1的信息
-            {}, //小区2的信息
-            {}  //小区3的信息        ]
-        ]
-    }
-
-#### 1.2.3 更新小区信息
-上报报文
-
-    {
-        type: MSG_T_MGMT_UPDATE_XIAOQU,
-        cid: '1'，
-        //以下非必须
-        addr_in:"上海市松江区机场东路888号",
-        addr_out: "上海市松江区机场东路888号",
-        city: "上海",
-        district: '浦东',
-        longitude: '221.342',
-        latitude: '551.733',
-        parking_num_total: '200',
-        timeStart: '10:00',
-        timeEnd: '19:00',
-        rateType: 'time',
-        price: '10'
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_UPDATE_XIAOQU,
-        ret: 0, // 0:成功，非0:失败原因
-        msg:"重复添加"，
-    } 
-      
 ### 1.3 小区发布共享车位信息
 
 |METHOD|PATH|
@@ -310,7 +390,7 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_CAR_STAT,
+        type: MSG_T_MGMT_CAR_STAT,
         cid: '1'，
         dateStart: '2017-02-15',
         dateEnd: '2017-02-25'
@@ -319,8 +399,7 @@
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_CAR_STAT,
-        cid: '1',    //返回小区id号
+        type: MSG_T_MGMT_CAR_STAT,
         ret: 0,
         data: [
            {
@@ -341,8 +420,8 @@
 上报报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_SHARE_STAT,
-        community: '1'，
+        type: MSG_T_MGMT_SHARE_STAT,
+        cid: '1'，
         dateStart: '2017-02-15',
         dateEnd: '2017-02-25'
     }
@@ -350,8 +429,7 @@
 回复报文
 
     {
-        type: MSG_TYPE_PARKING_MANAGE_SHARE_STAT,
-        community: '1',    //返回小区id号
+        type: MSG_T_MGMT_SHARE_STAT,
         ret: 0,
         data: [
            {
@@ -370,7 +448,7 @@
 
     {
         type: MSG_TYPE_PARKING_MANAGE_INCOME_STAT,
-        community: '1'，
+        cid: '1'，
         dateStart: '2017-02-15',
         dateEnd: '2017-02-25'
     }

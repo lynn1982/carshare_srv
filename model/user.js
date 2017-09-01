@@ -25,6 +25,8 @@ var User = sequelize.define('user', {
     is_active: {type: Sequelize.BOOLEAN, defaultValue: false},
 
     is_mgmt: {type: Sequelize.BOOLEAN, defaultValue: false},
+
+    role: {type: Sequelize.ENUM, values: ['super', 'normal', 'pps', 'property'], defaultValue: 'normal'}
     
     }, {
 
@@ -48,7 +50,8 @@ User.newAndSave = function(user) {
         passwd: user.passwd,
         phone_num: user.phone_num,
         is_active: user.is_active,
-        is_mgmt: user.is_mgmt
+        is_mgmt: user.is_mgmt,
+        role: user.role
     });
 };
 
@@ -81,6 +84,10 @@ User.updateUser = function(user, newUser) {
     user.car_license = newUser.car_license;
 
     user.save();
+};
+
+User.deleteUser = function(user) {
+    user.destroy();
 };
 
 module.exports = User;
