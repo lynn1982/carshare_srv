@@ -37,13 +37,14 @@
 上报报文
 ```
     {
-        type: ???,
+        type: MSG_T_MGMT_QUERY_PPS,
+        name: 'xxx'
     }
 ```    
 回复报文
 ```
     {
-        type: ???,
+        type: MSG_T_MGMT_QUERY_PPS,
         ret: 0,
         data: [
           {
@@ -59,8 +60,61 @@
     }
 ```
 #### 1.2.2 增加设备厂商信息
+上报报文
+```
+    {
+        type: MSG_T_MGMT_NEW_PPS,
+        name: 'xxx',
+        phone: '18765234167',
+        contacts: '马先生',
+        email: 'aaa@qq.com',
+        parkNum: 11
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_QUERY_PPS,
+        ret: 0,
+        id: 3
+    }
+```
+
 #### 1.2.3 修改设备厂商信息
+上报报文
+```
+    {
+        type: MSG_T_MGMT_UPDATE_PPS,
+        id: 1,
+        name: 'xxx',
+        phone: '18765234167',
+        contacts: '马先生',
+        email: 'aaa@qq.com',
+        parkNum: 11
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_UPDATE_PPS,
+        ret: 0,
+    }
+```
 #### 1.2.4 删除设备厂商信息
+上报报文
+```
+    {
+        type: MSG_T_MGMT_DEL_PPS,
+        id: 1,
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_DEL_PPS,
+        ret: 0,
+    }
+```
 #### 1.2.5 查询小区信息
 #### 1.2.6 增加小区信息
 #### 1.2.7 修改小区信息
