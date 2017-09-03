@@ -343,138 +343,6 @@
         }
     }
 ```
-
-### 1.4 账号管理
-```
-   平台管理员拥有超级权限
-   设备厂商管理员可以创建小区管理员账号
-```
-#### 1.4.1 查询账号
-#### 1.4.2 增加账号
-#### 1.4.3 修改账号
-#### 1.4.4 删除账号
-消息枚举定义：
-
-    enum{
-        MSG_T_MGMT_NEW_XIAOQU,
-        MSG_T_MGMT_QUERY_XIAOQU,
-        MSG_T_MGMT_UPDATE_XIAOQU，
-        MSG_TYPE_LOGIN_OUT，
-        MSG_TYPE_LOGIN_PHONE_UNBIND，
-        MSG_TYPE_PARKING_PUT,
-    }；
-
-### 1.1 小区管理员登录
-
-|METHOD|PATH|
-|------|----|
-|POST|/user|
-
-上报报文
-
-    {
-        type: MSG_TYPE_USER_ADD_MGMT,
-        phoneNumber:"18913425678"，
-        passwd:"111111"，
-    }
-    
-回复报文
-
-    {
-        type: MSG_TYPE_USER_ADD_MGMT,
-        ret: 0,
-        uid: 2
-    }
-
-### 1.3 小区发布共享车位信息
-
-|METHOD|PATH|
-|------|----|
-|POST|/xiaoqu|
-
-
-上报报文
-
-    {
-        type: MSG_T_MGMT_PUBLISH_XIAOQU,
-        cid: '1'，
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_PUBLISH_XIAOQU,
-        ret: 0
-    } 
-    
-### 1.4 统计信息
-#### 1.4.1 住宅小区日常车辆进出统计
-上报报文
-
-    {
-        type: MSG_T_MGMT_CAR_STAT,
-        cid: '1'，
-        dateStart: '2017-02-15',
-        dateEnd: '2017-02-25'
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_CAR_STAT,
-        ret: 0,
-        data: [
-           {
-              date: '2017-02-15',
-              0_7_in: '10',
-              0_7_out: '20',
-              ....
-           },
-           .....
-           {  date: '2017-02-25',
-              0_7_in: '22',
-              0_7_out: '11'
-           }
-        ]
-    }
-    
-#### 5.3.2 住宅小区共享车位使用统计
-上报报文
-
-    {
-        type: MSG_T_MGMT_SHARE_STAT,
-        cid: '1'，
-        dateStart: '2017-02-15',
-        dateEnd: '2017-02-25'
-    }
-    
-回复报文
-
-    {
-        type: MSG_T_MGMT_SHARE_STAT,
-        ret: 0,
-        data: [
-           {
-              date: '2017-02-15',
-              count: '10',
-           },
-           .....
-           {  date: '2017-02-25',
-              count: '22',
-           }
-        ]
-    }
-    
-#### 5.3.3 小区收益统计
-上报报文
-
-    {
-        type: MSG_TYPE_PARKING_MANAGE_INCOME_STAT,
-        cid: '1'，
-        dateStart: '2017-02-15',
-        dateEnd: '2017-02-25'
-    }
-
 ## 2. 后台与APP接口
 
 ### 2.1 用户注册与登录
@@ -487,36 +355,36 @@
 #### 2.1.1 获取手机验证码
 
 上报报文
-
+```
     {
         type: MSG_TYPE_USER_GET_VERCODE,
         phoneNumber: '18925617845'
     }
-    
+```    
 回复报文
-
+```
     {
         type: MSG_TYPE_USER_GET_VERCODE,
         ret：0
     }
-
+```
 #### 2.1.2 手机验证码登陆
 
 上报报文
-
+```
     {
         type: MSG_TYPE_USER_VERCODE_LOGIN,
         phoneNumber: '18925617845',
         verCode: '1234'
     }
-    
+```    
 回复报文
-
+```
     {
         type: MSG_TYPE_USER_VERCODE_LOGIN,
         ret：0
     }
-
+```
 
 #### 2.1.3 获取用户信息
 
