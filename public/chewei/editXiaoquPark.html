@@ -23,21 +23,11 @@
 
 			<form id="addPluginForm">
 				<div class="inputContainer">
-                    <!--<span class="nameSpan">cid</span><input v-bind:value="info.cid" class="inputName" type="text" name="cid" placeholder="" />-->
-					<span class="nameSpan">city</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />
-					<span class="nameSpan">district</span><input v-bind:value="info.district" class="inputName" type="text" name="district" placeholder="" />
-					<span class="nameSpan">name</span><input v-bind:value="info.name" class="inputName" type="text" name="name" placeholder="" />
-					<span class="nameSpan">addr_in</span><input  v-bind:value="info.addr_in" class="inputName" type="text" name="addr_in" placeholder="" />
-					<span class="nameSpan">addr_out</span><input v-bind:value="info.addr_out" class="inputName" type="text" name="addr_out" placeholder="" />
-					<span class="nameSpan">longitude</span><input v-bind:value="info.longitude" class="inputName" type="text" name="longitude" placeholder="" />
-				    <span class="nameSpan">latitude</span><input v-bind:value="info.latitude" class="inputName" type="text" name="latitude" placeholder="" />
-				    <span class="nameSpan">pps_id</span><input v-bind:value="info.pps_id" class="inputName" type="text" name="pps_id" placeholder="" />
-					
-					<span class="nameSpan">parking_num_total</span><input v-bind:value="info.parking_num_total" class="inputName" type="text" name="parking_num_total" placeholder="" />
-					<span class="nameSpan">timeStart</span><input v-bind:value="info.timeStart" class="inputName" type="text" name="timeStart" placeholder="" />
-					<span class="nameSpan">timeEnd</span><input v-bind:value="info.timeEnd" class="inputName" type="text" name="timeEnd" placeholder="" />
-					<span class="nameSpan">rate_type</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" />
-					<span class="nameSpan">rate</span><input v-bind:value="info.rate" class="inputName" type="text" name="rate" placeholder="" />
+					<span class="nameSpan">统一共享车位数</span><input v-bind:value="info.parking_num_total" class="inputName" type="text" name="parking_num_total" placeholder="" />
+					<span class="nameSpan">开始时间</span><input v-bind:value="info.timeStart" class="inputName" type="text" name="timeStart" placeholder="" />
+					<span class="nameSpan">结束时间</span><input v-bind:value="info.timeEnd" class="inputName" type="text" name="timeEnd" placeholder="" />
+					<span class="nameSpan">收费方式</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" />
+					<span class="nameSpan">单价</span><input v-bind:value="info.rate" class="inputName" type="text" name="rate" placeholder="" />
 
 					<input class="inputSubmit" type="button" value="提交" onclick="editXiaoqu()"/>
 				</div>
@@ -63,13 +53,7 @@
 		
 		function editXiaoqu() {
             var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
-            var type;
-
-            if (info.action == "add") {
-                type = "MSG_T_MGMT_NEW_XIAOQU";
-            } else {
-                type = "MSG_T_MGMT_UPDATE_XIAOQU";
-            }
+            var type = 'MSG_T_MGMT_UPDATE_XIAOQU_CHEWEI_0';
 
 			$("#addPluginForm").ajaxSubmit({
 				type: 'post',
