@@ -114,20 +114,30 @@
 				},
 				//删除小区
 				deleteReq: function(info) {
-					alert("info是：" + info);
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function(data) {
-					//				
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("删除失败");
-					//				}
-					//			}); //ajax
+                    var _self = this;
+                    var query = {
+                        type: "MSG_T_MGMT_DEL_XIAOQU",
+                        id: _self.message.id
+                    };
+
+                    $.ajax({
+                        type: "post",
+                        url: g_url,
+                        timeout: 3000,  //3s
+                        async: true,    //异步
+                        data: JSON.stringify(query),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            //alert(data);
+                            if (data.ret == 0) {
+                                //vm.message = data.data;
+                            }
+                        },
+                        error: function() {
+                            //_self.loadTestData();
+                        }
+                    });
 				},
 				//删除小区
 				deleteXiaoqu: function(athis) {

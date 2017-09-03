@@ -47,14 +47,14 @@
 		
 		
 		function apply() {
-            var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+            var url = window.location.protocol+"//"+window.location.host+"/pps/";
             var type;
             var data = {};
 
             if (info.action == "add") {
-                type = "MSG_T_MGMT_NEW_XIAOQU";
+                type = "MSG_T_MGMT_NEW_PPS";
             } else {
-                type = "MSG_T_MGMT_UPDATE_XIAOQU";
+                type = "MSG_T_MGMT_UPDATE_PPS";
             }
 
             alert(JSON.stringify(data));

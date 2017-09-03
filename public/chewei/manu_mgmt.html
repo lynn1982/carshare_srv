@@ -66,7 +66,7 @@
 	<script type="text/javascript" src="js/public.js"></script>
 	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
 	<script>
-        var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var g_url = window.location.protocol+"//"+window.location.host+"/pps/";
         var editPage = "editManufacture.html";
 		var vm = new Vue({
 			el: '#vueApp',
@@ -85,20 +85,30 @@
 				},
 				//删除小区
 				deleteReq: function(info) {
-					alert("info是：" + info);
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function(data) {
-					//				
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("删除失败");
-					//				}
-					//			}); //ajax
+                    var _self = this;
+                    var query = {
+                        type: "MSG_T_MGMT_DEL_PPS",
+                        id: _self.message.id
+                    };
+
+                    $.ajax({
+                        type: "post",
+                        url: g_url,
+                        timeout: 3000,  //3s
+                        async: true,    //异步
+                        data: JSON.stringify(query),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            //alert(data);
+                            if (data.ret == 0) {
+                                //vm.message = data.data;
+                            }
+                        },
+                        error: function() {
+                            //_self.loadTestData();
+                        }
+                    });
 				},
 				//删除小区
 				deleteXiaoqu: function(athis) {
@@ -149,7 +159,7 @@
                     var _self = this;
                     var message = [
                     {
-                        type: "MSG_T_MGMT_NEW_XIAOQU",
+                        type: "MSG_T_MGMT_QUERY_PPS",
                         id: 1,
                         name: "设备生产厂商1",
                         phone: "18616999999",
@@ -164,7 +174,7 @@
                 reload: function() {
                     var _self = this;
                     var query = {
-                        type: "MSG_T_MGMT_QUERY_XIAOQU"
+                        type: "MSG_T_MGMT_QUERY_PPS"
                     };
 
                     $.ajax({
