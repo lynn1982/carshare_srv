@@ -9,6 +9,8 @@
       * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#125-查询小区信息)
       * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#126-增加小区信息)
       * [修改小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#127-修改小区信息)
+      * [删除小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#128-删除小区信息)
+      * [修改小区统一管理的共享车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#129-修改小区统一管理的共享车位信息)
    * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
       * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
    * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
@@ -41,7 +43,7 @@
 |METHOD|PATH|MSG TYPE|
 |------|----|----|
 |POST|/pps|MSG_T_MGMT_QUERY_PPS<br>MSG_T_MGMT_NEW_PPS<br>MSG_T_MGMT_UPDATE_PPS<br>MSG_T_MGMT_DEL_PPS|
-|POST|/xiaoqu|MSG_T_MGMT_QUERY_XIAOQU<br>MSG_T_MGMT_NEW_XIAOQU<br>MSG_T_MGMT_UPDATE_XIAOQU<br>MSG_T_MGMT_DELETE_XIAOQU|
+|POST|/xiaoqu|MSG_T_MGMT_QUERY_XIAOQU<br>MSG_T_MGMT_NEW_XIAOQU<br>MSG_T_MGMT_UPDATE_XIAOQU<br>MSG_T_MGMT_DELETE_XIAOQU<br>MSG_T_MGMT_UPDATE_XIAOQU_CHEWEI_0|
 
 #### 1.2.1 查询设备厂商信息
 上报报文
@@ -148,27 +150,7 @@
     }
 ```
 #### 1.2.6 增加小区信息
-上报报文(OLD)
-```
-    {
-        type: MSG_T_MGMT_NEW_XIAOQU,
-        city:"上海"，
-        district:"浦东"，
-        name:"凤凰花园"，
-        //addr:"上海市浦东新区机场东路888号"，
-        addr_in:"上海市浦东新区机场东路888号"，
-        addr_out:"上海市浦东新区机场东路888号",
-        longitude: "233.121",
-        latitude: "110.432",
-        pps_id: "2",
-        parking_num_total: "200",
-        timeStart: "10:00",
-        timeEnd: "18:00",
-        rate_type: "time",
-        rate: "10"
-    }
-```
-上报报文(NEW)
+上报报文
 ```
     {   //新增小区时，不包括车位相关的信息
         type: MSG_T_MGMT_NEW_XIAOQU,
@@ -242,6 +224,26 @@
 ```
 
 #### 1.2.9 修改小区统一管理的共享车位信息
+上报报文
+```
+    {
+        type: MSG_T_MGMT_UPDATE_XIAOQU_CHEWEI_0,
+        cid: '1'，
+        parking_num_total: '200',
+        timeStart: '10:00',
+        timeEnd: '19:00',
+        rateType: 'time',
+        price: '10'
+    }
+```    
+回复报文
+```
+    {
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
+        ret: 0, // 0:成功，非0:失败原因
+        msg:"重复添加"，
+    } 
+```
 ### 1.3 业务数据查询
 #### 1.3.1 查询车辆进出记录
 上报报文
