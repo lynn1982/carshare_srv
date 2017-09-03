@@ -148,8 +148,8 @@
     }
 
 #### 1.2.6 增加小区信息
-上报报文
-
+上报报文(OLD)
+```
     {
         type: MSG_T_MGMT_NEW_XIAOQU,
         city:"上海"，
@@ -167,21 +167,38 @@
         rate_type: "time",
         rate: "10"
     }
-    
+```
+上报报文(NEW)
+```
+    {   //新增小区时，不包括车位相关的信息
+        type: MSG_T_MGMT_NEW_XIAOQU,
+        city:"上海"，
+        district:"浦东"，
+        name:"凤凰花园"，
+        addr_in:"上海市浦东新区机场东路888号"，
+        addr_out:"上海市浦东新区机场东路888号",
+        longitude: "233.121",
+        latitude: "110.432",
+        phone: '18765234167',
+        contacts: '马先生',
+        email: 'aaa@qq.com',
+    }
+```   
 回复报文
-
+```
     {
         type: MSG_T_MGMT_NEW_XIAOQU,
         ret: 0, // 0:成功，非0:失败原因
         cid: 2,
         msg:"重复添加"  //非0:失败原因
     }
+```
 
 #### 1.2.7 修改小区信息
 上报报文
 
-    {
-        type: MSG_T_MGMT_UPDATE_XIAOQU,
+    {   //修改小区信息，携带的字段是以下字段的全部或部分，后台只更新消息中携带的字段值，其他的保持不变
+        type: MSG_T_MGMT_UPDATE_XIAOQU,
         cid: '1'，
         //以下非必须
         addr_in:"上海市松江区机场东路888号",
@@ -190,6 +207,9 @@
         district: '浦东',
         longitude: '221.342',
         latitude: '551.733',
+        phone: '18765234167',
+        contacts: '马先生',
+        email: 'aaa@qq.com',
         parking_num_total: '200',
         timeStart: '10:00',
         timeEnd: '19:00',
