@@ -7,9 +7,9 @@
       * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
    * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
    * [小区信息登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-小区信息登录)
-      * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#111-新增小区)
-      * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#112-查询小区信息)
-      * [更新小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#113-更新小区信息)
+      * [查询小区信息](hhttps://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#125-查询小区信息)
+      * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#126-增加小区信息)
+      * [修改小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#127-修改小区信息)
 * [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
     * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户注册与登录)
         * [获取手机验证码](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#211-获取手机验证码)
@@ -127,16 +127,16 @@
 
 #### 1.2.5 查询小区信息
 上报报文
-
+```
     {
         type: MSG_T_MGMT_QUERY_XIAOQU,
         city:"上海"，
         district:"浦东"，
         name:"凤凰花园"，
     }
-    
+```    
 回复报文
-
+```
     {
         type: MSG_T_MGMT_QUERY_XIAOQU,
         ret: 0,
@@ -146,7 +146,7 @@
             {}  //小区3的信息        ]
         ]
     }
-
+```
 #### 1.2.6 增加小区信息
 上报报文(OLD)
 ```
@@ -196,7 +196,7 @@
 
 #### 1.2.7 修改小区信息
 上报报文
-
+```
     {   //修改小区信息，携带的字段是以下字段的全部或部分，后台只更新消息中携带的字段值，其他的保持不变
         type: MSG_T_MGMT_UPDATE_XIAOQU,
         cid: '1'，
@@ -216,15 +216,15 @@
         rateType: 'time',
         price: '10'
     }
-    
+```    
 回复报文
-
+```
     {
         type: MSG_T_MGMT_UPDATE_XIAOQU,
         ret: 0, // 0:成功，非0:失败原因
         msg:"重复添加"，
     } 
-
+```
 #### 1.2.8 删除小区信息
 上报报文
 ```
