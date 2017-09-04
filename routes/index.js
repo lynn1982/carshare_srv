@@ -7,6 +7,7 @@ var xiaoqu = require('../control/xiaoqu');
 var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
+var pps = require('../control/pps');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,6 +19,7 @@ router.get('/', function(req, res, next) {
 router.post('/user', user.message_handle);
 router.post('/parking', auth.userRequired, park.message_handle);
 router.post('/xiaoqu', auth.userRequired, xiaoqu.message_handle);
+router.post('/pps', auth.userRequired, pps.message_handle);
 
 router.get('/create_admin', function(req, res, next) {
 

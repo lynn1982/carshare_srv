@@ -129,11 +129,11 @@ Community.getXiaoquByScope = function(lonStart, lonEnd, latStart, latEnd) {
 
 Community.queryXiaoqu = function(name, city, district) {
     var str = '%';
-    str.concat(name, '%');
+    var qstr = str.concat(name, '%');
 
     return Community.findAll({
         where: {
-            name: {'$like': str},
+            name: {'$like': qstr},
             city: city,
             district: district
         }

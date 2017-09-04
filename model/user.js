@@ -18,6 +18,8 @@ var User = sequelize.define('user', {
 
     phone_num: {type: Sequelize.CHAR(11), unique: true},
 
+    email: {type: Sequelize.STRING},
+
     car_license: {type: Sequelize.STRING},
 
     score: {type: Sequelize.INTEGER},
@@ -51,7 +53,8 @@ User.newAndSave = function(user) {
         phone_num: user.phone_num,
         is_active: user.is_active,
         is_mgmt: user.is_mgmt,
-        role: user.role
+        role: user.role,
+        email: user.email
     });
 };
 

@@ -174,7 +174,7 @@ function login(req, res, next) {
             return;
         }
 
-        if (!user.is_active && !user.is_mgmt) {
+        if (!user.is_active && !user.role == 'super') {
             ep.emit('login_error', '此用户还没有激活');
             return;
         }
