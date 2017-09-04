@@ -32,19 +32,18 @@
 
 				<div class="inputDiv">
 					<div class="loginIcon"><img src="img/login_name.png" /></div>
-					<input id="username" class="loginInput" placeholder="手机号" type="text" name="username" />
+					<input id="phoneNum" class="loginInput" placeholder="手机号" type="text" name="phoneNum" />
 
 					<div class="small">请输入账号</div>
 				</div>
 
 				<div class="inputDiv">
 					<div class="loginIcon"><img src="img/login_pwd.png" /></div>
-					<input id="password" class="loginInput" placeholder="验证码" type="password" name="password" />
+					<input id="verCode" class="loginInput" placeholder="验证码" type="text" name="verCode" />
 					<div class="small">请输入密码</div>
 				</div>
 				<div class="loginRegister">
-					<a class="getPWBtn" style="visibility: hidden;">的</a>
-					<a class="registerBtn">获取验证码</a>
+					<a class="getVerCodeBtn">获取验证码</a>
 				</div>
 				<div>
 					<input class="loginBtn" type="submit" value="登陆" />
@@ -56,112 +55,110 @@
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
 	<script type="text/javascript">
+        var g_url = window.location.protocol+"//"+window.location.host+"/user/";
+
+        function checkPhoneNum() {
+            if ($('#phoneNum').val() == "") {
+                alert("请输入正确的手机号！");
+                return false;
+            }
+
+            return true;
+        }
+
+        function checkVerCode() {
+            if ($('#verCode').val() == "") {
+                alert("请输入验证码！");
+                return false;
+            }
+
+            return true;
+        }
+
+
 		//获取验证码
-		$(".registerBtn").on("click", function() {
-			
-			if($(this).text() != "获取验证码"){
-				return;
-			}
-			$(this).text("60s");
-				var athis = $(this);
-				var i = 60;
-				var athime = setInterval(function() {
-					if(i != 0) {
-						i--;
-						athis.text(i+"s");
-					} else {
-						athis.text("获取验证码");
-						clearInterval(athime);
-					}
+        $(".getVerCodeBtn").on("click", function() {
 
-				}, 1000);
-			
-		
-			
-			
-//			var param = {
-//				type: MSG_TYPE_USER_GET_VERCODE,
-//				phoneNumber: '18925617845'
-//			};
-//			var url = "";
-//			$.ajax({
-//				type: "post",
-//				url: url,
-//				async: true,
-//				cache: false,
-//				success: function(){
-//					alert("发送验证码成功。");
-//				},
-//				error: function() {
-//					alert("获取验证码失败");
-//				}
-//			});
-		});
+            if($(this).text() != "获取验证码") {
+                return;
+            }
 
-		function checkForm(form, rulesJson, messagesJson, successFun) {
-			$(form).validate({
-				invalidHandler: function() {
-					return false;
-				},
-				/*	submitHandler: function (form) {
-				 successFun(form);
-				 },*/
-				errorPlacement: function(error, element) {
-					error.insertAfter(element);
-				},
-				rules: rulesJson,
-				messages: messagesJson
-			});
+            if (checkPhoneNum() == false) {
+                alert("请输入正确的手机号！");
+                return;
+            }
 
-		}
+            $(this).text("60s");
+            var athis = $(this);
+            var i = 60;
+            var athime = setInterval(function() {
+                if(i != 0) {
+                    i--;
+                    athis.text(i+"s");
+                } else {
+                    athis.text("获取验证码");
+                    clearInterval(athime);
+                }
+
+            }, 1000);
+
+
+
+            var query = {
+                type: "MSG_TYPE_USER_GET_VERCODE",
+                phoneNumber: $('#phoneNum').val()
+            };
+            $.ajax({
+                type: "post",
+                url: g_url,
+                timeout: 3000,  //3s                
+                async: true,
+                cache: false,
+                data: JSON.stringify(query),                
+                success: function(data){
+                    if (data.ret == 0) {
+                        alert("发送验证码成功!");
+                    }
+                },
+                error: function() {
+                    alert("获取验证码失败!");
+                }
+            });
+
+        });
 
 		$(function() {
+            if (checkPhoneNum() == false) {
+                return;
+            }
+            if (checkVerCode() == false) {
+                return;
+            }
 
-			checkForm("#loginform", {
-				username: {
-					required: true
-				},
-				password: {
-					required: true
-				}
-			}, {
-				username: {
-					required: "请输入手机号"
-				},
-				password: {
-					required: "请输入验证码"
-				}
-			});
-
-			var username = getCookie('username');
-			var password = getCookie('password');
-			//alert('uesrname=' + username + ',password=' + password);
-			$('#username').val(username);
-			$('#password').val(password);
 			$("#loginform").submit(function(event) {
+                var query = {
+                    type: "MSG_TYPE_USER_VERCODE_LOGIN",
+                    phoneNumber: $('#phoneNum').val(),
+                    verCode: $('#verCode').val()
+                };
 
-				//存储用户名
-				window.sessionStorage.userName = $('#username').val();
-
-				if($('#rememberpw').is(':checked')) {
-
-					var date = new Date();
-					date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000));
-					var newusername = $('#username').val();
-					var newpassword = $('#password').val();
-
-					setCookie('username', newusername, date);
-					setCookie('password', hex_md5(newpassword), date);
-				} else {
-
-					clearCookie('username');
-					clearCookie('password');
-
-				}
-
-				return true;
+                $.ajax({
+                    type: "post",
+                    url: g_url,
+                    timeout: 3000,  //3s                
+                    async: true,
+                    cache: false,
+                    data: JSON.stringify(query),                
+                    success: function(data){
+                        if (data.ret == 0) {
+                            alert("登陆成功!");
+                        }
+                    },
+                    error: function() {
+                        alert("登陆失败!");
+                    }
+                });
 			});
 		});
 	</script>
-
 </html>
