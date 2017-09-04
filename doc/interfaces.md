@@ -13,8 +13,9 @@
       * [修改小区统一管理的共享车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#129-修改小区统一管理的共享车位信息)
    * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
       * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
-   * [账号管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-账号管理)
-   * [小区信息登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-小区信息登录)
+      * [查询某个设备厂商的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#132-查询某个设备厂商的账单明细)
+      * [查询某个小区的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#133-查询某个小区的账单明细)
+      * [查询某个用户的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#134-查询某个用户的账单明细)
 
 * [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
     * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户注册与登录)

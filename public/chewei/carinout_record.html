@@ -21,39 +21,13 @@
 					<!-- <a class="backBtn" >返回</a> -->筛选</div>
 
 				<div>
-					<table style="margin-left:20px;margin-top: 10px;margin-bottom: 5px;">
+					<table style="margin-left:20px;margin-top:20px;margin-bottom:20px;">
 						<tr>
-							<td>城市:</td>
-							<td>
-								<select id="city">
-									<option selected="selected" value="上海">上海</option>
-									<option value="北京">北京</option>
-									<option value="深圳">深圳</option>
-								</select>
-							</td>
-							<td>区：</td>
-							<td>
-								<select id="district">
-									<option selected="selected" value="徐汇">徐汇</option>
-									<option value="静安">静安</option>
-									<option value="浦东">浦东</option>
-								</select>
-							</td>
-							<td>名称:</td>
-							<td><input id="xqname"  type="text" style="width:427px;" name="name"></input>
-							</td>
-						</tr>
-					</table>
-					<table style="margin-left:20px;">
-						<tr>
-							<td>地址:</td>
-							<td><input id="addr" type="text" style="width:600px;" name="addr"></isindex>
-							</td>
-						</tr>
-					</table>
-					<table style="margin-left:20px;margin-bottom: 10px;margin-top: 5px;">
-						<tr>
-							<td><button  class="redBtn" v-on:click="refresh"  style="background: orange;">刷新</button></td>
+							<td>车牌:</td>
+							<td><input id="chepai"  type="text" style="width:128px;" name="chepai"></input></td>
+							<td style="padding-left:20px;">小区名:</td>
+							<td><input id="xqname"  type="text" style="width:384px;" name="name"></input></td>
+							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
 						</tr>
 					</table>
 				</div>
@@ -98,72 +72,13 @@
 				getInfo: function(dic) {
 					return JSON.stringify(dic);
 				},
-				//添加
-				add:function(){
-					localStorage.info = "";
-					location.href = "editXiaoqu.html";
-				},
-				//删除小区
-				deleteReq: function(info) {
-					alert("info是：" + info);
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function(data) {
-					//				
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("删除失败");
-					//				}
-					//			}); //ajax
-				},
-				//删除小区
-				deleteXiaoqu: function(athis) {
-					var info = $(athis.currentTarget).attr("info");
-					var confirm1 = confirm("确定删除？");
-					if(confirm) {
-						this.deleteReq(info);
-					}
-				},
-				edit: function(athis) {
-					var info = $(athis.currentTarget).next().attr("info");
-					localStorage.info = info;
-					$(athis.currentTarget).attr({
-						href: "editXiaoqu.html"
-					})
-				},
 				//刷新
 				refresh:function(){
                     var _self = this;
-					var city = $("#city option:selected").val();
-					var district = $("#city option:selected").val();
-					var name = $("#xqname").val();
-					var addr = $("#addr").val();
-					var param = {
-						city:city,
-						district:district,
-						name:name,
-						addr:addr
-					}
-					alert(JSON.stringify(param));
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function() {
-					//					vm.message = data.data;
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("刷新失败");
-					//				}
-					//			}); //ajax
-                    _self.loadTestData();
-					
+					var cname = $("#xqname").val();
+                    var chepai = $("#chepai").val();
+
+                    _self.reload(chepai, cname);
 				},
                 loadTestData: function() {
                     var _self = this;
@@ -187,11 +102,18 @@
                     ];
                     _self.message = message;
                 },
-                reload: function() {
+                reload: function(chepai, xiaoqu) {
                     var _self = this;
                     var query = {
-                        type: "MSG_T_MGMT_QUERY_XIAOQU"
+                        type: "MSG_T_MGMT_CAR_STAT",
                     };
+
+                    if (chepai != "") {
+                        query.chepai = chepai;
+                    }
+                    if (xiaoqu != "") {
+                        query.cname = xiaoqu;
+                    }
 
                     $.ajax({
                         type: "post",
@@ -202,7 +124,6 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data) {
-                            alert(data);
                             if (data.ret == 0) {
                                 vm.message = data.data;
                             }
@@ -217,7 +138,7 @@
 		});
 
         function load() {
-            vm.reload();
+            vm.reload("", "");
         }
 	</script>
 
