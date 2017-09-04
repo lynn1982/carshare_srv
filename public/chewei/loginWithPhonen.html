@@ -46,7 +46,7 @@
 					<a class="getVerCodeBtn">获取验证码</a>
 				</div>
 				<div>
-					<input class="loginBtn" type="submit" value="登陆" />
+					<input class="loginBtn" type="button" value="登陆" />
 				</div>
 
 			</form>
@@ -127,7 +127,7 @@
 
         });
 
-		$(function() {
+        $(".loginBtn").on("click", function() {
             if (checkPhoneNum() == false) {
                 return;
             }
@@ -135,30 +135,30 @@
                 return;
             }
 
-			$("#loginform").submit(function(event) {
-                var query = {
-                    type: "MSG_TYPE_USER_VERCODE_LOGIN",
-                    phoneNumber: $('#phoneNum').val(),
-                    verCode: $('#verCode').val()
-                };
+            var query = {
+                type: "MSG_TYPE_USER_VERCODE_LOGIN",
+                phoneNumber: $('#phoneNum').val(),
+                verCode: $('#verCode').val()
+            };
 
-                $.ajax({
-                    type: "post",
-                    url: g_url,
-                    timeout: 3000,  //3s                
-                    async: true,
-                    cache: false,
-                    data: JSON.stringify(query),                
-                    success: function(data){
-                        if (data.ret == 0) {
-                            alert("登陆成功!");
-                        }
-                    },
-                    error: function() {
-                        alert("登陆失败!");
+            $.ajax({
+                type: "post",
+                url: g_url,
+                timeout: 3000,  //3s                
+                async: true,
+                cache: false,
+                data: JSON.stringify(query),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    if (data.ret == 0) {
+                        alert("登陆成功!");
                     }
-                });
-			});
-		});
+                },
+                error: function() {
+                    alert("登陆失败!");
+                }
+            });
+        });
 	</script>
 </html>
