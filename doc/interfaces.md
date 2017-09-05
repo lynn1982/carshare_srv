@@ -347,13 +347,25 @@
 ```
 
 ### 1.4 RESTful API List
-   - POST/PUT/DELETE成功回复报文
+#### 1.4.1 URL列表
+|URL|METHOD|功能|
+|:----|:----:|:----|
+|/pps/|POST|创建厂商|
+|/pps/<objId>|GET|获取厂商信息|
+|/pps/<objId>|PUT|修改厂商信息|
+|/pps/<objId>|DELETE|删除厂商信息|
+|/xiaoqu/|POST|创建小区|
+|/xiaoqu/<objId>|GET|获取小区信息|
+|/xiaoqu/<objId>|PUT|修改小区信息|
+|/xiaoqu/<objId>|DELETE|删除小区信息|
+  
+#### 1.4.2 POST/PUT/DELETE成功回复报文
 ```
 {
   ret: 0
 }
 ```
-   - GET成功回复报文
+#### 1.4.3 GET成功回复报文
 ```
 {
   ret: 0,
@@ -361,24 +373,13 @@
   }
 }
 ```
-   - 失败回复报文
+#### 1.4.4 失败回复报文
 ```
 {
   ret: [非0值],
   msg: ""
 }
 ```
-   - URL列表
-|URL|METHOD|功能|
-|:----|:----:|:----|
-|/pps/|POST|创建厂商|
-|/pps/<objId>|GET|获取厂商信息|
-|/pps/<objId>|PUT|修改厂商信息|
-|/pps/<objId>|DELETE|删除厂商信息|
-|/xiaoqu/|POST|创建厂商|
-|/xiaoqu/<objId>|GET|获取厂商信息|
-|/xiaoqu/<objId>|PUT|修改厂商信息|
-|/xiaoqu/<objId>|DELETE|删除厂商信息|
   
   
   
