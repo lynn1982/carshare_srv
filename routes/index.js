@@ -11,7 +11,7 @@ var pps = require('../control/pps');
 
 var UserRole = {
     ur_unlogin: 0, 
-    ul_user: 1,
+    ur_user: 1,
     ur_changshang: 2, 
     ur_xiaoqu: 3, 
     ur_system: 4 
@@ -23,12 +23,32 @@ function getUserRole(req) {
     }
 
     /* TODO: get user role from session info */
-    return UserRole.ur_system;
+    var role;
+
+    switch(req.session.user.role) {
+        case 'super':
+            role = UserRole.ur_system;
+            break;
+        case 'pps':
+            role = UserRole.ur_changshang;
+            break;
+        case 'property':
+            role = UserRole.ur_xiaoqu;
+            break;
+        case 'normal':
+            role = UserRole.ur_user;
+            break;
+        default:
+            role = UserRole.ur_unlogin;
+    }
+
+    return role;
 }
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var userRole = getUserRole(req);
+    console.log('----role----:'+userRole);
     switch(userRole)
     {
         case UserRole.ur_system:
