@@ -59,4 +59,9 @@ Pps.queryPps = function(name) {
     });
 };
 
+Pps.queryAllPps = function() {
+    return Pps.findAll({
+    });
+};
+
 module.exports = Pps;

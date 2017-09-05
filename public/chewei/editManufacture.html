@@ -35,7 +35,8 @@
 
 	<script type="text/javascript" src="js/vue.js"></script>
 	<script>
-		var info = JSON.parse(localStorage.info);
+        var info = JSON.parse(window.localStorage.getItem('manuInfo'));
+
 		var vm = new Vue({
 			el: '#pluginContainer',
 			data:{
@@ -57,11 +58,10 @@
                 type = "MSG_T_MGMT_UPDATE_PPS";
             }
 
-            alert(JSON.stringify(data));
-
 			$("#addPluginForm").ajaxSubmit({
 				type: 'post',
 				url: url,
+                timeout: 2000,
 				cache: false,
                 data: {
                     type: type,
@@ -74,7 +74,7 @@
 					alert("失败");
 				}
 			}); //ajax
-		} //editXiaoqu
+		}
 		
 	</script>
 	<script type="text/javascript" src="js/public.js"></script>

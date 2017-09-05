@@ -105,7 +105,13 @@ function queryPps(req, res, next) {
     var list = [];
 
     (async () => {
-        var ppss = await Pps.queryPps(name);
+        var ppss;
+
+        if (typeof(name) == "undefined") {
+            ppss = await Pps.queryAllPps();
+        } else {
+            ppss = await Pps.queryPps(name);
+        }
 
         if (ppss.length > 0) {
             for (var i in ppss) {
@@ -115,6 +121,7 @@ function queryPps(req, res, next) {
                 if (user) {
                     var info = {
                         id: ppss[i].id,
+                        name: ppss[i].name,
                         parkNum: ppss[i].parkNum,
                         regDate: regdate.getFullYear()+'-'+regdate.getMonth()+'-'+regdate.getDate(),
                         phone: user.phone_num,

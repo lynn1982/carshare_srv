@@ -24,7 +24,7 @@
 					<table style="margin-left:20px;margin-top:20px;margin-bottom:20px">
 						<tr>
 							<td>厂商名称:</td>
-							<td><input id="addr" type="text" style="width:600px;" name="addr"></isindex></td>
+							<td><input id="csname" type="text" style="width:600px;" name="csname"></isindex></td>
 							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="refresh"  style="background:orange;">筛选</button></td>
 						</tr>
 					</table>
@@ -52,7 +52,7 @@
 							<td>{{dic.regDate}}</td>
 							<td style="text-align: center;">
 								<a v-on:click="edit($event)" class="pluginVersion blueBut edit">编辑</a>
-								<a v-on:click="deleteXiaoqu($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
+								<a v-on:click="deleteItem($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
 							</td>
 							<!--<td ><a class="pluginVersion blueBut" href="router_retransmission.html">详情</a></td>-->
 						</tr>
@@ -64,7 +64,6 @@
 		</div>
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
-	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
 	<script>
         var g_url = window.location.protocol+"//"+window.location.host+"/pps/";
         var editPage = "editManufacture.html";
@@ -74,113 +73,81 @@
                 message: []
 			},
 			methods: {
-				
 				getInfo: function(dic) {
 					return JSON.stringify(dic);
 				},
 				//添加
 				add:function(){
-					localStorage.info = "";
+                    var manuInfo = {
+                        action: "add"
+                    };
+                    window.localStorage.setItem('manuInfo', JSON.stringify(manuInfo));
 					location.href = editPage;
 				},
-				//删除小区
-				deleteReq: function(info) {
-                    var _self = this;
+				deleteReq: function(id) {
                     var query = {
                         type: "MSG_T_MGMT_DEL_PPS",
-                        id: _self.message.id
+                        id: id
                     };
 
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            //alert(data);
-                            if (data.ret == 0) {
-                                //vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            //_self.loadTestData();
-                        }
-                    });
+                    priAjaxPost("/pps/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    this.reload();
+                                }
+                            },
+                            function() {
+                                alert("删除失败！");
+                            });
 				},
-				//删除小区
-				deleteXiaoqu: function(athis) {
+				deleteItem: function(athis) {
 					var info = $(athis.currentTarget).attr("info");
 					var confirm1 = confirm("确定删除？");
 					if(confirm) {
-						this.deleteReq(info);
+                        var manuInfo = JSON.parse(info);
+						this.deleteReq(manuInfo.id);
 					}
 				},
 				edit: function(athis) {
 					var info = $(athis.currentTarget).next().attr("info");
-					localStorage.info = info;
+                    var manuInfo = JSON.parse(info);
+                    manuInfo.action = "edit";
+                    window.localStorage.setItem('manuInfo', JSON.stringify(manuInfo));
 					$(athis.currentTarget).attr({
 						href: editPage
-					})
+					});
 				},
-				//刷新
 				refresh:function(){
-                    var _self = this;
-					var city = $("#city option:selected").val();
-					var district = $("#city option:selected").val();
-					var name = $("#xqname").val();
-					var addr = $("#addr").val();
-					var param = {
-						city:city,
-						district:district,
-						name:name,
-						addr:addr
-					}
-					alert(JSON.stringify(param));
-                    _self.loadTestData();
+					var csname = $("#csname").val();
+                    this.query(csname);
 				},
-                loadTestData: function() {
-                    var _self = this;
-                    var message = [
-                    {
-                        type: "MSG_T_MGMT_QUERY_PPS",
-                        id: 1,
-                        name: "设备生产厂商1",
-                        phone: "18616999999",
-                        contacts: "赵先生",
-                        email: "zhao@changshang.com",
-                        parkNum: 10,
-                        regDate: "2017-8-31"
-                    }
-                    ];
-                    _self.message = message;
-                },
                 reload: function() {
                     var _self = this;
                     var query = {
                         type: "MSG_T_MGMT_QUERY_PPS"
                     };
+                    this.query("");
+                },
+                query: function(csname) {
+                    var query = {
+                        type: "MSG_T_MGMT_QUERY_PPS"
+                    };
 
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            alert(data);
-                            if (data.ret == 0) {
-                                vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            _self.loadTestData();
-                        }
-                    });
+                    if (csname != "") {
+                        query.name = csname;
+                    }
+
+                    priAjaxPost("/pps/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(msg);
+                                }
+                            },
+                            function() {
+                                alert("获取厂商信息失败！");
+                            });
                 }
 			}
 
