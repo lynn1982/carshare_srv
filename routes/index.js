@@ -71,4 +71,14 @@ router.get('/create_admin', function(req, res, next) {
     }) ()
 });
 
+router.post('/pps_new', auth.userRequired, pps.add);
+router.get('/pps/:id', auth.userRequired, pps.get);
+router.put('/pps/:id', auth.userRequired, pps.update);
+router.delete('/pps/:id', auth.userRequired, pps.delete);
+
+router.post('/xiaoqu_new', auth.userRequired, xiaoqu.add);
+router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.get);
+router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
+router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);
+
 module.exports = router;

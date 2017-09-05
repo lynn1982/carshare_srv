@@ -426,3 +426,187 @@ function getAreaChewei(req, res, next) {
         }
     }) ()
 }
+
+
+exports.add = function(req, res, next) {
+    var name = req.body.name;
+    var addr_in = req.body.addr_in;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+
+    if ([name, addr_in].some(function(item) {return item === '';})) {
+        ep.emit('err', '小区名称和地址不能为空');
+        return;
+    }
+
+    var newXiaoqu = {
+        mgmt_id: req.session.user.id,
+        name: name,
+        city: req.body.city,
+        district: req.body.district,
+        addr_in: addr_in,
+        addr_out: req.body.addr_out,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+        //pps_id: req.body.pps_id,
+        phone: req.body.phone,
+        contacts: req.body.contacts,
+        email: req.body.email,
+
+    };
+
+    (async () => {
+        var xiaoqu = await Community.newAndSave(newXiaoqu);
+
+        if (!xiaoqu) {
+            ep.emit('err', '数据库错误');
+            return;
+        }
+        else {
+            var retStr = {
+                type: req.body.type,
+                ret: 0,
+                cid: xiaoqu.id
+            };
+
+            res.send(JSON.stringify(retStr));
+        }
+
+    }) ()
+   
+};
+
+exports.get = function(req, res, next) {
+    var city = req.body.city;
+    var district = req.body.district; 
+    var name = req.body.name;
+    var list = [];
+
+    (async () => {
+
+        var xiaoqus = await Community.queryXiaoqu(name, city, district);
+
+        if (xiaoqus.length > 0) {
+            
+            for (var i =0; i < xiaoqus.length; i++) {
+                list.push(xiaoqus[i]);
+            }
+
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+
+};
+
+exports.update = function(req, res, next) {
+    var id = req.body.cid;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var xiaoqu = await Community.getXiaoquById(id);
+
+        if (!xiaoqu) {
+            ep.emit('err', '小区信息错误');
+            return;
+        }
+        
+        var newXiaoqu = {
+            name: req.body.name,
+            addr_in: req.body.addr_in,
+            addr_out: req.body.addr_out,
+            city: req.body.city,
+            district: req.body.district,
+            longitude: req.body.longitude,
+            latitude: req.body.latitude,
+            //pps_id: req.body.pps_id,
+            phone: req.body.phone,
+            contacts: req.body.contacts,
+            email: req.body.email,
+
+            parking_num_total: req.body.parking_num_total,
+            parking_num_share: req.body.parking_num_share,
+            parking_num_remain: req.body.parking_num_remain,
+            parking_time_start: req.body.timeStart,
+            parking_time_end: req.body.timeEnd,
+            rate_type: req.body.rateType,
+            rate: req.body.price
+        };
+
+        Community.updateXiaoqu(xiaoqu, newXiaoqu);
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+   
+};
+
+exports.delete = function(req, res, next) {
+    var id = req.body.cid;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var xiaoqu = await Community.getXiaoquById(id);
+        if (!xiaoqu) {
+            ep.emit('err','小区信息错误');
+            return;
+        }
+
+        Community.deleteXiaoqu(xiaoqu);
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+
+
+};
