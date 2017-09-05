@@ -61,6 +61,7 @@ router.get('/create_admin', function(req, res, next) {
         var admin = {
             login_name: config.admin,
             passwd: pass,
+            phone_num: config.phone_num,
             role: 'super'
         };
 

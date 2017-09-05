@@ -17,7 +17,8 @@ var config = {
     auth_cookie_name: 'chewei',
 
     admin: 'admin',
-    admin_passwd: 'admin'
+    admin_passwd: 'admin',
+    phone_num: '18611111111'
 };
 
 module.exports = config;

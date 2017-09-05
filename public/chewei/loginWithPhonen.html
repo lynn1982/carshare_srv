@@ -141,24 +141,17 @@
                 verCode: $('#verCode').val()
             };
 
-            $.ajax({
-                type: "post",
-                url: g_url,
-                timeout: 3000,  //3s                
-                async: true,
-                cache: false,
-                data: JSON.stringify(query),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(data){
-                    if (data.ret == 0) {
-                        $(window).attr('location', window.location.protocol+"//"+window.location.host+"/");
-                    }
-                },
-                error: function(ret) {
-                    alert("登陆失败: "+JSON.stringify(ret));
-                }
-            });
+            priAjaxPost("/user/", query,
+                    function(data){
+                        if (data.ret == 0) {
+                            $(window).attr('location', window.location.protocol+"//"+window.location.host+"/");
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    function() {
+                        alert("登陆失败!");
+                    });
         });
 	</script>
 </html>
