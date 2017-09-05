@@ -49,9 +49,8 @@
 	</body>
 
 	<script type="text/javascript" src="js/vue.js"></script>
-	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
 	<script>
-		var info = JSON.parse(localStorage.info);
+        var info = JSON.parse(window.localStorage.getItem('xqInfo'));        
 		var vm = new Vue({
 			el: '#pluginContainer',
 			data:{
@@ -78,7 +77,7 @@
 				type: 'post',
 				url: url,
 				cache: false,
-				data: { //除表单里面的其他参数
+				data: {
                     type: type,
                     cid: info.cid
 				},
@@ -88,11 +87,10 @@
 				error: function() {
 					alert("失败");
 				}
-			}); //ajax
-		} //editXiaoqu
+			});
+		}
 		
 		
 	</script>
 	<script type="text/javascript" src="js/public.js"></script>
 </html>
-					<span class="nameSpan">城市</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />

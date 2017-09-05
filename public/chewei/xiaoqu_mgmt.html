@@ -26,7 +26,7 @@
 							<td>城市:</td>
 							<td>
 								<select id="city">
-                                    <option selected="selected" value="无">无</option>
+                                    <option selected="selected" value="">无</option>
 									<option value="上海">上海</option>
 									<option value="北京">北京</option>
 									<option value="深圳">深圳</option>
@@ -35,14 +35,14 @@
 							<td style="padding-left:20px;">区：</td>
 							<td>
 								<select id="district">
-									<option selected="selected" value="无">无</option>
+									<option selected="selected" value="">无</option>
 									<option value="徐汇">徐汇</option>
 									<option value="静安">静安</option>
 									<option value="浦东">浦东</option>
 								</select>
 							</td>
 							<td style="padding-left:20px;">名称:</td>
-							<td><input id="xqname"  type="text" style="width:427px;" name="name"></input></td>
+							<td><input id="xqname"  type="text" style="width:427px;" name="xqname"></input></td>
 							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
 						</tr>
 					</table>
@@ -82,9 +82,8 @@
 							<td style="text-align: center;">
 								<a v-on:click="parkMgmt($event)" class="pluginVersion blueBut edit">车位管理</a>
 								<a v-on:click="edit($event)" class="pluginVersion blueBut edit">编辑</a>
-								<a v-on:click="deleteXiaoqu($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
+								<a v-on:click="deleteItem($event);" v-bind:info="getInfo(dic)" class="pluginDelete redBtn">删除</a>
 							</td>
-							<!--<td ><a class="pluginVersion blueBut" href="router_retransmission.html">详情</a></td>-->
 						</tr>
 
 					</table>
@@ -94,65 +93,57 @@
 		</div>
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
-	<!--<script type="text/javascript" src="js/netWokr.js" ></script>-->
 	<script>
         var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var editPage = "editXiaoqu.html";
 		var vm = new Vue({
 			el: '#vueApp',
 			data: {
                 message: []
 			},
 			methods: {
-				
 				getInfo: function(dic) {
 					return JSON.stringify(dic);
 				},
-				//添加
 				add:function(){
-					localStorage.info = "";
-					location.href = "editXiaoqu.html";
+                    var xqInfo = {
+                        action: "add"
+                    };
+                    window.localStorage.setItem('xqInfo', JSON.stringify(xqInfo));
+					location.href = editPage;                    
 				},
-				//删除小区
-				deleteReq: function(info) {
-                    var _self = this;
+				deleteReq: function(id) {
                     var query = {
-                        type: "MSG_T_MGMT_DEL_XIAOQU",
-                        id: _self.message.id
+                        type: "MSG_T_MGMT_DELETE_XIAOQU",
+                        cid: id
                     };
 
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            //alert(data);
-                            if (data.ret == 0) {
-                                //vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            //_self.loadTestData();
-                        }
-                    });
+                    priAjaxPost("/xiaoqu/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    this.reload();
+                                }
+                            },
+                            function() {
+                                alert("删除失败！");
+                            });                    
 				},
-				//删除小区
-				deleteXiaoqu: function(athis) {
+				deleteItem: function(athis) {
 					var info = $(athis.currentTarget).attr("info");
 					var confirm1 = confirm("确定删除？");
 					if(confirm) {
-						this.deleteReq(info);
-					}
+                        var xqInfo = JSON.parse(info);
+						this.deleteReq(xqInfo.id);
+					}                    
 				},
 				edit: function(athis) {
 					var info = $(athis.currentTarget).next().attr("info");
-					localStorage.info = info;
+                    var xqInfo = JSON.parse(info);
+                    xqInfo.action = "edit";
+                    window.localStorage.setItem('xqInfo', JSON.stringify(xqInfo));
 					$(athis.currentTarget).attr({
-						href: "editXiaoqu.html"
-					})
+						href: editPage
+					});
 				},
                 parkMgmt: function(athis) {
                     var info = $(athis.currentTarget).next().attr("info");
@@ -163,33 +154,10 @@
                 },
 				//刷新
 				refresh:function(){
-                    var _self = this;
-					var city = $("#city option:selected").val();
-					var district = $("#city option:selected").val();
-					var name = $("#xqname").val();
-					var addr = $("#addr").val();
-					var param = {
-						city:city,
-						district:district,
-						name:name,
-						addr:addr
-					}
-					alert(JSON.stringify(param));
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function() {
-					//					vm.message = data.data;
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("刷新失败");
-					//				}
-					//			}); //ajax
-                    _self.loadTestData();
-					
+                    var city = $('#city option:selected').val();
+                    var district = $('#district option:selected').val();
+					var xqname = $("#xqname").val();
+                    this.query(city, district, xqname);
 				},
                 loadTestData: function() {
                     var _self = this;
@@ -213,29 +181,36 @@
                     _self.message = message;
                 },
                 reload: function() {
-                    var _self = this;
+                    this.query("", "", "");                    
+                },
+                query: function(city, district, xqname) {
                     var query = {
                         type: "MSG_T_MGMT_QUERY_XIAOQU"
                     };
 
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            alert(data);
-                            if (data.ret == 0) {
-                                vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            _self.loadTestData();
-                        }
-                    });
+                    if (city != "") {
+                        query.city = city;
+                    }
+
+                    if (district != "") {
+                        query.district = district;
+                    }
+
+                    if (xqname != "") {
+                        query.name = xqname;
+                    }
+
+                    priAjaxPost("/xiaoqu/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(msg);
+                                }
+                            },
+                            function() {
+                                alert("获取小区信息失败！");
+                            });
                 }
 			}
 

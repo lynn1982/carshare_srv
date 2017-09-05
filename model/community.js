@@ -9,36 +9,30 @@ var Community = sequelize.define('community_info', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     name: {type: Sequelize.STRING},
-
     city: {type: Sequelize.STRING},
-
     district: {type: Sequelize.STRING},
 
     addr_in: {type: Sequelize.STRING},
-
     addr_out: {type: Sequelize.STRING},
 
     longitude: {type: Sequelize.STRING(64)},
-
     latitude: {type: Sequelize.STRING(64)},
+    
+    phone: {type: Sequelize.CHAR(11)},
+    contacts: {type: Sequelize.STRING(64)},
+    email: {type: Sequelize.STRING},
+
 
     //pps_manufacture: {type: Sequelize.INTEGER, references: {model: 'pps_manufacture', key: 'id'}},
     //pps_id: {type: Sequelize.INTEGER, allowNull: false},
-
     //mgmt_id: {type: Sequelize.INTEGER, allowNull: false},
 
     parking_num_total: {type: Sequelize.INTEGER},
-
     parking_num_share: {type: Sequelize.INTEGER},
-
     parking_num_remain: {type: Sequelize.INTEGER},
-
     parking_time_start: {type: Sequelize.TIME},
-
     parking_time_end:  {type: Sequelize.TIME},
-
     rate_type: {type: Sequelize.ENUM, values: ['month','time','hour']},
-
     rate: {type: Sequelize.INTEGER},
 
     is_checked: {type: Sequelize.BOOLEAN, defaultValue: false}
@@ -67,8 +61,12 @@ Community.newAndSave = function(xiaoqu) {
         addr_out: xiaoqu.addr_out,
         longitude: xiaoqu.longitude,
         latitude: xiaoqu.latitude,
-        pps_id: xiaoqu.pps_id,
-        mgmt_id: xiaoqu.mgmt_id,
+        //pps_id: xiaoqu.pps_id,
+        //mgmt_id: xiaoqu.mgmt_id,
+        phone: xiaoqu.phone,
+        contacts: xiaoqu.contacts,
+        email: xiaoqu.email,
+
         parking_num_total: xiaoqu.parking_num_total,
         parking_time_start: xiaoqu.parking_time_start,
         parking_time_end: xiaoqu.parking_time_end,
@@ -87,7 +85,11 @@ Community.updateXiaoqu = function(xiaoqu, newData) {
     xiaoqu.addr_out = newData.addr_out;
     xiaoqu.longitude = newData.longitude;
     xiaoqu.latitude = newData.latitude;
-    xiaoqu.pps_id = newData.pps_id;
+    //xiaoqu.pps_id = newData.pps_id;
+    xiaoqu.phone = newData.phone;
+    xiaoqu.contacts = newData.contacts;
+    xiaoqu.email = newData.email;
+
     xiaoqu.parking_num_total = newData.parking_num_total;
     xiaoqu.parking_num_share = newData.parking_num_share;
     xiaoqu.parking_num_remain = newData.parking_num_remain;
@@ -128,16 +130,28 @@ Community.getXiaoquByScope = function(lonStart, lonEnd, latStart, latEnd) {
 };
 
 Community.queryXiaoqu = function(name, city, district) {
-    var str = '%';
-    var qstr = str.concat(name, '%');
-
-    return Community.findAll({
+    var filter = {
         where: {
-            name: {'$like': qstr},
-            city: city,
-            district: district
         }
-    });
+    };
+
+    if (typeof(name) != "undefined") {
+        var str = '%';
+        var qstr = str.concat(name, '%');
+        filter.where.name = {
+            '$like': qstr
+        };
+    }
+
+    if (typeof(city) != "undefined") {
+        filter.where.city = city;
+    }
+
+    if (typeof(district) != "undefined") {
+        filter.where.district = district;
+    }
+
+    return Community.findAll(filter);
 };
 
 module.exports = Community;
