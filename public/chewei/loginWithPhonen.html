@@ -27,7 +27,7 @@
 		<!--记录数据-->
 		<img class="bg" src="img/login_bg.jpg" />
 		<div id="loginContainer">
-			<div class="loginWelcom">欢迎来到后台管理</div>
+			<div class="loginWelcom">车位共享平台</div>
 			<form action="/login" method="post" id='loginform' name='loginform'>
 
 				<div class="inputDiv">
@@ -152,11 +152,11 @@
                 dataType: "json",
                 success: function(data){
                     if (data.ret == 0) {
-                        alert("登陆成功!");
+                        $(window).attr('location', window.location.protocol+"//"+window.location.host+"/");
                     }
                 },
-                error: function() {
-                    alert("登陆失败!");
+                error: function(ret) {
+                    alert("登陆失败: "+JSON.stringify(ret));
                 }
             });
         });

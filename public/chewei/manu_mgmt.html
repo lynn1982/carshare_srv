@@ -139,21 +139,7 @@
 						addr:addr
 					}
 					alert(JSON.stringify(param));
-					//			$.ajax({
-					//				type: "post",
-					//				url: allDeviceUrl,
-					//				async: true,
-					//				cache: false,
-					//				success: function() {
-					//					vm.message = data.data;
-					//					window.location.reload(); //删除成功刷新
-					//				},
-					//				error: function() {
-					//					alert("刷新失败");
-					//				}
-					//			}); //ajax
                     _self.loadTestData();
-					
 				},
                 loadTestData: function() {
                     var _self = this;
