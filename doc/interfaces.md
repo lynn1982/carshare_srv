@@ -16,6 +16,7 @@
       * [查询某个设备厂商的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#132-查询某个设备厂商的账单明细)
       * [查询某个小区的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#133-查询某个小区的账单明细)
       * [查询某个用户的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#134-查询某个用户的账单明细)
+   * [RESTful API List](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-restful-api-list)
 
 * [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
     * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户注册与登录)
@@ -344,8 +345,55 @@
         }
     }
 ```
-## 2. 后台与APP接口
 
+### 1.4 RESTful API List
+#### 1.4.1 URL列表
+|URL|METHOD|功能|
+|:----|:----:|:----|
+|/pps/|POST|创建厂商|
+|/pps/[objId]|GET|获取厂商信息|
+|/pps/[objId]|PUT|修改厂商信息|
+|/pps/[objId]|DELETE|删除厂商信息|
+|/xiaoqu/|POST|创建小区|
+|/xiaoqu/[objId]|GET|获取小区信息|
+|/xiaoqu/[objId]|PUT|修改小区信息|
+|/xiaoqu/[objId]|DELETE|删除小区信息|
+  
+#### 1.4.2 POST/PUT/DELETE成功回复报文
+```
+{
+  ret: 0
+}
+```
+#### 1.4.3 GET成功回复报文
+```
+//单实例
+{
+  ret: 0,
+  data: {
+  }
+}
+
+//多实例
+{
+  ret: 0,
+  data: [
+    {
+    },
+    {
+    }
+  ]
+}
+```
+#### 1.4.4 失败回复报文
+```
+{
+  ret: [非0值],
+  msg: ""
+}
+```
+
+## 2. 后台与APP接口
 ### 2.1 用户注册与登录
 
 |METHOD|PATH|MSG TYPE|
