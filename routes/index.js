@@ -8,59 +8,32 @@ var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
 var pps = require('../control/pps');
+var userRole = require('../middleware/role');
 
-var UserRole = {
-    ur_unlogin: 0, 
-    ur_user: 1,
-    ur_changshang: 2, 
-    ur_xiaoqu: 3, 
-    ur_system: 4 
-};
-
-function getUserRole(req) {
-    if (!req.session || !req.session.user) {
-        return UserRole.ur_unlogin;
-    }
-
-    /* TODO: get user role from session info */
-    var role;
-
-    switch(req.session.user.role) {
-        case 'super':
-            role = UserRole.ur_system;
-            break;
-        case 'pps':
-            role = UserRole.ur_changshang;
-            break;
-        case 'property':
-            role = UserRole.ur_xiaoqu;
-            break;
-        case 'normal':
-            role = UserRole.ur_user;
-            break;
-        default:
-            role = UserRole.ur_unlogin;
-    }
-
-    return role;
-}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var userRole = getUserRole(req);
-    console.log('----role----:'+userRole);
-    switch(userRole)
+
+    if (!req.session || !req.session.user) {
+        res.render('loginWithPhonen', {title: '共享车位'});
+        return;
+    }
+
+    var role = userRole.getUserRole(req.session.user.role);
+
+    console.log('----role----:'+role);
+    switch(role)
     {
-        case UserRole.ur_system:
+        case userRole.ur_system:
             res.render('main_admin', {title: '共享车位'});
             break;
-        case UserRole.ur_changshang:
+        case userRole.ur_changshang:
             res.render('main_changshang', {title: '共享车位'}); 
             break;
-        case UserRole.ur_xiaoqu:
+        case userRole.ur_xiaoqu:
             res.render('main_xiaoqu', {title: '共享车位'}); 
             break;
-        case UserRole.ur_user:
+        case userRole.ur_user:
             res.render('main_user', {title: '共享车位'}); 
             break;
         default:

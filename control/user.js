@@ -6,6 +6,7 @@ var authMiddleWave = require('../middleware/auth');
 var User = require('../model/user');
 var config = require('../config');
 var smskey = require('../middleware/smskey');
+var userRole = require('../middleware/role');
 
 var AliDayu = require('alidayu-node-sdk');
 var smsClient = new AliDayu({
@@ -303,6 +304,7 @@ function verLogin(req, res, next) {
     var phoneNum = req.body.phoneNumber;
     var code = req.body.verCode;
     var uid;
+    var role;
     var ep = new eventproxy();
 
     ep.fail(next);
@@ -343,6 +345,7 @@ function verLogin(req, res, next) {
 
             //await User.setUserActive(user);
             uid = user.id;
+            role = user.role;
             authMiddleWave.gen_session(user, res);
 
         }
@@ -354,11 +357,19 @@ function verLogin(req, res, next) {
 
             var newuser = await User.newAndSave(newUser);
             uid = newuser.id;
+            role = newuser.role;
             authMiddleWave.gen_session(newuser, res);
 
         }
 
-        res.send(JSON.stringify({type:req.body.type, ret:0, uid: uid}));
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            uid: uid,
+            role: userRole.getUserRole(role)
+        };
+
+        res.send(JSON.stringify(retStr));
 
     }) ()
 
