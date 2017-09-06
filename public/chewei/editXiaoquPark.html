@@ -24,9 +24,15 @@
 			<form id="addPluginForm">
 				<div class="inputContainer">
 					<span class="nameSpan">统一共享车位数</span><input v-bind:value="info.parking_num_total" class="inputName" type="text" name="parking_num_total" placeholder="" />
-					<span class="nameSpan">开始时间</span><input v-bind:value="info.parking_time_start" class="inputName" type="text" name="parking_time_start" placeholder="" />
-					<span class="nameSpan">结束时间</span><input v-bind:value="info.parking_time_end" class="inputName" type="text" name="parking_time_end" placeholder="" />
-					<span class="nameSpan">收费方式</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" />
+					<span class="nameSpan">开始时间</span><input v-bind:value="info.parking_time_start" class="inputName" type="text" name="parking_time_start" placeholder="09:00:00" />
+					<span class="nameSpan">结束时间</span><input v-bind:value="info.parking_time_end" class="inputName" type="text" name="parking_time_end" placeholder="17:00:00" />
+                    <!-- <span class="nameSpan">收费方式</span><input v-bind:value="info.rate_type" class="inputName" type="text" name="rate_type" placeholder="" /> -->
+                    <span class="nameSpan">收费方式</span>
+                    <select v-bind:value="info.rate_type" name="rate_type">
+                        <option selected="selected" value="time">元/小时</option>
+									<option value="time">元/次</option>
+									<option value="month">元/月</option>
+                    </select><br>
 					<span class="nameSpan">单价</span><input v-bind:value="info.rate" class="inputName" type="text" name="rate" placeholder="" />
 
 					<input class="inputSubmit" type="button" value="提交" onclick="editXiaoqu()"/>
