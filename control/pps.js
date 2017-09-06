@@ -78,7 +78,10 @@ function addPps(req, res, next) {
         var newPps = {
             name: name,
             //parkNum: parkNum,
-            user_id: user_id
+            user_id: user_id,
+            contacts: contacts,
+            phone: phone,
+            email: email
         };
 
         var pps = await Pps.newAndSave(newPps);
@@ -133,7 +136,10 @@ function queryPps(req, res, next) {
                 else {
                     var info = {
                         id: ppss[i].id,
-                        parkNum: ppss[i].parkNum
+                        parkNum: ppss[i].parkNum,
+                        phone: ppss[i].phone,
+                        contacts: ppss[i].contacts,
+                        email: ppss[i].email
                     };
                 }
 
@@ -200,7 +206,10 @@ function updatePps(req, res, next) {
         var newPps = {
             name: req.body.name,
             parkNum: req.body.parkNum,
-            user_id: uid
+            user_id: uid,
+            contacts: req.body.contacts,
+            phone: req.body.phone,
+            email: req.body.email
         };
 
         Pps.updatePps(pps, newPps);
@@ -298,7 +307,10 @@ exports.add = function(req, res, next) {
 
         var newPps = {
             name: name,
-            user_id: user_id
+            user_id: user_id,
+            contacts: contacts,
+            phone: phone,
+            email: email
         };
 
         var pps = await Pps.newAndSave(newPps);
@@ -352,7 +364,10 @@ exports.get = function(req, res, next) {
                 else {
                     var info = {
                         id: ppss[i].id,
-                        parkNum: ppss[i].parkNum
+                        parkNum: ppss[i].parkNum,
+                        phone: ppss[i].phone,
+                        contacts: ppss[i].contacts,
+                        email: ppss[i].email
                     };
                 }
 
@@ -419,7 +434,10 @@ exports.update = function(req, res, next) {
         var newPps = {
             name: req.body.name,
             parkNum: req.body.parkNum,
-            user_id: uid
+            user_id: uid,
+            contacts: req.body.contacts,
+            phone: req.body.phone,
+            email: req.body.email
         };
 
         Pps.updatePps(pps, newPps);

@@ -8,8 +8,11 @@ var Pps = sequelize.define('pps_manufacture', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     name: {type: Sequelize.STRING},
+    parkNum: {type: Sequelize.INTEGER},
 
-    parkNum: {type: Sequelize.INTEGER}
+    phone: {type: Sequelize.CHAR(11)},
+    contacts: {type: Sequelize.STRING(64)},
+    email: {type: Sequelize.STRING},
     
     }, {
 
@@ -26,7 +29,10 @@ Pps.newAndSave = function(pps) {
     return Pps.create({
         name: pps.name,
         parkNum: pps.parkNum,
-        user_id: pps.user_id
+        user_id: pps.user_id,
+        contacts: pps.contacts,
+        phone: pps.phone,
+        email: pps.email
     });
 };
 
@@ -44,6 +50,9 @@ Pps.updatePps = function(pps, newPps) {
     pps.name = newPps.name;
     pps.parkNum = newPps.parkNum;
     pps.user_id = newPps.user_id;
+    pps.contacts = newPps.contacts;
+    pps.phone = newPps.phone;
+    pps.email = newPps.email;
 
     pps.save();
 };

@@ -194,7 +194,7 @@ function login(req, res, next) {
 }
 
 
-function loginout(req, res, next) {
+exports.logout = function loginout(req, res, next) {
 
     req.session.destroy();
     res.clearCookie(config.auth_cookie_name, {path: '/'});

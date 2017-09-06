@@ -71,6 +71,8 @@ router.get('/create_admin', function(req, res, next) {
     }) ()
 });
 
+router.get('/user/logout', auth.userRequired, user.logout);
+
 router.post('/pps_new', auth.userRequired, pps.add);
 router.get('/pps/:id', auth.userRequired, pps.get);
 router.put('/pps/:id', auth.userRequired, pps.update);
