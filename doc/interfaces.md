@@ -350,6 +350,7 @@
 #### 1.4.1 URL列表
 |URL|METHOD|功能|
 |:----|:----:|:----|
+|/user/logout|GET|用户退出登陆|
 |/pps/|POST|创建厂商|
 |/pps/[objId]|GET|获取厂商信息|
 |/pps/[objId]|PUT|修改厂商信息|
