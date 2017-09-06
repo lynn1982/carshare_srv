@@ -43,6 +43,8 @@
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
         var info = JSON.parse(window.localStorage.getItem('xqInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+
 		var vm = new Vue({
 			el: '#pluginContainer',
 			data:{
@@ -54,30 +56,36 @@
 		
 		
 		function editXiaoqu() {
-            var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
-            var type;
-
             if (info.action == "add") {
-                type = "MSG_T_MGMT_NEW_XIAOQU";
+                $("#addPluginForm").ajaxSubmit({
+                    type: 'post',
+                    url: "/xiaoqu_new",
+                    cache: false,
+                    data: {
+                        pps_id: userInfo.roleId
+                    },
+                    success: function(data) {
+                        alert("成功");
+                    },
+                    error: function() {
+                        alert("失败");
+                    }
+                });
             } else {
-                type = "MSG_T_MGMT_UPDATE_XIAOQU";
+                $("#addPluginForm").ajaxSubmit({
+                    type: 'put',
+                    url: "/xiaoqu/"+info.id,
+                    cache: false,
+                    data: {
+                    },
+                    success: function(data) {
+                        alert("成功");
+                    },
+                    error: function() {
+                        alert("失败");
+                    }
+                });
             }
-
-			$("#addPluginForm").ajaxSubmit({
-				type: 'post',
-				url: url,
-				cache: false,
-				data: {
-                    type: type,
-                    cid: info.id
-				},
-				success: function(data) {
-					alert("成功");
-				},
-				error: function() {
-					alert("失败");
-				}
-			});
 		}
 	</script>
 </html>

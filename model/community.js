@@ -61,7 +61,7 @@ Community.newAndSave = function(xiaoqu) {
         addr_out: xiaoqu.addr_out,
         longitude: xiaoqu.longitude,
         latitude: xiaoqu.latitude,
-        //pps_id: xiaoqu.pps_id,
+        pps_id: xiaoqu.pps_id,
         //mgmt_id: xiaoqu.mgmt_id,
         phone: xiaoqu.phone,
         contacts: xiaoqu.contacts,
@@ -134,6 +134,7 @@ Community.queryXiaoqu = function(name, city, district) {
         where: {
         }
     };
+    console.log(JSON.stringify(filter));
 
     if (typeof(name) != "undefined") {
         var str = '%';
@@ -150,6 +151,15 @@ Community.queryXiaoqu = function(name, city, district) {
     if (typeof(district) != "undefined") {
         filter.where.district = district;
     }
+
+    return Community.findAll(filter);
+};
+
+
+Community.query = function(qFilter) {
+    var filter = {
+        where: qFilter
+    };
 
     return Community.findAll(filter);
 };

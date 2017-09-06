@@ -42,6 +42,7 @@
 	</body>
 
 	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="js/public.js"></script>
 	<script>
         var info = JSON.parse(window.localStorage.getItem('xqInfo'));
 		var vm = new Vue({
@@ -55,16 +56,11 @@
 		
 		
 		function editXiaoqu() {
-            var url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
-            var type = 'MSG_T_MGMT_UPDATE_XIAOQU';
-
 			$("#addPluginForm").ajaxSubmit({
-				type: 'post',
-				url: url,
+				type: 'put',
+				url: '/xiaoqu/'+info.id,
 				cache: false,
 				data: { //除表单里面的其他参数
-                    type: type,
-                    cid: info.id
 				},
 				success: function(data) {
 					alert("成功");
@@ -75,5 +71,4 @@
 			});
 		}
 	</script>
-	<script type="text/javascript" src="js/public.js"></script>
 </html>

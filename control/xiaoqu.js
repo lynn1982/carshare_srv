@@ -429,6 +429,7 @@ function getAreaChewei(req, res, next) {
 
 
 exports.add = function(req, res, next) {
+    var pps_id = req.body.pps_id;
     var name = req.body.name;
     var addr_in = req.body.addr_in;
 
@@ -451,7 +452,7 @@ exports.add = function(req, res, next) {
     }
 
     var newXiaoqu = {
-        mgmt_id: req.session.user.id,
+        //mgmt_id: req.session.user.id,
         name: name,
         city: req.body.city,
         district: req.body.district,
@@ -459,11 +460,10 @@ exports.add = function(req, res, next) {
         addr_out: req.body.addr_out,
         longitude: req.body.longitude,
         latitude: req.body.latitude,
-        //pps_id: req.body.pps_id,
+        pps_id: pps_id,
         phone: req.body.phone,
         contacts: req.body.contacts,
         email: req.body.email,
-
     };
 
     (async () => {
@@ -488,28 +488,21 @@ exports.add = function(req, res, next) {
 };
 
 exports.get = function(req, res, next) {
-    console.log(JOSN.stringify(req.body.filter));
-    var city = req.body.city;
-    var district = req.body.district; 
-    var name = req.body.name;
-    var pps_id = req.body.pps_id;
     var list = [];
+    var filter = JSON.parse(req.query.filter);
 
+    console.log(req.query.filter);
 
     (async () => {
-
-        var xiaoqus = await Community.queryXiaoqu(name, city, district, pps_id);
+        var xiaoqus = await Community.query(filter);
 
         if (xiaoqus.length > 0) {
-            
             for (var i =0; i < xiaoqus.length; i++) {
                 list.push(xiaoqus[i]);
             }
-
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             data: list
         };
@@ -517,13 +510,13 @@ exports.get = function(req, res, next) {
         res.send(JSON.stringify(retStr));
 
     }) ()
-
 };
 
 exports.update = function(req, res, next) {
-    var id = req.body.cid;
+    var id = req.params.id;
 
     var ep = new eventproxy();
+
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {

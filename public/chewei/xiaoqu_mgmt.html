@@ -190,27 +190,19 @@
                     var filter = {
                     };
 
-                    var query = {
-                        type: "MSG_T_MGMT_QUERY_XIAOQU"
-                    };
-
                     if (userInfo.role == 2) {
-                        query.pps_id = userInfo.roleId;
                         filter.pps_id = userInfo.roleId;
                     }
 
                     if (city != "") {
-                        query.city = city;
                         filter.city = city;
                     }
 
                     if (district != "") {
-                        query.district = district;
                         filter.district = district;
                     }
 
                     if (xqname != "") {
-                        query.name = xqname;
                         filter.name = xqname;
                     }
 
@@ -225,18 +217,6 @@
                             function() {
                                 alert("获取小区信息失败！");
                             });
-
-                    /*priAjaxPost("/xiaoqu/", query,
-                            function(data) {
-                                if (data.ret == 0) {
-                                    vm.message = data.data;
-                                } else {
-                                    alert(msg);
-                                }
-                            },
-                            function() {
-                                alert("获取小区信息失败！");
-                            });*/
                 }
 			}
 
