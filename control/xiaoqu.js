@@ -72,8 +72,8 @@ function addXiaoqu(req, res, next) {
         email: req.body.email,
 
         parking_num_total: req.body.parking_num_total,
-        parking_time_start: req.body.timeStart,
-        parking_time_end: req.body.timeEnd,
+        parking_time_start: req.body.parking_time_start,
+        parking_time_end: req.body.parking_time_end,
         rate_type: req.body.rate_type,
         rate: req.body.rate
     };
@@ -201,8 +201,8 @@ function update(req, res, next) {
             parking_num_total: req.body.parking_num_total,
             parking_num_share: req.body.parking_num_share,
             parking_num_remain: req.body.parking_num_remain,
-            parking_time_start: req.body.timeStart,
-            parking_time_end: req.body.timeEnd,
+            parking_time_start: req.body.parking_time_start,
+            parking_time_end: req.body.parking_time_end,
             rate_type: req.body.rateType,
             rate: req.body.price
         };
@@ -328,8 +328,8 @@ function getXiaoquInfo(req, res, next) {
         
         var c_info = {
             resId: c_resId,
-            timeStart: xiaoqu.parking_time_start,
-            timeEnd: xiaoqu.parking_time_end,
+            parking_time_start: xiaoqu.parking_time_start,
+            parking_time_end: xiaoqu.parking_time_end,
             num: xiaoqu.parking_num_remain,
             type: xiaoqu.rate_type,
             price: xiaoqu.rate
@@ -343,8 +343,8 @@ function getXiaoquInfo(req, res, next) {
                 p_resId = 'p_' + parkings[i].id;
                 var p_info = {
                     resId: p_resId,
-                    timeStart: parkings[i].parking_time_start,
-                    timeEnd: parkings[i].parking_time_end,
+                    parking_time_start: parkings[i].parking_time_start,
+                    parking_time_end: parkings[i].parking_time_end,
                     num: 1,
                     type: parkings[i].rate_type,
                     price: parkings[i].rate
@@ -556,8 +556,8 @@ exports.update = function(req, res, next) {
             parking_num_total: req.body.parking_num_total,
             parking_num_share: req.body.parking_num_share,
             parking_num_remain: req.body.parking_num_remain,
-            parking_time_start: req.body.timeStart,
-            parking_time_end: req.body.timeEnd,
+            parking_time_start: req.body.parking_time_start,
+            parking_time_end: req.body.parking_time_end,
             rate_type: req.body.rateType,
             rate: req.body.price
         };
