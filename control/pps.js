@@ -287,27 +287,8 @@ exports.add = function(req, res, next) {
     }
 
     (async() => {
-        var user_id;
-
-        var user = await User.getUserByPhone(phone);
-        if (user) {
-            user_id = user.id;
-        }
-        else {
-            var newUser = {
-                login_name: contacts,
-                phone_num: phone,
-                email: email,
-                role: 'pps'
-            };
-
-            var newuser = await User.newAndSave(newUser);
-            user_id = newuser.id;
-        }
-
         var newPps = {
             name: name,
-            user_id: user_id,
             contacts: contacts,
             phone: phone,
             email: email
@@ -386,31 +367,9 @@ exports.update = function(req, res, next) {
             return;
         }
         
-        uid = pps.user_id;
-        var user = await User.getUserById(uid);
-
-        if (user.phone_num != phone) {
-            var s_user = await User.getUserByPhone(phone);
-            if (s_user) {
-                uid = s_user.id;
-            } 
-            else {
-                var newUser = {
-                    phone_num: phone,
-                    login_name: req.body.contacts,
-                    email: req.body.email,
-                    role: 'pps'
-                };
-
-                var newuser = await User.newAndSave(newUser);
-                uid = newuser.id;
-            }
-        }
-
         var newPps = {
             name: req.body.name,
             //parkNum: req.body.parkNum,
-            user_id: uid,
             contacts: req.body.contacts,
             phone: req.body.phone,
             email: req.body.email
@@ -459,5 +418,4 @@ exports.delete = function(req, res, next) {
 
         res.send(JSON.stringify(retStr));
     }) ()
-
 };

@@ -512,6 +512,33 @@ exports.get = function(req, res, next) {
     }) ()
 };
 
+exports.getone = function(req, res, next) {
+    var id = req.params.id;
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var xiaoqu = await Community.getXiaoquById(id);
+
+        var retStr = {
+            ret: 0,
+            data: xiaoqu
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+};
+
 exports.update = function(req, res, next) {
     var id = req.params.id;
 

@@ -44,10 +44,6 @@
                 info: {}
             },
             methods:{ 
-                setdata: function(data) {
-                    var _self = this;
-                    _self.data.info = data;
-                },
                 loadTestData: function() {
                     var _self = this;
                     var dataTest = {
@@ -64,6 +60,7 @@
                     priAjaxGet("/pps/"+userInfo.roleId,
                             "",
                             function(retData) {
+                                alert(JSON.stringify(retData));
                                 if (retData.ret == 0) {
                                     _self.info = retData.data;
                                 }
