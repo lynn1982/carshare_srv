@@ -203,8 +203,8 @@ function update(req, res, next) {
             parking_num_remain: req.body.parking_num_remain,
             parking_time_start: req.body.parking_time_start,
             parking_time_end: req.body.parking_time_end,
-            rate_type: req.body.rateType,
-            rate: req.body.price
+            rate_type: req.body.rate_type,
+            rate: req.body.rate
         };
 
         Community.updateXiaoqu(xiaoqu, newXiaoqu);
@@ -332,7 +332,7 @@ function getXiaoquInfo(req, res, next) {
             parking_time_end: xiaoqu.parking_time_end,
             num: xiaoqu.parking_num_remain,
             type: xiaoqu.rate_type,
-            price: xiaoqu.rate
+            rate: xiaoqu.rate
         };
         
         list.push(c_info);
@@ -347,7 +347,7 @@ function getXiaoquInfo(req, res, next) {
                     parking_time_end: parkings[i].parking_time_end,
                     num: 1,
                     type: parkings[i].rate_type,
-                    price: parkings[i].rate
+                    rate: parkings[i].rate
                 };
 
                 list.push(p_info);
@@ -558,8 +558,8 @@ exports.update = function(req, res, next) {
             parking_num_remain: req.body.parking_num_remain,
             parking_time_start: req.body.parking_time_start,
             parking_time_end: req.body.parking_time_end,
-            rate_type: req.body.rateType,
-            rate: req.body.price
+            rate_type: req.body.rate_type,
+            rate: req.body.rate
         };
 
         Community.updateXiaoqu(xiaoqu, newXiaoqu);
