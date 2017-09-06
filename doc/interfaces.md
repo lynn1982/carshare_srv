@@ -424,8 +424,9 @@
     {
         type: MSG_TYPE_USER_VERCODE_LOGIN,
         phoneNumber: '18925617845',
-        verCode: '1234'
-    }
+        verCode: '1234',
+        loginType: 'system' //系统管理员、厂商管理员、小区管理员、一般用户
+    }
 ```    
 回复报文
 ```
