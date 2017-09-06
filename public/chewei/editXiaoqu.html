@@ -26,7 +26,7 @@
 					<span class="nameSpan">城市</span><input v-bind:value="info.city" class="inputName" type="text" name="city" placeholder="" />
 					<span class="nameSpan">区</span><input v-bind:value="info.district" class="inputName" type="text" name="district" placeholder="" />
 					<span class="nameSpan">名称</span><input v-bind:value="info.name" class="inputName" type="text" name="name" placeholder="" />
-					<span class="nameSpan">入口地址</span><input  v-bind:value="info.addr_in" class="inputName" type="text" name="addr_in" placeholder="" />
+					<span class="nameSpan">入口地址</span><input v-bind:value="info.addr_in" class="inputName" type="text" name="addr_in" placeholder="" />
 					<span class="nameSpan">出口地址</span><input v-bind:value="info.addr_out" class="inputName" type="text" name="addr_out" placeholder="" />
 					<span class="nameSpan">经度</span><input v-bind:value="info.longitude" class="inputName" type="text" name="longitude" placeholder="" />
 				    <span class="nameSpan">维度</span><input v-bind:value="info.latitude" class="inputName" type="text" name="latitude" placeholder="" />
@@ -42,7 +42,7 @@
 	<script type="text/javascript" src="js/vue.js"></script>
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
-        var info = JSON.parse(window.localStorage.getItem('xqInfo'));        
+        var info = JSON.parse(window.localStorage.getItem('xqInfo'));
 		var vm = new Vue({
 			el: '#pluginContainer',
 			data:{

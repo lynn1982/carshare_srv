@@ -81,6 +81,7 @@ router.put('/pps/:id', auth.userRequired, pps.update);
 router.delete('/pps/:id', auth.userRequired, pps.delete);
 
 router.post('/xiaoqu_new', auth.userRequired, xiaoqu.add);
+router.get('/xiaoqu', auth.userRequired, xiaoqu.get);
 router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.get);
 router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
 router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);

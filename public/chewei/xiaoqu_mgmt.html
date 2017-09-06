@@ -95,6 +95,7 @@
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
         var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var editPage = "editXiaoqu.html";
 		var vm = new Vue({
 			el: '#vueApp',
@@ -186,23 +187,34 @@
                     this.query("", "", "");                    
                 },
                 query: function(city, district, xqname) {
+                    var filter = {
+                    };
+
                     var query = {
                         type: "MSG_T_MGMT_QUERY_XIAOQU"
                     };
 
+                    if (userInfo.role == 2) {
+                        query.pps_id = userInfo.roleId;
+                        filter.pps_id = userInfo.roleId;
+                    }
+
                     if (city != "") {
                         query.city = city;
+                        filter.city = city;
                     }
 
                     if (district != "") {
                         query.district = district;
+                        filter.district = district;
                     }
 
                     if (xqname != "") {
                         query.name = xqname;
+                        filter.name = xqname;
                     }
 
-                    priAjaxPost("/xiaoqu/", query,
+                    priAjaxGet("/xiaoqu?filter="+encodeURI(JSON.stringify(filter)), "",
                             function(data) {
                                 if (data.ret == 0) {
                                     vm.message = data.data;
@@ -213,6 +225,18 @@
                             function() {
                                 alert("获取小区信息失败！");
                             });
+
+                    /*priAjaxPost("/xiaoqu/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(msg);
+                                }
+                            },
+                            function() {
+                                alert("获取小区信息失败！");
+                            });*/
                 }
 			}
 

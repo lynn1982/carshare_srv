@@ -488,14 +488,17 @@ exports.add = function(req, res, next) {
 };
 
 exports.get = function(req, res, next) {
+    console.log(JOSN.stringify(req.body.filter));
     var city = req.body.city;
     var district = req.body.district; 
     var name = req.body.name;
+    var pps_id = req.body.pps_id;
     var list = [];
+
 
     (async () => {
 
-        var xiaoqus = await Community.queryXiaoqu(name, city, district);
+        var xiaoqus = await Community.queryXiaoqu(name, city, district, pps_id);
 
         if (xiaoqus.length > 0) {
             
