@@ -332,53 +332,30 @@ exports.add = function(req, res, next) {
 };
 
 exports.get = function(req, res, next) {
-    var name = req.body.name;
-    var list = [];
+    var id = req.params.id;
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
 
     (async () => {
-        var ppss;
+        var pps;
 
-        if (typeof(name) == "undefined") {
-            ppss = await Pps.queryAllPps();
-        } else {
-            ppss = await Pps.queryPps(name);
-        }
+        pps = await Pps.getPpsById(id);
 
-        if (ppss.length > 0) {
-            for (var i in ppss) {
-                var user = await User.getUserById(ppss[i].user_id);
-                var regdate = ppss[i].createdAt;
-                var month = regdate.getMonth()+1;
-
-                if (user) {
-                    var info = {
-                        id: ppss[i].id,
-                        name: ppss[i].name,
-                        parkNum: ppss[i].parkNum,
-                        regDate: regdate.getFullYear()+'-'+month+'-'+regdate.getDate(),
-                        phone: user.phone_num,
-                        contacts: user.login_name,
-                        email: user.email
-                    };
-                }
-                else {
-                    var info = {
-                        id: ppss[i].id,
-                        parkNum: ppss[i].parkNum,
-                        phone: ppss[i].phone,
-                        contacts: ppss[i].contacts,
-                        email: ppss[i].email
-                    };
-                }
-
-                list.push(info);
-            }
-        }
-
+        /*TODO: add err handling here for no data found */
+        
         var retStr = {
             type: req.body.type,
             ret: 0,
-            data: list
+            data: pps
         };
 
         res.send(JSON.stringify(retStr));
@@ -387,7 +364,7 @@ exports.get = function(req, res, next) {
 };
 
 exports.update = function(req, res, next) {
-    var id = req.body.id;
+    var id = req.params.id;
     var phone = req.body.phone;
     var uid;
 
@@ -395,7 +372,6 @@ exports.update = function(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -433,7 +409,7 @@ exports.update = function(req, res, next) {
 
         var newPps = {
             name: req.body.name,
-            parkNum: req.body.parkNum,
+            //parkNum: req.body.parkNum,
             user_id: uid,
             contacts: req.body.contacts,
             phone: req.body.phone,
@@ -443,7 +419,6 @@ exports.update = function(req, res, next) {
         Pps.updatePps(pps, newPps);
 
         var retStr = {
-            type: req.body.type,
             ret: 0
         };
 
