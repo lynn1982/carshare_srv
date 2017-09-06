@@ -36,6 +36,8 @@
 	<script type="text/javascript" src="js/vue.js"></script>
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+
         var vm = new Vue({
             el: '#pluginContainer',
             data:{
@@ -58,17 +60,11 @@
                 },
                 reload: function() {
                     var _self = this;
-                    var userInfo = {
-                        role: "changshang",
-                        csId: 1,
-                    };
 
-                    window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                    var uInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-
-                    priAjaxGet("/pps/"+uInfo.csId,
-                            "", 
+                    priAjaxGet("/pps/"+userInfo.roleId,
+                            "",
                             function(retData) {
+                                alert(JSON.stringify(retData));
                                 if (retData.ret == 0) {
                                     _self.data.info = retData.data;
                                 }

@@ -46,6 +46,12 @@ Pps.getPpsById = function(id) {
     });
 };
 
+Pps.getPpsByUid = function(uid) {
+    return Pps.findOne({
+        where: {user_id: uid}
+    });
+};
+
 Pps.updatePps = function(pps, newPps) {
     pps.name = newPps.name;
     pps.parkNum = newPps.parkNum;

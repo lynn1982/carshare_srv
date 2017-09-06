@@ -38,7 +38,7 @@ router.get('/', function(req, res, next) {
             break;
         default:
             res.render('loginWithPhonen', {title: '共享车位'});
-    }
+    };
 });
 
 
@@ -71,6 +71,8 @@ router.get('/create_admin', function(req, res, next) {
     }) ()
 });
 
+/* RESTful api start */
+router.post('/user/vcLogin', user.verCodeLogin);
 router.get('/user/logout', auth.userRequired, user.logout);
 
 router.post('/pps_new', auth.userRequired, pps.add);

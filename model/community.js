@@ -102,10 +102,10 @@ Community.updateXiaoqu = function(xiaoqu, newData) {
     xiaoqu.save();
 };
 
-Community.getXiaoquByUser = function(userId) {
+Community.getXiaoquByUid = function(uid) {
 
     return Community.findAll({
-        where: {mgmt_id: userId}
+        where: {mgmt_id: uid}
     });
 };
 

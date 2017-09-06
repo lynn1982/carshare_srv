@@ -95,12 +95,10 @@
 			$(this).children(".leftBlcok").removeClass("red");
 		});
 		$(".logout").on("click",function(){
-			//alert("");
-			/*清空username*/
 			window.sessionStorage.userName = "请登录";
 			$.ajax({
 				type:"get",
-				url:quitUrl,
+				url: "/user/logout",
 				async:true,
 				success:function(){
 					location.reload();

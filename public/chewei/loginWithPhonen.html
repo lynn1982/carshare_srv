@@ -149,13 +149,13 @@
 				loginType: $('#loginType option:selected').val()
 			};
 
-			priAjaxPost("/user/", query,
+			priAjaxPost("/user/vcLogin", query,
 				function(data) {
-					alert(JSON.stringify(data));
 					if(data.ret == 0) {
 						var userInfo = {};
 						userInfo.uid = data.uid;
-						userInfo.role = 4;
+						userInfo.role = data.role;
+						userInfo.roleId = data.roleId;
 						window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
 						$(window).attr('location', window.location.protocol + "//" + window.location.host + "/");
 					} else {

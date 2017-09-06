@@ -7,6 +7,8 @@ var User = require('../model/user');
 var config = require('../config');
 var smskey = require('../middleware/smskey');
 var userRole = require('../middleware/role');
+var Pps = require('../model/pps');
+var Community = require('../model/community');
 
 var AliDayu = require('alidayu-node-sdk');
 var smsClient = new AliDayu({
@@ -193,6 +195,102 @@ function login(req, res, next) {
     });
 }
 
+exports.verCodeLogin = function(req, res, next) {
+    var phoneNum = req.body.phoneNumber;
+    var code = req.body.verCode;
+    var loginType = req.body.loginType;
+    var uid;
+    var role;
+    var roleId=-1;
+    var ep = new eventproxy();
+
+    ep.fail(next);
+
+    ep.on('err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: 1,
+            msg: msg 
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if (phoneNum ==='') {
+        ep.emit('err', '手机号码不能为空');
+        return;
+    }
+
+    if (!validator.isNumeric(phoneNum) || !validator.isLength(phoneNum, 11)) {
+        ep.emit('err', '手机号码不合法');
+        return;
+    }
+
+    (async () => {
+        var user = await User.getUserByPhone(phoneNum);
+
+        /*if (user && user.is_active) {
+            ep.emit('err', '用户已存在');
+            return;
+        }*/
+
+        //get vercode from redis and compare
+        //suppose the result is correct, then do
+        //
+
+        if (user) {
+
+            //await User.setUserActive(user);
+            uid = user.id;
+            role = user.role;
+            authMiddleWave.gen_session(user, res);
+
+            console.log("loginType="+loginType);
+            if (loginType == "system") {
+            } else if (loginType == "changshang") {
+                var pps = await Pps.getPpsByUid(uid);
+                if (!pps) {
+                    ep.emit('err', '没有此厂商管理员帐号！');
+                    return;
+                }
+                roleId = pps.id;
+            } else if (loginType == "xiaoqu") {
+                var xiaoqu = await Community.getXiaoquByUid(uid);
+                if (!xiaoqu) {
+                    ep.emit('err', '没有此小区管理员帐号！');
+                    return;
+                }
+                roleId = xiaoqu.id;
+            } else {
+            }
+
+        }
+        else {
+            var newUser = {
+                phone_num: phoneNum,
+                //is_active: true
+            };
+
+            var newuser = await User.newAndSave(newUser);
+            uid = newuser.id;
+            role = newuser.role;
+            authMiddleWave.gen_session(newuser, res);
+
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            uid: uid,
+            role: userRole.getUserRole(role),
+            roleId: roleId
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+
+}
 
 exports.logout = function loginout(req, res, next) {
 
