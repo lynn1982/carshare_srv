@@ -1,53 +1,102 @@
 ## 目录
-* [后台管理接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#1-后台管理接口)
-   * [用户](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-用户)
-   * [信息管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#12-信息管理)
-      * [查询设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#121-查询设备厂商信息)
-      * [增加设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#122-增加设备厂商信息)
-      * [修改设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#123-修改设备厂商信息)
-      * [删除设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#124-删除设备厂商信息)
-      * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#125-查询小区信息)
-      * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#126-增加小区信息)
-      * [修改小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#127-修改小区信息)
-      * [删除小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#128-删除小区信息)
-      * [修改小区统一管理的共享车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#129-修改小区统一管理的共享车位信息)
-   * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-业务数据查询)
-      * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#131-查询车辆进出记录)
-      * [查询某个设备厂商的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#132-查询某个设备厂商的账单明细)
-      * [查询某个小区的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#133-查询某个小区的账单明细)
-      * [查询某个用户的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#134-查询某个用户的账单明细)
-   * [RESTful API List](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-restful-api-list)
+* [RESTful API List](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#1-restful-api-list)
+* [后台管理接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台管理接口)
 
-* [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台与app接口)
-    * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户注册与登录)
-        * [获取手机验证码](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#211-获取手机验证码)
-        * [手机验证码登陆](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#212-手机验证码登陆)
-        * [获取用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#213-获取用户信息)
-        * [修改用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#214-修改用户信息)
-        * [用户注销登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#215-用户注销登录)
-    * [车位查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#22-车位查询)
-        * [获取周边车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取周边车位信息)
-        * [获取小区车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-获取小区车位信息)
-    * [车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#23-预定车位)
-        * [预定车位(pre-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#231-预定车位pre-pay)
-        * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-预定车位post-pay)
-        * [获取我的预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-获取我的预定)
-        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#234-取消车位预定)
-     * [个人信息查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#24-个人信息查询)
-        * [查看我的历史停车信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#241-查看我的历史停车信息)
+   * [用户](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户)
+   * [信息管理](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#22-信息管理)
+      * [查询设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#221-查询设备厂商信息)
+      * [增加设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#222-增加设备厂商信息)
+      * [修改设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#223-修改设备厂商信息)
+      * [删除设备厂商信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#224-删除设备厂商信息)
+      * [查询小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#225-查询小区信息)
+      * [新增小区](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#226-增加小区信息)
+      * [修改小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#227-修改小区信息)
+      * [删除小区信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#228-删除小区信息)
+      * [修改小区统一管理的共享车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#229-修改小区统一管理的共享车位信息)
+   * [业务数据查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#23-业务数据查询)
+      * [查询车辆进出记录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#231-查询车辆进出记录)
+      * [查询某个设备厂商的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#232-查询某个设备厂商的账单明细)
+      * [查询某个小区的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#233-查询某个小区的账单明细)
+      * [查询某个用户的账单明细](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#234-查询某个用户的账单明细)
 
-## 1. 后台管理接口
-### 1.1 用户
-#### 1.1.1 登陆
-#### 1.1.2 退出
-### 1.2 信息管理
+* [后台与APP接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#3-后台与app接口)
+    * [用户注册与登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#31-用户注册与登录)
+        * [获取手机验证码](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#311-获取手机验证码)
+        * [手机验证码登陆](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#312-手机验证码登陆)
+        * [获取用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#313-获取用户信息)
+        * [修改用户信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#314-修改用户信息)
+        * [用户注销登录](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#315-用户注销登录)
+    * [车位查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#32-车位查询)
+        * [获取周边车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#321-获取周边车位信息)
+        * [获取小区车位信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#321-获取小区车位信息)
+    * [车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#33-预定车位)
+        * [预定车位(pre-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#331-预定车位pre-pay)
+        * [预定车位(post-pay)](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#332-预定车位post-pay)
+        * [获取我的预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#333-获取我的预定)
+        * [取消车位预定](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#334-取消车位预定)
+     * [个人信息查询](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#34-个人信息查询)
+        * [查看我的历史停车信息](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#341-查看我的历史停车信息)
+
+## 1 RESTful API List
+### 1.1 URL列表
+|URL|METHOD|功能|
+|:----|:----:|:----|
+|/user/logout|GET|用户退出登陆|
+|/pps/|POST|创建厂商|
+|/pps/[objId]|GET|获取厂商信息|
+|/pps/[objId]|PUT|修改厂商信息|
+|/pps/[objId]|DELETE|删除厂商信息|
+|/xiaoqu/|POST|创建小区|
+|/xiaoqu/[objId]|GET|获取小区信息|
+|/xiaoqu/[objId]|PUT|修改小区信息|
+|/xiaoqu/[objId]|DELETE|删除小区信息|
+  
+### 1.2 POST/PUT/DELETE成功回复报文
+```
+{
+  ret: 0
+}
+```
+### 1.3 GET成功回复报文
+```
+//单实例
+{
+  ret: 0,
+  data: {
+  }
+}
+
+//多实例
+{
+  ret: 0,
+  data: [
+    {
+    },
+    {
+    }
+  ]
+}
+```
+### 1.4 失败回复报文
+```
+{
+  ret: [非0值],
+  msg: ""
+}
+```
+
+## 2. 后台管理接口
+### 2.1 用户
+#### 2.1.1 登陆
+#### 2.1.2 退出
+### 2.2 信息管理
 
 |METHOD|PATH|MSG TYPE|
 |------|----|----|
 |POST|/pps|MSG_T_MGMT_QUERY_PPS<br>MSG_T_MGMT_NEW_PPS<br>MSG_T_MGMT_UPDATE_PPS<br>MSG_T_MGMT_DEL_PPS|
 |POST|/xiaoqu|MSG_T_MGMT_QUERY_XIAOQU<br>MSG_T_MGMT_NEW_XIAOQU<br>MSG_T_MGMT_UPDATE_XIAOQU<br>MSG_T_MGMT_DELETE_XIAOQU<br>MSG_T_MGMT_UPDATE_XIAOQU_CHEWEI_0|
 
-#### 1.2.1 查询设备厂商信息
+#### 2.2.1 查询设备厂商信息
 上报报文
 ```
     {
@@ -73,7 +122,7 @@
         ];
     }
 ```
-#### 1.2.2 增加设备厂商信息
+#### 2.2.2 增加设备厂商信息
 上报报文
 ```
     {
@@ -94,7 +143,7 @@
     }
 ```
 
-#### 1.2.3 修改设备厂商信息
+#### 2.2.3 修改设备厂商信息
 上报报文
 ```
     {
@@ -114,7 +163,7 @@
         ret: 0,
     }
 ```
-#### 1.2.4 删除设备厂商信息
+#### 2.2.4 删除设备厂商信息
 上报报文
 ```
     {
@@ -129,7 +178,7 @@
         ret: 0,
     }
 ```
-#### 1.2.5 查询小区信息
+#### 2.2.5 查询小区信息
 上报报文
 ```
     {
@@ -151,7 +200,7 @@
         ]
     }
 ```
-#### 1.2.6 增加小区信息
+#### 2.2.6 增加小区信息
 上报报文
 ```
     {   //新增小区时，不包括车位相关的信息
@@ -178,7 +227,7 @@
     }
 ```
 
-#### 1.2.7 修改小区信息
+#### 2.2.7 修改小区信息
 上报报文
 ```
     {   //修改小区信息，携带的字段是以下字段的全部或部分，后台只更新消息中携带的字段值，其他的保持不变
@@ -209,7 +258,7 @@
         msg:"重复添加"，
     } 
 ```
-#### 1.2.8 删除小区信息
+#### 2.2.8 删除小区信息
 上报报文
 ```
     {
@@ -225,7 +274,7 @@
     }
 ```
 
-#### 1.2.9 修改小区统一管理的共享车位信息
+#### 2.2.9 修改小区统一管理的共享车位信息
 上报报文
 ```
     {
@@ -246,8 +295,8 @@
         msg:"重复添加"，
     } 
 ```
-### 1.3 业务数据查询
-#### 1.3.1 查询车辆进出记录
+### 2.3 业务数据查询
+#### 2.3.1 查询车辆进出记录
 上报报文
 ```
     {
@@ -281,7 +330,7 @@
         ];
     }
 ```
-#### 1.3.2 查询某个设备厂商的账单明细
+#### 2.3.2 查询某个设备厂商的账单明细
 上报报文
 ```
     {
@@ -302,7 +351,7 @@
         }
     }
 ```
-#### 1.3.3 查询某个小区的账单明细
+#### 2.3.3 查询某个小区的账单明细
 上报报文
 ```
     {
@@ -324,7 +373,7 @@
     }
 ```
 
-#### 1.3.4 查询某个用户的账单明细
+#### 2.3.4 查询某个用户的账单明细
 上报报文
 ```
     {
@@ -346,63 +395,17 @@
     }
 ```
 
-### 1.4 RESTful API List
-#### 1.4.1 URL列表
-|URL|METHOD|功能|
-|:----|:----:|:----|
-|/user/logout|GET|用户退出登陆|
-|/pps/|POST|创建厂商|
-|/pps/[objId]|GET|获取厂商信息|
-|/pps/[objId]|PUT|修改厂商信息|
-|/pps/[objId]|DELETE|删除厂商信息|
-|/xiaoqu/|POST|创建小区|
-|/xiaoqu/[objId]|GET|获取小区信息|
-|/xiaoqu/[objId]|PUT|修改小区信息|
-|/xiaoqu/[objId]|DELETE|删除小区信息|
-  
-#### 1.4.2 POST/PUT/DELETE成功回复报文
-```
-{
-  ret: 0
-}
-```
-#### 1.4.3 GET成功回复报文
-```
-//单实例
-{
-  ret: 0,
-  data: {
-  }
-}
 
-//多实例
-{
-  ret: 0,
-  data: [
-    {
-    },
-    {
-    }
-  ]
-}
-```
-#### 1.4.4 失败回复报文
-```
-{
-  ret: [非0值],
-  msg: ""
-}
-```
 
-## 2. 后台与APP接口
-### 2.1 用户注册与登录
+## 3. 后台与APP接口
+### 3.1 用户注册与登录
 
 |METHOD|PATH|MSG TYPE|
 |:----:|:-----:|:----|
 |POST|/user|MSG_TYPE_USER_GET_VERCODE<br>MSG_TYPE_USER_VERCODE_LOGIN<br>MSG_TYPE_USER_GET_INFO<br>MSG_TYPE_USER_CHANGE_INFO<br>MSG_TYPE_USER_LOGINOUT|
 
 
-#### 2.1.1 获取手机验证码
+#### 3.1.1 获取手机验证码
 
 上报报文
 ```
@@ -418,7 +421,7 @@
         ret：0
     }
 ```
-#### 2.1.2 手机验证码登陆
+#### 3.1.2 手机验证码登陆
 
 上报报文
 ```
@@ -437,7 +440,7 @@
     }
 ```
 
-#### 2.1.3 获取用户信息
+#### 3.1.3 获取用户信息
 
 上报报文
 ```
@@ -459,7 +462,7 @@
     }
 ```
 
-#### 2.1.4 修改用户信息
+#### 3.1.4 修改用户信息
 
 上报报文
 ```
@@ -480,7 +483,7 @@
         ret：0
     }
 ```
-#### 2.1.5 用户注销登录
+#### 3.1.5 用户注销登录
 
 上报报文
 ```
@@ -496,14 +499,14 @@
     }
 ```
 
-### 2.2 车位查询
+### 3.2 车位查询
 
 |METHOD|PATH|MSG TYPE|
 |------|----|:----|
 |POST|/xiaoqu|MSG_T_GET_AREA_CHEWEI<br>MSG_T_GET_XIAOQU_CHEWEI|
 
 
-#### 2.2.1 获取周边车位信息
+#### 3.2.1 获取周边车位信息
 上报报文
 ```
     {
@@ -538,7 +541,7 @@
         ]
     }
 ```
-#### 2.2.1 获取小区车位信息
+#### 3.2.1 获取小区车位信息
 上报报文
 ```
     {
@@ -577,7 +580,7 @@
         }
     }
 ```
-### 2.3 预定车位
+### 3.3 预定车位
 |METHOD|PATH|MSG TYPE|
 |------|----|:----|
 |POST|/parking|MSG_TYPE_PARKING_ORDER_PRE<br>MSG_TYPE_PARKING_ORDER_POST<br>MSG_TYPE_PARKING_GET_MY_ORDER<br>MSG_TYPE_PARKING_ORDER_CANCEL|
@@ -603,7 +606,7 @@
     }
 ```
 
-#### 2.3.2 预定车位（POST PAY）
+#### 3.3.2 预定车位（POST PAY）
 上报报文
 ```
     {
@@ -621,7 +624,7 @@
     }
 ```
 
-#### 2.3.3 获取我的预定
+#### 3.3.3 获取我的预定
 上报报文
 ```
     {
@@ -649,7 +652,7 @@
     }
 ```
 
-#### 2.3.4 取消车位预定
+#### 3.3.4 取消车位预定
 上报报文
 ```
     {
@@ -665,11 +668,11 @@
         ret：0
     }
 ```
-### 2.4 个人信息查询
+### 3.4 个人信息查询
 |METHOD|PATH|MSG TYPE|
 |------|----|:----|
 |POST|/parking|MSG_TYPE_GET_HISTORY_PARK_INFO|
-#### 2.4.1 查看我的历史停车信息
+#### 3.4.1 查看我的历史停车信息
 上报报文
 ```
     {
