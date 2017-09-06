@@ -2,6 +2,8 @@
 var config = require('../config');
 var User = require('../model/user');
 var eventproxy = require('eventproxy');
+var Pps = require('../model/pps');
+var Community = require('../model/community');
 
 exports.userRequired = function(req, res, next) {
     if (!req.session || !req.session.user) {
@@ -94,7 +96,7 @@ exports.authUser = function(req, res, next) {
             if (userRole == "system" || userRole == "user") {
                 user = await User.getUserById(userRoleId);
             } else if (userRole == "changshang") {
-                user = await Pps.getPpsByPhone(userRoleId);
+                user = await Pps.getPpsById(userRoleId);
             } else if (userRole == "xiaoqu") {
                 user = await Community.getXiaoquById(userRoleId);
             }

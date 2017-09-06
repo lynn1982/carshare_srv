@@ -240,13 +240,13 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "system";
             user.roleId = sys.id;
         } else if (loginType == "changshang") {
-            var pps = await Pps.getPpsByPhone(filter);
+            var pps = await Pps.query(filter);
             if (!pps) {
                 ep.emit('err', '没有此厂商管理员帐号！');
                 return;
             }
             user.role = "changshang";
-            user.roleId = pps.id;
+            user.roleId = pps[0].id;
         } else if (loginType == "xiaoqu") {
             var xiaoqu = await Community.query(filter);
             if (!xiaoqu) {
@@ -254,7 +254,7 @@ exports.verCodeLogin = function(req, res, next) {
                 return;
             }
             user.role = "xiaoqu";
-            user.roleId = xiaoqu.id;
+            user.roleId = xiaoqu[0].id;
         } else if (loginType == "user") {
             var usr = await User.getUserByPhone(phoneNum);
 
