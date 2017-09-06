@@ -156,9 +156,9 @@ Community.queryXiaoqu = function(name, city, district) {
 };
 
 
-Community.query = function(qFilter) {
+Community.query = function(qfilter) {
     var filter = {
-        where: qFilter
+        where: qfilter
     };
 
     return Community.findAll(filter);

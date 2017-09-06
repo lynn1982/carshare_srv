@@ -43,12 +43,14 @@ exports.mgmtRequired = function(req, res, next) {
 };
 
 exports.gen_session = function(user, res) {
-    var auth_token = user.id + '$$$$';
+    var auth_token = user.role + '$$$$' + user.roleId;
     var opts = {
         path: '/',
         signed: true,
         httpOnly: true
     };
+
+    console.log("gen_session() auth_token="+auth_token);
 
     res.cookie(config.auth_cookie_name, auth_token, opts);
 };
@@ -64,6 +66,8 @@ exports.authUser = function(req, res, next) {
 
         req.session.user = user;
 
+        console.log(req.session);
+
         return next();
     });
 
@@ -78,11 +82,27 @@ exports.authUser = function(req, res, next) {
         console.log('auth token:'+auth_token);
 
         var auth = auth_token.split('$$$$');
-        var user_id = auth[0];
+        var userRole = auth[0];
+        var userRoleId = auth[1];
+        var newUser = {
+            role: userRole,
+            roleId: userRoleId
+        };
 
         (async () => {
-            var user = await User.getUserById(user_id);
-            ep.emit('get_user', user);
+            var user = null;
+            if (userRole == "system" || userRole == "user") {
+                user = await User.getUserById(userRoleId);
+            } else if (userRole == "changshang") {
+                user = await Pps.getPpsByPhone(userRoleId);
+            } else if (userRole == "xiaoqu") {
+                user = await Community.getXiaoquById(userRoleId);
+            }
+            if (user) {
+                ep.emit('get_user', newUser);
+            } else {
+                ep.emit('get_user', user);
+            }
 
         }) ()
     }

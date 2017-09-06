@@ -118,8 +118,7 @@
                         type: "MSG_T_MGMT_DELETE_XIAOQU",
                         cid: id
                     };
-
-                    priAjaxPost("/xiaoqu/", query,
+                    priAjaxDel("/xiaoqu/"+id,
                             function(data) {
                                 if (data.ret == 0) {
                                     this.reload();
@@ -127,7 +126,17 @@
                             },
                             function() {
                                 alert("删除失败！");
-                            });                    
+                            });
+
+                    /*priAjaxPost("/xiaoqu/", query,
+                            function(data) {
+                                if (data.ret == 0) {
+                                    this.reload();
+                                }
+                            },
+                            function() {
+                                alert("删除失败！");
+                            }); */                   
 				},
 				deleteItem: function(athis) {
 					var info = $(athis.currentTarget).parent().attr("info");
@@ -190,7 +199,7 @@
                     var filter = {
                     };
 
-                    if (userInfo.role == 2) {
+                    if (userInfo.role == "changshang") {
                         filter.pps_id = userInfo.roleId;
                     }
 

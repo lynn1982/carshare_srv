@@ -572,7 +572,7 @@ exports.update = function(req, res, next) {
 };
 
 exports.delete = function(req, res, next) {
-    var id = req.body.cid;
+    var id = req.params.id;
 
     var ep = new eventproxy();
     ep.fail(next);

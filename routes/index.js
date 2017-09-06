@@ -8,7 +8,6 @@ var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
 var pps = require('../control/pps');
-var userRole = require('../middleware/role');
 
 
 /* GET home page. */
@@ -19,21 +18,20 @@ router.get('/', function(req, res, next) {
         return;
     }
 
-    var role = userRole.getUserRole(req.session.user.role);
+    console.log(JSON.stringify(req.session.user));
 
-    console.log('----role----:'+role);
-    switch(role)
+    switch(req.session.user.role)
     {
-        case userRole.ur_system:
+        case "system":
             res.render('main_admin', {title: '共享车位'});
             break;
-        case userRole.ur_changshang:
+        case "changshang":
             res.render('main_changshang', {title: '共享车位'}); 
             break;
-        case userRole.ur_xiaoqu:
+        case "xiaoqu":
             res.render('main_xiaoqu', {title: '共享车位'}); 
             break;
-        case userRole.ur_user:
+        case "user":
             res.render('main_user', {title: '共享车位'}); 
             break;
         default:

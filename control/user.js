@@ -199,10 +199,10 @@ exports.verCodeLogin = function(req, res, next) {
     var phoneNum = req.body.phoneNumber;
     var code = req.body.verCode;
     var loginType = req.body.loginType;
-    var uid;
-    var role;
-    var roleId=-1;
     var ep = new eventproxy();
+    var filter = {
+        phone: phoneNum
+    };
 
     ep.fail(next);
 
@@ -227,63 +227,61 @@ exports.verCodeLogin = function(req, res, next) {
     }
 
     (async () => {
-        var user = await User.getUserByPhone(phoneNum);
-
-        /*if (user && user.is_active) {
-            ep.emit('err', '用户已存在');
-            return;
-        }*/
-
-        //get vercode from redis and compare
-        //suppose the result is correct, then do
-        //
-
-        if (user) {
-
-            //await User.setUserActive(user);
-            uid = user.id;
-            role = user.role;
-            authMiddleWave.gen_session(user, res);
-
-            console.log("loginType="+loginType);
-            if (loginType == "system") {
-            } else if (loginType == "changshang") {
-                var pps = await Pps.getPpsByUid(uid);
-                if (!pps) {
-                    ep.emit('err', '没有此厂商管理员帐号！');
-                    return;
-                }
-                roleId = pps.id;
-            } else if (loginType == "xiaoqu") {
-                var xiaoqu = await Community.getXiaoquByUid(uid);
-                if (!xiaoqu) {
-                    ep.emit('err', '没有此小区管理员帐号！');
-                    return;
-                }
-                roleId = xiaoqu.id;
-            } else {
+        var user = {
+            role: "user",
+            roleId: -1
+        };
+        if (loginType == "system") {
+            var sys = await User.getUserByPhone(phoneNum);
+            if (!sys) {
+                ep.emit('err', '没有此系统管理员帐号！');
+                return;
             }
+            user.role = "system";
+            user.roleId = sys.id;
+        } else if (loginType == "changshang") {
+            var pps = await Pps.getPpsByPhone(filter);
+            if (!pps) {
+                ep.emit('err', '没有此厂商管理员帐号！');
+                return;
+            }
+            user.role = "changshang";
+            user.roleId = pps.id;
+        } else if (loginType == "xiaoqu") {
+            var xiaoqu = await Community.query(filter);
+            if (!xiaoqu) {
+                ep.emit('err', '没有此小区管理员帐号！');
+                return;
+            }
+            user.role = "xiaoqu";
+            user.roleId = xiaoqu.id;
+        } else if (loginType == "user") {
+            var usr = await User.getUserByPhone(phoneNum);
 
+            if (!usr) {
+                var newUser = {
+                    phone_num: phoneNum
+                };
+
+                usr = await User.newAndSave(newUser);
+                if (!usr) {
+                    ep.emit('err', '后台错误！');
+                    return;
+                }
+            }
+            user.role = "user";
+            user.roleId = usr.id;
+        } else {
+            ep.emit('err', '参数错误！');
+            return;
         }
-        else {
-            var newUser = {
-                phone_num: phoneNum,
-                //is_active: true
-            };
 
-            var newuser = await User.newAndSave(newUser);
-            uid = newuser.id;
-            role = newuser.role;
-            authMiddleWave.gen_session(newuser, res);
-
-        }
+        authMiddleWave.gen_session(user, res);
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
-            uid: uid,
-            role: userRole.getUserRole(role),
-            roleId: roleId
+            role: user.role,
+            roleId: user.roleId
         };
 
         res.send(JSON.stringify(retStr));

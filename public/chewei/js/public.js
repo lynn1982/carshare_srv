@@ -102,3 +102,17 @@ function priAjaxPost(path, query, successfunc, errorfunc) {
         }
     });
 }
+
+function priAjaxDel(path, successfunc, errorfunc) {
+    $.ajax({
+        type: "delete",
+        url: path,
+        timeout: 2000,
+        success: function(ret) {
+            successfunc(ret);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            errorfunc();
+        }
+    });
+}

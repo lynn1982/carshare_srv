@@ -79,4 +79,11 @@ Pps.queryAllPps = function() {
     });
 };
 
+Pps.query = function(qfilter) {
+    var filter = {
+        where: qfilter
+    };
+    return Pps.findAll(filter);
+};
+
 module.exports = Pps;

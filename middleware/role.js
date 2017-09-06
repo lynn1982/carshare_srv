@@ -1,10 +1,10 @@
 
 var UserRole = {
-    ur_unlogin: 0, 
-    ur_user: 1,
-    ur_changshang: 2, 
-    ur_xiaoqu: 3, 
-    ur_system: 4 
+    ur_unlogin: "none",
+    ur_user: "user",
+    ur_xiaoqu: "xiaoqu",
+    ur_changshang: "changshang",
+    ur_system: "system"
 };
 
 UserRole.getUserRole = function (role) {
