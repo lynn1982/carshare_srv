@@ -29,6 +29,14 @@
 		<div id="loginContainer">
 			<div class="loginWelcom">车位共享平台</div>
 			<form action="/login" method="post" id='loginform' name='loginform'>
+                <div>
+                    <a>帐号类型:</a>
+                    <select id="loginType"><option selected="selected" value="system">系统管理员</option>
+                        <option value="changshang">厂商管理员</option>
+                        <option value="xiaoqu">小区管理员</option>
+                        <option value="user">一般用户</option>
+                    </select>                    
+                </div>
 
 				<div class="inputDiv">
 					<div class="loginIcon"><img src="img/login_name.png" /></div>
@@ -103,27 +111,20 @@
             }, 1000);
 
 
-
             var query = {
                 type: "MSG_TYPE_USER_GET_VERCODE",
                 phoneNumber: $('#phoneNum').val()
             };
-            $.ajax({
-                type: "post",
-                url: g_url,
-                timeout: 3000,  //3s                
-                async: true,
-                cache: false,
-                data: JSON.stringify(query),                
-                success: function(data){
-                    if (data.ret == 0) {
-                        alert("发送验证码成功!");
-                    }
-                },
-                error: function() {
-                    alert("获取验证码失败!");
-                }
-            });
+
+            priAjaxPost("/user/", query,
+                    function(data){
+                        if (data.ret == 0) {
+                            alert("发送验证码成功!");
+                        }
+                    },
+                    function() {
+                        alert("获取验证码失败!");
+                    });
 
         });
 
@@ -138,12 +139,19 @@
             var query = {
                 type: "MSG_TYPE_USER_VERCODE_LOGIN",
                 phoneNumber: $('#phoneNum').val(),
-                verCode: $('#verCode').val()
+                verCode: $('#verCode').val(),
+                loginType: $('#loginType option:selected').val()
             };
 
             priAjaxPost("/user/", query,
                     function(data){
+                        alert(JSON.stringify(data));
                         if (data.ret == 0) {
+                            var userInfo = {
+                            };
+                            userInfo.uid = data.uid;
+                            userInfo.role = 4;
+                            window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
                             $(window).attr('location', window.location.protocol+"//"+window.location.host+"/");
                         } else {
                             alert(data.msg);
