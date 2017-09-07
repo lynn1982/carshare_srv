@@ -177,7 +177,7 @@ function login(req, res, next) {
             return;
         }
 
-        if (!user.is_active && !user.role == 'super') {
+        if (!user.is_active && !user.role == 'system') {
             ep.emit('login_error', '此用户还没有激活');
             return;
         }
@@ -568,7 +568,7 @@ function getUserInfo(req, res, next) {
 
 function changeUserInfo(req, res, next) {
 
-    var id = req.body.uid;
+    var id = req.session.user.id;
 
     var ep = new eventproxy();
     ep.fail(next);

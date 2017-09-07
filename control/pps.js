@@ -68,7 +68,7 @@ function addPps(req, res, next) {
                 login_name: contacts,
                 phone_num: phone,
                 email: email,
-                role: 'pps'
+                role: 'changshang'
             };
 
             var newuser = await User.newAndSave(newUser);
@@ -195,7 +195,7 @@ function updatePps(req, res, next) {
                     phone_num: phone,
                     login_name: req.body.contacts,
                     email: req.body.email,
-                    role: 'pps'
+                    role: 'changshang'
                 };
 
                 var newuser = await User.newAndSave(newUser);

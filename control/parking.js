@@ -3,6 +3,7 @@ var Parking = require('../model/parking');
 var Order = require('../model/transaction');
 var Community = require('../model/community');
 var eventproxy = require('eventproxy');
+var User = require('../model/user');
 
 
 exports.message_handle = function(req, res, next) {
@@ -199,6 +200,8 @@ function orderPre(req, res, next) {
 
     var resr = resId.split('_');
     var pay;
+    var xqname;
+    var chepai;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -214,16 +217,13 @@ function orderPre(req, res, next) {
 
     (async () => {
 
-        if (resr[0] === 'c') {
-            var xiaoqu = await Community.getXiaoquById(resr[1]);
-            if (!xiaoqu) {
-                ep.emit('order_err', '小区信息错误');
-                return;
-            }
-
-            pay = xiaoqu.rate;
+        var xiaoqu = await Community.getXiaoquById(cid);
+        if (!xiaoqu) {
+            ep.emit('order_err', '小区信息错误');
+            return;
         }
-        else {
+
+        if (resr[0] === 'p') {
             var parking = await Parking.getDataById(resr[1]);
             if (!parking) {
                 ep.emit('order_err', '车位信息错误');
@@ -232,6 +232,14 @@ function orderPre(req, res, next) {
 
             pay = parking.rate;
         }
+        else {
+            pay = xiaoqu.rate;
+        }
+
+        xqname = xiaoqu.name;
+
+        var usr = await User.getUserById(uid);
+        chepai = usr.car_license;
 
         var newOrder ={
             user_id: uid,
@@ -239,7 +247,9 @@ function orderPre(req, res, next) {
             info: resId,
             state: 'pre',
             in_time: req.body.timeStart,
-            out_time: req.body.timeEnd
+            out_time: req.body.timeEnd,
+            xqname: xqname,
+            chepai: chepai
         };
 
         var order = await Order.newAndSave(newOrder);
@@ -421,3 +431,30 @@ function getHistoryPark(req, res, next) {
 
     }) ()
 }
+
+exports.getBill = function(req, res, next) {
+    
+    var list = [];
+    var filter = JSON.parse(req.query.filter);
+
+    console.log(req.query.filter);
+
+    (async() => {
+        var orders = await Order.query(filter); 
+
+        if (orders.length > 0) {
+            for (var i in orders) {
+                list.push(orders[i]); 
+            }
+        }
+
+        var retStr = {
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+};
+

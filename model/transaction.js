@@ -24,7 +24,11 @@ var Transaction = sequelize.define('transaction', {
 
     per_amount: {type: Sequelize.INTEGER},
 
-    state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel']}
+    state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel']},
+
+    chepai: {type: Sequelize.STRING},
+
+    xqname: {type: Sequelize.STRING}
 
     },{
 
@@ -46,7 +50,9 @@ Transaction.newAndSave = function(order) {
         mode: order.mode,
         state: order.state,
         in_time: order.in_time,
-        out_time: order.out_time
+        out_time: order.out_time,
+        xqname: order.xqname,
+        chepai: order.chepai
     });
 };
 
@@ -89,6 +95,14 @@ Transaction.getOrdersByLimit = function(uid, limit, offset, order) {
         'offset': offset,
         'order': order
     });
+};
+
+Transaction.query = function(qfilter) {
+    var filter = {
+        where: qfilter
+    };
+
+    return Transaction.findAll(filter);
 };
 
 module.exports = Transaction;

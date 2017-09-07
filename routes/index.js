@@ -60,7 +60,7 @@ router.get('/create_admin', function(req, res, next) {
             login_name: config.admin,
             passwd: pass,
             phone_num: config.phone_num,
-            role: 'super'
+            role: 'system'
         };
 
         User.newAndSave(admin);
@@ -83,5 +83,7 @@ router.get('/xiaoqu', auth.userRequired, xiaoqu.get);
 router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.getone);
 router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
 router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);
+
+router.get('/parking/bill', auth.userRequired, park.getBill);
 
 module.exports = router;

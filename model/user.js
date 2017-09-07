@@ -28,7 +28,7 @@ var User = sequelize.define('user', {
 
     is_mgmt: {type: Sequelize.BOOLEAN, defaultValue: false},
 
-    role: {type: Sequelize.ENUM, values: ['super', 'normal', 'pps', 'property'], defaultValue: 'normal'}
+    role: {type: Sequelize.ENUM, values: ['system', 'changshang', 'xiaoqu', 'user'], defaultValue: 'user'}
     
     }, {
 
