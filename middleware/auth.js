@@ -88,7 +88,7 @@ exports.authUser = function(req, res, next) {
         var userRoleId = auth[1];
         var newUser = {
             role: userRole,
-            roleId: userRoleId
+            id: userRoleId
         };
 
         (async () => {
