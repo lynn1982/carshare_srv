@@ -84,13 +84,8 @@
                     window.localStorage.setItem('manuInfo', JSON.stringify(manuInfo));
 					location.href = editPage;
 				},
-				deleteReq: function(id) {
-                    var query = {
-                        type: "MSG_T_MGMT_DEL_PPS",
-                        id: id
-                    };
-
-                    priAjaxPost("/pps/", query,
+                deleteReq: function(id) {
+                    priAjaxDel("/pps/"+id,
                             function(data) {
                                 if (data.ret == 0) {
                                     this.reload();
@@ -99,7 +94,7 @@
                             function() {
                                 alert("删除失败！");
                             });
-				},
+                },
 				deleteItem: function(athis) {
 					var info = $(athis.currentTarget).attr("info");
 					var confirm1 = confirm("确定删除？");
@@ -125,15 +120,12 @@
                     this.query("");
                 },
                 query: function(csname) {
-                    var query = {
-                        type: "MSG_T_MGMT_QUERY_PPS"
-                    };
-
+                    var filter = {};
                     if (csname != "") {
-                        query.name = csname;
+                        filter.name = csname;
                     }
 
-                    priAjaxPost("/pps/", query,
+                    priAjaxGet("/pps?filter="+encodeURI(JSON.stringify(filter)), "",
                             function(data) {
                                 if (data.ret == 0) {
                                     vm.message = data.data;

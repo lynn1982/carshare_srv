@@ -48,32 +48,37 @@
 		
 		
 		function apply() {
-            var url = window.location.protocol+"//"+window.location.host+"/pps/";
-            var type;
-            var data = {};
-
             if (info.action == "add") {
-                type = "MSG_T_MGMT_NEW_PPS";
+                $("#addPluginForm").ajaxSubmit({
+                    type: 'post',
+                    url: '/pps_new',
+                    timeout: 2000,
+                    cache: false,
+                    data: {
+                    },
+                    success: function(data) {
+                        alert("成功");
+                    },
+                    error: function() {
+                        alert("失败");
+                    }
+                });
             } else {
-                type = "MSG_T_MGMT_UPDATE_PPS";
+                $("#addPluginForm").ajaxSubmit({
+                    type: 'put',
+                    url: '/pps/'+info.id,
+                    timeout: 2000,
+                    cache: false,
+                    data: {
+                    },
+                    success: function(data) {
+                        alert("成功");
+                    },
+                    error: function() {
+                        alert("失败");
+                    }
+                });
             }
-
-			$("#addPluginForm").ajaxSubmit({
-				type: 'post',
-				url: url,
-                timeout: 2000,
-				cache: false,
-                data: {
-                    type: type,
-                    id: info.id
-                },
-                success: function(data) {
-					alert("成功");
-				},
-				error: function() {
-					alert("失败");
-				}
-			}); //ajax
 		}
 		
 	</script>

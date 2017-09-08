@@ -437,7 +437,6 @@ exports.add = function(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -475,7 +474,6 @@ exports.add = function(req, res, next) {
         }
         else {
             var retStr = {
-                type: req.body.type,
                 ret: 0,
                 cid: xiaoqu.id
             };
@@ -557,7 +555,6 @@ exports.update = function(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -598,7 +595,6 @@ exports.update = function(req, res, next) {
         Community.updateXiaoqu(xiaoqu, newXiaoqu);
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
         };
 
@@ -615,7 +611,6 @@ exports.delete = function(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -633,7 +628,6 @@ exports.delete = function(req, res, next) {
         Community.deleteXiaoqu(xiaoqu);
 
         var retStr = {
-            type: req.body.type,
             ret: 0
         };
 
