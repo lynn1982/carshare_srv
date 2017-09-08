@@ -56,6 +56,8 @@
 |/xiaoqu/[objId]|PUT|修改小区信息||
 |/xiaoqu/[objId]|DELETE|删除小区信息||
 |||||
+|/currOrder|GET|获取我的当前预定|?filter={"uid":2}|
+|||||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|
 |||||
 |/dev|POST|设备上报车辆进出信息||
