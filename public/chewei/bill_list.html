@@ -47,7 +47,6 @@
 						<tr>
 							<th>车牌</th>
 							<th>小区</th>
-                            <th>日期</th>
 							<th>进场时间</th>
                             <th>出场时间</th>
 							<th>停车费(元)</th>
@@ -55,7 +54,6 @@
 						<tr id="cell" class="cell" v-for="dic in message">
 							<td>{{dic.chepai}}</td>
 							<td>{{dic.cname}}</td>
-							<td>{{dic.date}}</td>
 							<td>{{dic.inTime}}</td>
 							<td>{{dic.outTime}}</td>
 							<td>{{dic.totalPrice}}</td>
@@ -76,11 +74,6 @@
                 message: []
 			},
 			methods: {
-				
-				getInfo: function(dic) {
-					return JSON.stringify(dic);
-				},
-				//刷新
 				refresh:function(){
                     var _self = this;
 					var csname = $("#csname").val();
@@ -88,28 +81,6 @@
 					var chepai = $("#chepai").val();
                     _self.reload(csname, xqname, chepai);
 				},
-                loadTestData: function() {
-                    var _self = this;
-                    var message = [
-                        {
-                            chepai: "沪A-111111",
-                            cname: "万科一期",
-                            date: "2017-1-1",
-                            inTime: "12:00",
-                            outTime: "14:00",
-                            totalPrice: 20
-                        },
-                        {
-                            chepai: "沪B-111111",
-                            cname: "万科二期",
-                            date: "2017-2-2",
-                            inTime: "15:00",
-                            outTime: "16:00",
-                            totalPrice: 10
-                        }
-                    ];
-                    _self.message = message;
-                },
                 reload: function(csname, xqname, chepai) {
                     var filter = {};
 
