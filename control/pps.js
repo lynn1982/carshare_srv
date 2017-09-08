@@ -268,7 +268,6 @@ exports.add = function(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -301,7 +300,6 @@ exports.add = function(req, res, next) {
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             id: pps.id
         };
@@ -370,7 +368,6 @@ exports.getone = function(req, res, next) {
         /*TODO: add err handling here for no data found */
         
         var retStr = {
-            type: req.body.type,
             ret: 0,
             data: pps
         };
@@ -423,13 +420,12 @@ exports.update = function(req, res, next) {
 };
 
 exports.delete = function(req, res, next) {
-    var id = req.body.id;
+    var id = req.params.id;
 
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -448,7 +444,6 @@ exports.delete = function(req, res, next) {
         Pps.deletePps(pps);
 
         var retStr = {
-            type: req.body.type,
             ret: 0
         };
 

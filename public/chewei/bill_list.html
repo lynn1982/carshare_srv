@@ -47,7 +47,6 @@
 						<tr>
 							<th>车牌</th>
 							<th>小区</th>
-                            <th>日期</th>
 							<th>进场时间</th>
                             <th>出场时间</th>
 							<th>停车费(元)</th>
@@ -55,7 +54,6 @@
 						<tr id="cell" class="cell" v-for="dic in message">
 							<td>{{dic.chepai}}</td>
 							<td>{{dic.cname}}</td>
-							<td>{{dic.date}}</td>
 							<td>{{dic.inTime}}</td>
 							<td>{{dic.outTime}}</td>
 							<td>{{dic.totalPrice}}</td>
@@ -69,18 +67,13 @@
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
-        var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 		var vm = new Vue({
 			el: '#vueApp',
 			data: {
                 message: []
 			},
 			methods: {
-				
-				getInfo: function(dic) {
-					return JSON.stringify(dic);
-				},
-				//刷新
 				refresh:function(){
                     var _self = this;
 					var csname = $("#csname").val();
@@ -88,62 +81,35 @@
 					var chepai = $("#chepai").val();
                     _self.reload(csname, xqname, chepai);
 				},
-                loadTestData: function() {
-                    var _self = this;
-                    var message = [
-                        {
-                            chepai: "沪A-111111",
-                            cname: "万科一期",
-                            date: "2017-1-1",
-                            inTime: "12:00",
-                            outTime: "14:00",
-                            totalPrice: 20
-                        },
-                        {
-                            chepai: "沪B-111111",
-                            cname: "万科二期",
-                            date: "2017-2-2",
-                            inTime: "15:00",
-                            outTime: "16:00",
-                            totalPrice: 10
-                        }
-                    ];
-                    _self.message = message;
-                },
                 reload: function(csname, xqname, chepai) {
-                    var _self = this;
-                    var query = {
-                        type: "MSG_T_MGMT_GET_BILL_RECORD"
-                    };
+                    var filter = {};
+
+                    if (userInfo.role == "changshang") {
+                        filter.pps_id = userInfo.roleId;
+                    } else if (userInfo.role == "xiaoqu") {
+                        filter.xq_id = userInfo.roleId;
+                    }
 
                     if (csname != "") {
-                        query.csname = csname;
+                        filter.csname = csname;
                     }
                     if (xqname != "") {
-                        query.xqname = xqname;
+                        filter.xqname = xqname;
                     }
                     if (chepai != "") {
-                        query.chepai = chepai;
+                        filter.chepai = chepai;
                     }
-
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            alert(data);
-                            if (data.ret == 0) {
-                                vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            _self.loadTestData();
-                        }
-                    });
+                    priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            },
+                            function() {
+                                alert("获取账单明细失败！");
+                            });                    
                 }
 			}
 

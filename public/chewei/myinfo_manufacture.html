@@ -60,7 +60,6 @@
                     priAjaxGet("/pps/"+userInfo.roleId,
                             "",
                             function(retData) {
-                                alert(JSON.stringify(retData));
                                 if (retData.ret == 0) {
                                     _self.info = retData.data;
                                 }
