@@ -491,7 +491,17 @@ exports.get = function(req, res, next) {
     var list = [];
     var filter = JSON.parse(req.query.filter);
 
-    console.log(req.query.filter);
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
 
     (async () => {
         var xiaoqus = await Community.query(filter);

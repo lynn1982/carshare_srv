@@ -74,7 +74,8 @@ router.post('/user/vcLogin', user.verCodeLogin);
 router.get('/user/logout', auth.userRequired, user.logout);
 
 router.post('/pps_new', auth.userRequired, pps.add);
-router.get('/pps/:id', auth.userRequired, pps.get);
+router.get('/pps', auth.userRequired, pps.get);
+router.get('/pps/:id', auth.userRequired, pps.getone);
 router.put('/pps/:id', auth.userRequired, pps.update);
 router.delete('/pps/:id', auth.userRequired, pps.delete);
 

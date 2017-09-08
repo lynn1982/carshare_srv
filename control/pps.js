@@ -313,6 +313,42 @@ exports.add = function(req, res, next) {
 };
 
 exports.get = function(req, res, next) {
+    var list = [];
+    var filter = JSON.parse(req.query.filter);    
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var ppss;
+
+        ppss = await Pps.query(filter);
+
+        if (ppss.length > 0) {
+            for (var i =0; i < ppss.length; i++) {
+                list.push(ppss[i]);
+            }
+        }
+
+        var retStr = {
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+    }) ()
+
+};
+
+exports.getone = function(req, res, next) {
     var id = req.params.id;
     var ep = new eventproxy();
 

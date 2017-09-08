@@ -20,18 +20,20 @@
             <form id="debug" name="debug" action="">
                 <span class="nameSpan">方法</span>
                 <select class="inputDesc" id="method" >
-                    <option value="GET">GET</option>
-                    <option value="POST" selected="selected">POST</option>
+                    <option value="GET" selected="selected">GET</option>
+                    <option value="PUT">PUT</option>
+                    <option value="POST">POST</option>
+                    <option value="DELETE">DELETE</option>
                 </select>
 
-                <span class="nameSpan">路径</span>
-                <select class="inputDesc" id="path" >
+                <span class="nameSpan">路径</span><input class="inputDesc" id="path" value="/"></input>
+                <!--<select class="inputDesc" id="path" >
                     <option value="/parking_manage" selected="selected">/parking_manage</option>
                     <option value="/parking_app" >/parking_app</option>
                     <option value="/parking_dev" selected="selected">/parking_dev</option>
-                </select>
+                </select>-->
 
-                <span class="nameSpan">参数</span><textarea class="inputDesc" id="param" style="height: 160px;"></textarea>
+                <span class="nameSpan">参数:PUT/POST/DELTE: data, GET: filter</span><textarea class="inputDesc" id="param" style="height: 160px;">{}</textarea>
                 <span class="nameSpan">结果</span><textarea class="inputDesc" id="result" style="height: 200px;"></textarea>
             </form>
             <input class="inputSubmit" type="button" onclick="debugSubmit()" value="提交"></input>
@@ -42,11 +44,13 @@
         function debugSubmit() {
             var method = $("#method").val();
             var path = $('#path').val();
-            var url = "http://"+window.location.host + path;
+            var data = $('#param').val();
+            //var url = "http://"+window.location.host + path;
 
             if (method == "GET") {
                 $.ajax({
-                    url: url,
+                    url: path+"?filter="+JSON.stringify(JSON.parse(data)),
+                    //url: path,
                     dataType: 'json',
                     method: 'GET',
                     success: function(data) {
@@ -57,11 +61,10 @@
                     }
                 });
             } else {
-                var data = $('#param').val();
                 data = JSON.stringify(JSON.parse(data));
                 $.ajax({
-                    type: "post",
-                    url: url,
+                    type: method,
+                    url: path,
                     async: false, // 使用同步方式
                     data: data,
                     contentType: "application/json; charset=utf-8",
