@@ -69,7 +69,7 @@
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
 	<script>
-        var g_url = window.location.protocol+"//"+window.location.host+"/xiaoqu/";
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 		var vm = new Vue({
 			el: '#vueApp',
 			data: {
@@ -111,39 +111,34 @@
                     _self.message = message;
                 },
                 reload: function(csname, xqname, chepai) {
-                    var _self = this;
-                    var query = {
-                        type: "MSG_T_MGMT_GET_BILL_RECORD"
-                    };
+                    var filter = {};
+
+                    if (userInfo.role == "changshang") {
+                        filter.pps_id = userInfo.roleId;
+                    } else if (userInfo.role == "xiaoqu") {
+                        filter.xq_id = userInfo.roleId;
+                    }
 
                     if (csname != "") {
-                        query.csname = csname;
+                        filter.csname = csname;
                     }
                     if (xqname != "") {
-                        query.xqname = xqname;
+                        filter.xqname = xqname;
                     }
                     if (chepai != "") {
-                        query.chepai = chepai;
+                        filter.chepai = chepai;
                     }
-
-                    $.ajax({
-                        type: "post",
-                        url: g_url,
-                        timeout: 3000,  //3s
-                        async: true,    //异步
-                        data: JSON.stringify(query),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data) {
-                            alert(data);
-                            if (data.ret == 0) {
-                                vm.message = data.data;
-                            }
-                        },
-                        error: function() {
-                            _self.loadTestData();
-                        }
-                    });
+                    priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            },
+                            function() {
+                                alert("获取账单明细失败！");
+                            });                    
                 }
 			}
 
