@@ -59,6 +59,7 @@
 |||||
 |/xiaoqu/|POST|创建小区||
 |/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
+|/xiaoqu/areachewei|GET|获取周边车位信息||
 |/xiaoqu/[objId]|GET|获取小区信息||
 |/xiaoqu/[objId]|PUT|修改小区信息||
 |/xiaoqu/[objId]|DELETE|删除小区信息||
