@@ -1,5 +1,12 @@
 ## 目录
 * [RESTful API List](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#1-restful-api-list)
+   * [url列表](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#11-url列表)
+   * [返回报文格式](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#12-返回报文格式)
+   * [返回值定义](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#13-返回值定义)
+   * [返回报文示例](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#14-返回报文示例)
+      * [postputdelete成功回复报文](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#141-postputdelete成功回复报文)
+      * [get成功回复报文](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#142-get成功回复报文)
+      * [失败回复报文](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#143-失败回复报文)
 * [后台管理接口](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#2-后台管理接口)
 
    * [用户](https://github.com/lynn1982/carshare_srv/blob/master/doc/interfaces.md#21-用户)
@@ -56,19 +63,33 @@
 |/xiaoqu/[objId]|PUT|修改小区信息||
 |/xiaoqu/[objId]|DELETE|删除小区信息||
 |||||
-|/currOrder|GET|获取我的当前预定|?filter={"uid":2}|
-|||||
+|/parking/mycurrorder|GET|获取我的当前预定||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|
 |||||
 |/dev|POST|设备上报车辆进出信息||
-  
-### 1.2 POST/PUT/DELETE成功回复报文
+
+### 1.2 返回报文格式
+```
+{
+  ret: , // 0-成功；非0-失败
+  data: , //数据
+  msg:  , //失败原因
+}
+```
+### 1.3 返回值定义
+|ret|说明|
+|:----|:----:|
+|0|成功|
+|8001|没有数据|
+
+### 1.4 返回报文示例
+### 1.4.1 POST/PUT/DELETE成功回复报文
 ```
 {
   ret: 0
 }
 ```
-### 1.3 GET成功回复报文
+### 1.4.2 GET成功回复报文
 ```
 //单实例
 {
@@ -88,13 +109,14 @@
   ]
 }
 ```
-### 1.4 失败回复报文
+### 1.4.3 失败回复报文
 ```
 {
   ret: [非0值],
   msg: ""
 }
 ```
+
 
 ## 2. 后台管理接口
 ### 2.1 用户
