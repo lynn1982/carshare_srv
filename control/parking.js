@@ -359,12 +359,9 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
     ep.fail(next);
     ep.on('order_err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: msg.ret,
             msg: msg.str
         };
-
-        console.log(JSON.stringify(retStr));
 
         res.send(JSON.stringify(retStr));
     });
@@ -391,7 +388,6 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
         };
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             data: data
         };

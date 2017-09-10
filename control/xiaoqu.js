@@ -372,19 +372,23 @@ function getXiaoquInfo(req, res, next) {
     }) ()
 }
 
-function getAreaChewei(req, res, next) {
-    var lon = parseFloat(req.body.longitude);
+exports.getAreaChewei = function getAreaChewei(req, res, next) {
+    var filter = JSON.parse(req.query.filter);
+    /*var lon = parseFloat(req.body.longitude);
     var lat = parseFloat(req.body.latitude);
     var lonScope = parseFloat(req.body.lonScope);
-    var latScope = parseFloat(req.body.latScope);
+    var latScope = parseFloat(req.body.latScope);*/
+    var lon = filter.longitude;
+    var lat = filter.latitude;
+    var lonScope = filter.lonScope;
+    var latScope = filter.latScope;
 
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
-            ret: 1,
-            msg: msg
+            ret: msg.ret,
+            msg: msg.str
         };
 
         res.send(JSON.stringify(retStr));
@@ -409,7 +413,6 @@ function getAreaChewei(req, res, next) {
             }
 
             var retStr = {
-                type: req.body.type,
                 ret: 0,
                 data: infos
             };
@@ -417,12 +420,8 @@ function getAreaChewei(req, res, next) {
             res.send(JSON.stringify(retStr));
         }
         else {
-            var retStr = {
-                type: req.body.type,
-                ret: 0
-            };
-
-            res.send(JSON.stringify(retStr));
+            ep.emit('err', {ret:8001, str:'No Data!'});
+            return;
         }
     }) ()
 }
