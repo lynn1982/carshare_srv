@@ -49,6 +49,7 @@
 |URL|METHOD|功能|备注|
 |:----|:----:|:----|:----|
 |||||
+|/user/getVerCode|GET|获取短信验证码|?phone=[手机号]|
 |/user/vcLogin|POST|用户手机验证码登录||
 |/user/logout|GET|用户退出登陆||
 |||||
