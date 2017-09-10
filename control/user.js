@@ -10,11 +10,14 @@ var userRole = require('../middleware/role');
 var Pps = require('../model/pps');
 var Community = require('../model/community');
 
-var AliDayu = require('alidayu-node-sdk');
-var smsClient = new AliDayu({
-    app_key: 'xxxxx',
-    app_secret: 'xxxxx'
-});
+const SMSClient = require('@alicloud/sms-sdk');
+
+// ACCESS_KEY_ID/ACCESS_KEY_SECRET 根据实际申请的账号信息进行替换
+const accessKeyId = 'LTAIzn6DhKHGaVLP';
+const secretAccessKey = '09HB23fpudxGPgxUWtBuFENYGCen2S';
+
+//初始化sms_client
+let smsClient = new SMSClient({accessKeyId, secretAccessKey});
 
 
 exports.message_handle = function(req, res, next) {
@@ -302,50 +305,62 @@ exports.logout = function loginout(req, res, next) {
     res.send(JSON.stringify(retStr));
 }
 
-function smsSend(req, res, next) {
+exports.sendSMS = function smsSend(req, res, next) {
 
-    var phoneNum = req.body.phoneNumber;
+    var phone = req.query.phone;
 
     //for test start
-    res.send(JSON.stringify({type:req.body.type,ret:0}));
-    return;
+    //res.send(JSON.stringify({type:req.body.type,ret:0}));
+    //return;
     //for test end
 
 
-    var range = function(start, end) {
-        var array = [];
-        for (i=0; i<start; ++i) {
-            array.push(i);
-        }
-        return array;
+    /*var range = function(start, end) {
+      var array = [];
+      for (i=0; i<start; ++i) {
+      array.push(i);
+      }
+      return array;
+      };
+
+      var randomstr = range(0,6).map(function(x) {
+      return Math.floor(Math.random()*10);
+      }).join('');
+
+      console.log(randomstr);
+
+      smskey.saveCode(phoneNum, randomstr);*/
+
+    var randomstr = "1234";
+
+    var param = {
+        number: randomstr
     };
 
-    var randomstr = range(0,6).map(function(x) {
-        return Math.floor(Math.random()*10);
-    }).join('');
-
-    console.log(randomstr);
-
-    smskey.saveCode(phoneNum, randomstr);
-
-    smsClient.smsSend({
-        rec_num: phoneNum,
-        sms_free_sign_name: '阿里大于的应用名',
-        sms_template_code: '类型模板ID',
-        sms_param: {
-            number: randomstr
+    //发送短信
+    smsClient.sendSMS({
+        PhoneNumbers: phone,
+        SignName: '管建智',
+        TemplateCode: 'SMS_94820088',
+        TemplateParam: JSON.stringify(param)
+    }).then(function (res) {
+        let {Code}=res
+        if (Code === 'OK') {
+            //处理返回参数
+            var retStr = {
+                ret: 0  
+            };
+            res.send(JSON.stringify(retStr));
+        } else {
+            var retStr = {
+                ret: 1,
+                msg: 'send sms fail'
+            };
+            res.send(JSON.stringify(retStr));
         }
-    }).then(function(data) {
-        console.log('send sms success');
+    }, function (err) {
+        console.log(err)
         var retStr = {
-            type: req.body.type,
-            ret: 0  
-        };
-        res.send(JSON.stringify(retStr));
-    }).catch(function(error) {
-        console.log('send sms fail');
-        var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: 'send sms fail'
         };

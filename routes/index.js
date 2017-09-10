@@ -71,6 +71,7 @@ router.get('/create_admin', function(req, res, next) {
 });
 
 /* RESTful api start */
+router.get('/user/getVerCode', user.sendSMS);
 router.post('/user/vcLogin', user.verCodeLogin);
 router.get('/user/logout', auth.userRequired, user.logout);
 
