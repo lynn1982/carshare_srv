@@ -49,6 +49,7 @@
 |URL|METHOD|功能|备注|
 |:----|:----:|:----|:----|
 |||||
+|/user/getVerCode|GET|获取短信验证码|?phone=[手机号]|
 |/user/vcLogin|POST|用户手机验证码登录||
 |/user/logout|GET|用户退出登陆||
 |||||
@@ -59,6 +60,7 @@
 |||||
 |/xiaoqu/|POST|创建小区||
 |/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
+|/xiaoqu/areachewei|GET|获取周边车位信息||
 |/xiaoqu/[objId]|GET|获取小区信息||
 |/xiaoqu/[objId]|PUT|修改小区信息||
 |/xiaoqu/[objId]|DELETE|删除小区信息||
