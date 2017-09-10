@@ -352,28 +352,43 @@ function orderCancel(req, res, next) {
 
 }
 
-function getMyOrder(req, res, next) {
-
+exports.getCurrOrder = function getMyOrder(req, res, next) {
     var uid = req.session.user.id;
-    var data;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order_err', function(msg) {
+        var retStr = {
+            type: req.body.type,
+            ret: msg.ret,
+            msg: msg.str
+        };
+
+        console.log(JSON.stringify(retStr));
+
+        res.send(JSON.stringify(retStr));
+    });
 
     (async () => {
-        var order = Order.queryOrder({'user_id': uid, 'state': 'progress'});
+        var order = await Order.queryOrder({'user_id': uid, 'state': 'progress'});
 
         if (!order) {
-            var xiaoqu = await Community.getXiaoquById(order.community_id);
-            
-            data = {
-                orderNumber: order.id,
-                communityName: xiaoqu.name,
-                price: xiaoqu.rate,
-                priceType: xiaoqu.rate_type,
-                deposit: xiaoqu.rate,
-                timeStart: orders.in_time,
-                timeEnd: orders.out_time,
-                totalPrice: orders.amount
-            };
+            ep.emit('order_err', {ret:8001, str:'No Data!'});
+            return;
         }
+
+        var xiaoqu = await Community.getXiaoquById(order.community_id);
+
+        var data = {
+            orderNumber: order.id,
+            communityName: xiaoqu.name,
+            price: xiaoqu.rate,
+            priceType: xiaoqu.rate_type,
+            deposit: xiaoqu.rate,
+            timeStart: orders.in_time,
+            timeEnd: orders.out_time,
+            totalPrice: orders.amount
+        };
 
         var retStr = {
             type: req.body.type,

@@ -68,7 +68,7 @@ exports.authUser = function(req, res, next) {
 
         req.session.user = user;
 
-        console.log(req.session);
+        //console.log(req.session);
 
         return next();
     });

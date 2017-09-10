@@ -86,6 +86,7 @@ router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.getone);
 router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
 router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);
 
+router.get('/parking/mycurrorder', auth.userRequired, park.getCurrOrder);
 router.get('/parking/bill', auth.userRequired, park.getBill);
 
 router.post('/dev', dev.add);
