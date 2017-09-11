@@ -9,25 +9,25 @@ var Transaction = sequelize.define('transaction', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, unique: true},
 
     //community: {type: Sequelize.INTEGER, references: {model: 'community_info', key: 'id'}},
-
     //user: {type: Sequelize.INTEGER, references: {model: 'user', key: 'id'}},
 
-    in_time: {type: Sequelize.DATE},
-
-    out_time:  {type: Sequelize.DATE},
-
     info: {type: Sequelize.STRING},
-
     mode: {type: Sequelize.ENUM, values: ['instant', 'advanced'], defaultValue: 'instant'},
 
+    o_in_time: {type: Sequelize.DATE},
+    o_out_time:  {type: Sequelize.DATE},
+    c_in_time: {type: Sequelize.DATE},
+    c_out_time:  {type: Sequelize.DATE},
+
+    deposit: {type: Sequelize.INTEGER},
+    margin: {type: Sequelize.INTEGER},
     amount: {type: Sequelize.INTEGER},
 
     per_amount: {type: Sequelize.INTEGER},
+    price_type: {type: Sequelize.ENUM, values: ['hour', 'time', 'month']},
 
     state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel']},
-
     chepai: {type: Sequelize.STRING},
-
     xqname: {type: Sequelize.STRING}
 
     },{
@@ -49,8 +49,8 @@ Transaction.newAndSave = function(order) {
         info: order.info,
         mode: order.mode,
         state: order.state,
-        in_time: order.in_time,
-        out_time: order.out_time,
+        o_in_time: order.o_in_time,
+        o_out_time: order.o_out_time,
         xqname: order.xqname,
         chepai: order.chepai
     });

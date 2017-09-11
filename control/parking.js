@@ -4,6 +4,7 @@ var Order = require('../model/transaction');
 var Community = require('../model/community');
 var eventproxy = require('eventproxy');
 var User = require('../model/user');
+const moment = require('moment');
 
 
 exports.message_handle = function(req, res, next) {
@@ -192,8 +193,7 @@ function order(req, res, next) {
     });
 }
 
-function orderPre(req, res, next) {
-
+exports.preOrder = function orderPre(req, res, next) {
     var uid = req.session.user.id;
     var cid = req.body.cid;
     var resId = req.body.resId;
@@ -207,7 +207,6 @@ function orderPre(req, res, next) {
     ep.fail(next);
     ep.on('order_err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -246,11 +245,13 @@ function orderPre(req, res, next) {
             community_id: cid,
             info: resId,
             state: 'pre',
-            in_time: req.body.timeStart,
-            out_time: req.body.timeEnd,
+            o_in_time: req.body.timeStart,
+            o_out_time: req.body.timeEnd,
             xqname: xqname,
             chepai: chepai
         };
+
+        console.log("newOrder="+JSON.stringify(newOrder));
 
         var order = await Order.newAndSave(newOrder);
         if (!order) {
@@ -259,7 +260,6 @@ function orderPre(req, res, next) {
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             resId: resId,
             orderNumber: order.id,
@@ -271,7 +271,7 @@ function orderPre(req, res, next) {
 
 }
 
-function orderPost(req, res, next) {
+exports.postOrder = function orderPost(req, res, next) {
 
     var id = req.body.orderNumber;
     //var pay = req.body.pay;
@@ -282,7 +282,6 @@ function orderPost(req, res, next) {
     ep.fail(next);
     ep.on('order_err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -307,7 +306,6 @@ function orderPost(req, res, next) {
         await Order.updateOrder(order, newOrder);
 
         var retStr = {
-            type: req.body.type,
             ret: 0
         };
 
@@ -316,8 +314,7 @@ function orderPost(req, res, next) {
     
 }
 
-function orderCancel(req, res, next) {
-    
+exports.cancelOrder = function orderCancel(req, res, next) {
     var id = req.body.orderNumber;
 
     var ep = new eventproxy();
@@ -382,9 +379,9 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
             price: xiaoqu.rate,
             priceType: xiaoqu.rate_type,
             deposit: xiaoqu.rate,
-            timeStart: orders.in_time,
-            timeEnd: orders.out_time,
-            totalPrice: orders.amount
+            timeStart: moment(order.o_in_tim).format('HH:mm'),
+            timeEnd: moment(order.o_out_time).format('HH:mm'),
+            totalPrice: order.amount
         };
 
         var retStr = {
