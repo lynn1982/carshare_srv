@@ -90,11 +90,7 @@
 |state|enum('pre','progress','finish','cancel')||订单状态|
 |chepai|varchar(128)||车牌号|
 |xqname|varchar(128)||预定小区名称|
-<<<<<<< HEAD
 |priceType|enum('time','hour','month')|time:元/次，hour:元/小时,month:元/月|收费类型|
-=======
-|price_type|string|time:元/次，hour:元/小时,month:元/月|收费类型|
->>>>>>> 3290ec2fb9fc86be0e789bb18fedd40fd568d900
 
 #### dev (设备)
 |字段   |类型  |说明   |备注   |
