@@ -1,30 +1,27 @@
 
 var Dev = require('../model/dev');
+var eventproxy = require('eventproxy');
 
 exports.add = function(req, res, next) {
-
-    var in_time = req.body.in_time;
-    var out_time = req.body.out_time;
+    var dir = req.body.dir;
 
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
-            ret: 1,
-            msg: msg
+            ret: msg.ret,
+            msg: msg.str
         };
 
         res.send(JSON.stringify(retStr));
     });
 
-    if (out_time === 'undefined') {
-
+    if (dir == 'in') {
         (async() => {
             var carIn = {
                 chepai: req.body.chepai,
-                xqname: req.body.xqname,
-                in_time: in_time
+                xqname: req.body.cname,
+                in_time: new Date()
             };
 
             var dev = await Dev.newAndSave(carIn);
@@ -34,23 +31,22 @@ exports.add = function(req, res, next) {
             }
         }) ()
     }
-    else if (in_time === 'undefined') {
-        
+    else if (dir == 'out') {
         (async() => {
             var filter = {
                 chepai: req.body.chepai,
-                xqname: req.body.xqname,
+                xqname: req.body.cname,
                 in_time: {'$not': null}
             };
 
             var dev = await Dev.queryOne(filter);
             if (!dev) {
-                ep.emit('err', '该车没有进场记录');
+                ep.emit('err', {ret:8002, str:'该车没有进场记录'});
                 return;
             }
 
             var car_out ={
-                out_time: out_time
+                out_time: new Date() 
             };
 
             Dev.update(dev, car_out);
@@ -58,8 +54,9 @@ exports.add = function(req, res, next) {
         }) ()
     }
     else {
-        ep.emit('err', '参数没有进出场记录');
+        ep.emit('err', {ret:8002, str:'参数错误'});
     }
 
+    next();
 };
 

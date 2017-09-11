@@ -2,6 +2,7 @@
 var Community = require('../model/community');
 var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
+var Dev = require('../model/dev');
 
 
 exports.message_handle = function(req, res, next) {
@@ -28,6 +29,9 @@ exports.message_handle = function(req, res, next) {
     }
     else if ('MSG_T_GET_XIAOQU_CHEWEI' == msgType) {
         getXiaoquInfo(req, res, next);
+    }
+    else if ('MSG_T_MGMT_CAR_STAT' == msgType) {
+        getCarStat(req, res, next);
     }
     else {
         next();
@@ -370,6 +374,54 @@ function getXiaoquInfo(req, res, next) {
         res.send(JSON.stringify(retStr));
         
     }) ()
+}
+
+function getCarStat(req, res, next) {
+    var cname = req.body.cname;
+    var chepai = req.body.chepai;
+    var list = [];
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: msg.ret,
+            msg: msg.str
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    var filter = {};
+
+    if (typeof(cname) != 'undefined') {
+        filter.xqname = cname;
+    }
+    if (typeof(chepai) != 'undefined') {
+        filter.chepai = chepai;
+    }
+
+    (async() => {
+        var devs = await Dev.query(filter);
+        if (!devs) {
+            ep.emit('err', {ret:8001, str:'No Data!'});
+            return;
+        }
+
+        for (var i in devs) {
+            list.push(devs[i]);
+        }
+
+        var retStr = {
+            type: req.body.type,
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+ 
 }
 
 exports.getAreaChewei = function getAreaChewei(req, res, next) {

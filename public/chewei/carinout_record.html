@@ -39,17 +39,17 @@
 						<tr>
 							<th>车牌</th>
 							<th>小区</th>
-                            <th>日期</th>
+                            <!--<th>日期</th>-->
 							<th>进场时间</th>
                             <th>出场时间</th>
 							<th>是否付费</th>
 						</tr>
 						<tr id="cell" class="cell" v-for="dic in message">
 							<td>{{dic.chepai}}</td>
-							<td>{{dic.cname}}</td>
-							<td>{{dic.date}}</td>
-							<td>{{dic.inTime}}</td>
-							<td>{{dic.outTime}}</td>
+							<td>{{dic.xqname}}</td>
+                            <!--<td>{{dic.date}}</td>-->
+							<td>{{dic.in_time}}</td>
+							<td>{{dic.out_time}}</td>
 							<td>{{dic.isPay}}</td>
 						</tr>
 

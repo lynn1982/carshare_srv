@@ -39,6 +39,12 @@ Dev.queryOne = function(filter) {
     });
 };
 
+Dev.query = function(filter) {
+    return Dev.findAll({
+        where: filter
+    });
+};
+
 Dev.update = function(dev, newDev) {
     dev.chepai = newDev.chepai;
     dev.xqname = newDev.xqname;
