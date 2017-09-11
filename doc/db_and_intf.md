@@ -9,11 +9,14 @@
 |:-----|:-----|:------|:------|
 |id    |int   |not null auto_increment |primary key|
 |name  |varchar(64)|not null|住宅小区名|
+|city  |varchar(128)||城市|
+|district|varchar(128)||区|
 |addr_in  |varchar(256)|not null|住宅小区地址入口|
 |addr_out  |varchar(256)|not null|住宅小区地址出口|
 |longitude|varchar(64)||经度|
 |latitude|varchar(64)||纬度|
 |pps_id|int|references pps_manufacture(id)|foreign key|
+|mgmt_id|int|references user(id)|foreign key|
 |parking_num_total|int||住宅小区总的车位数|
 |parking_num_share|int||住宅小区可共享的车位数|
 |parking_num_remain|int||住宅小区可共享的剩余车位数|
@@ -21,6 +24,9 @@
 |parking_time_end|time||共享车位时间段|
 |rate_type|ENUM('month','hour','time')||收费类别：包月、按时、按次|
 |rate|int||价格|
+|phone|char(11)||联系人手机号|
+|contacts|varchar(64)||联系人称呼|
+|email|varchar(128)||联系人邮箱|
 |is_checked|bool||是否审核通过|
 
 
@@ -30,10 +36,11 @@
 |id    |int   |not null auto_increment |primary key|
 |community_id|int|references community_info(id)|foreign key|
 |user_id|int|references user(id)|foreign key|
+|rate_type|ENUM('month','hour','time')||收费类别：包月、按时、按次|
+|rate|int||价格|
 |parking_time_start|time||共享车位时间段|
 |parking_time_end|time||共享车位时间段|
 |info|varchar(128)||车位信息|
-|create_at|timestamp||发布时间|
 |is_checked|bool||是否审核通过|
 
 #### pps_manufacture (收费系统供应商信息)
@@ -41,6 +48,11 @@
 |:-----|:-----|:------|:------|
 |id    |int   |not null auto_increment |primary key|
 |name  |varchar(64)|not null|收费系统供应商名称|
+|user_id|int|references user(id)|foreign key|
+|parkNum|int||停车场数量|
+|phone|char(11)||联系人手机号|
+|contacts|varchar(64)||联系人称呼|
+|email|varchar(128)||联系人邮箱|
 
 #### user (APP用户信息)
 |字段   |类型  |说明   |备注   |
@@ -50,10 +62,14 @@
 |wx_id|varchar(64)||微信id号|
 |login_name|varchar(64)||登录用户名|
 |passwd|char(64)||登录密码|
+|sex|enum('male','female')||性别|
+|email|varchar(128)||用户邮箱|
 |phone_num|char(11)||用户手机号|
 |car_license|char(10)||车牌号|
 |score|int||用户积分|
 |is_active|bool|defalut false|用户是否激活|
+|is_mgmt|bool|defalult false|用户是否是管理员|
+|role|emun('system','changshang','xiaoqu','user')|default 'user'|用户权限|
 
 #### transaction (用户交易信息)
 |字段   |类型  |说明   |备注   |
@@ -68,7 +84,21 @@
 |create_at|timestamp||交易创建时间|
 |amount|int||交易金额|
 |per_amount|int||单价|
+|state|enum('pre','progress','finish','cancel')||订单状态|
+|chepai|varchar(128)||车牌号|
+|xqname|varchar(128)||预定小区名称|
 
+
+#### dev (设备)
+|字段   |类型  |说明   |备注   |
+|:-----|:-----|:------|:------|
+|id    |bigint   |not null auto_increment |primary key|
+|community_id|int|reference community_info(id)|foreign key|
+|chepai|varchar(128)||车牌号|
+|xqname|varchar(128)||小区名称|
+|in_time|Date||入场时间|
+|out_time|Date||出场时间|
+|dev_id|varchar(128)||设备id号|
 
 #### car_statistics (车辆进出统计)
 |字段   |类型  |说明   |备注   |
