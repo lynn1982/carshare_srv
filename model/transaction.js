@@ -21,6 +21,7 @@ var Transaction = sequelize.define('transaction', {
 
     deposit: {type: Sequelize.INTEGER},
     margin: {type: Sequelize.INTEGER},
+    o_amount: {type: Sequelize.INTEGER},
     amount: {type: Sequelize.INTEGER},
 
     per_amount: {type: Sequelize.INTEGER},
