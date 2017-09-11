@@ -68,7 +68,6 @@
 |chepai|varchar(32)||车牌|
 |c_in_time|timestamp||车辆进入时间|
 |c_out_time|timestamp||车辆驶出时间|
-|create_at|timestamp||交易创建时间|
 |deposit|int||订金|
 |margin|int||差额|
 |amount|int||实际金额|
