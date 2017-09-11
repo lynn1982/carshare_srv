@@ -79,15 +79,19 @@
 |community_id|int|reference community_info(id)|foreign key|
 |info|varchar(128)||车位信息|
 |mode|ENUM('instant','advanced')|default:'instant'|预定模式|
-|in_time|timestamp||车辆进入时间|
-|out_time|timestamp||车辆驶出时间|
-|create_at|timestamp||交易创建时间|
-|amount|int||交易金额|
+|o_in_time|timestamp||预定开始时间|
+|o_out_time|timestamp||预定结束时间|
+|chepai|varchar(32)||车牌|
+|c_in_time|timestamp||车辆进入时间|
+|c_out_time|timestamp||车辆驶出时间|
+|deposit|int||订金|
+|margin|int||差额|
+|amount|int||实际金额|
 |per_amount|int||单价|
 |state|enum('pre','progress','finish','cancel')||订单状态|
 |chepai|varchar(128)||车牌号|
 |xqname|varchar(128)||预定小区名称|
-
+|priceType|string|time:元/次，hour:元/小时,month:元/月|收费类型|
 
 #### dev (设备)
 |字段   |类型  |说明   |备注   |
