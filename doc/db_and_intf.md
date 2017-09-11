@@ -85,7 +85,8 @@
 |c_out_time|timestamp||车辆驶出时间|
 |deposit|int||订金|
 |margin|int||差额|
-|amount|int||实际金额|
+|o_amount|int||预定总金额|
+|amount|int||实际总金额|
 |per_amount|int||单价|
 |state|enum('pre','progress','finish','cancel')||订单状态|
 |chepai|varchar(128)||车牌号|
