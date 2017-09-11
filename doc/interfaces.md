@@ -67,6 +67,9 @@
 |/xiaoqu/[id]|DELETE|删除小区信息||
 |||||
 |/parking/mycurrorder|GET|获取我的当前预定||
+|/parking/preorder|POST|pre预定|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|
+|/parking/postorder|POST|post预定|{orderNumber: 1}|
+|/parking/cancelorder|POST|取消预定|{orderNumber: 1}|
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|
 |||||
 |/dev|POST|设备上报车辆进出信息||
