@@ -8,7 +8,6 @@ var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
 var pps = require('../control/pps');
-var dev = require('../control/dev');
 
 
 /* GET home page. */
@@ -92,6 +91,5 @@ router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);
 router.get('/parking/mycurrorder', auth.userRequired, park.getCurrOrder);
 router.get('/parking/bill', auth.userRequired, park.getBill);
 
-router.post('/dev', dev.add);
 
 module.exports = router;
