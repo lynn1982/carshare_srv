@@ -64,7 +64,8 @@ Transaction.getOrderById = function(orderId) {
 };
 
 Transaction.deleteOrder = function(order) {
-    order.destroy();
+    order.state = 'cancel';
+    order.save();
 };
 
 Transaction.updateOrder = function(order, newOrder) {
