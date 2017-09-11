@@ -274,6 +274,7 @@ exports.preOrder = function orderPre(req, res, next) {
 exports.postOrder = function orderPost(req, res, next) {
 
     var id = req.body.orderNumber;
+    var uid = req.session.user.id;
     //var pay = req.body.pay;
     //var timeStart = req.body.timeStart;
     //var timeEnd = req.body.timeEnd;
@@ -290,7 +291,12 @@ exports.postOrder = function orderPost(req, res, next) {
     });
 
     (async () => {
-        var order = await Order.getOrderById(id);
+        var filter = {
+            user_id: uid,
+            id: id
+        };
+        var order = await Order.queryOrder(filter);
+
         if (!order) {
             ep.emit('order_err', '订单号错误');
             return;
@@ -316,12 +322,12 @@ exports.postOrder = function orderPost(req, res, next) {
 
 exports.cancelOrder = function orderCancel(req, res, next) {
     var id = req.body.orderNumber;
+    var uid = req.session.user.id;
 
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('order_err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
@@ -330,7 +336,11 @@ exports.cancelOrder = function orderCancel(req, res, next) {
     });
 
     (async () => {
-        var order = await Order.getOrderById(id);
+        var filter = {
+            user_id: uid,
+            id: id
+        };
+        var order = await Order.queryOrder(filter);
         if (!order) {
             ep.emit('order_err','订单号错误');
             return;
@@ -339,7 +349,6 @@ exports.cancelOrder = function orderCancel(req, res, next) {
         Order.deleteOrder(order);
 
         var retStr = {
-            type: req.body.type,
             ret: 0
         };
 
