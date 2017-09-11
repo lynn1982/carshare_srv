@@ -229,6 +229,13 @@ exports.verCodeLogin = function(req, res, next) {
         return;
     }
 
+    smskey.getCode(phoneNum, function(reply) {
+        if (reply.toString() != code.toString()) {
+            ep.emit('err', '验证码错误');
+            return;
+        }
+    });
+
     (async () => {
         var user = {
             role: "user",
@@ -316,22 +323,31 @@ exports.sendSMS = function smsSend(req, res, next) {
 
 
     /*var range = function(start, end) {
-      var array = [];
-      for (i=0; i<start; ++i) {
-      array.push(i);
-      }
-      return array;
-      };
+        var array = [];
+        for (i=0; i<start; ++i) {
+            array.push(i);
+        }
+        console.log('array='+array.toString());
+        return array;
+    };
+ 
+    var randomstr = range(0,6).map(function(x) {
+        return Math.floor(Math.random()*10);
+    }).join('');*/
 
-      var randomstr = range(0,6).map(function(x) {
-      return Math.floor(Math.random()*10);
-      }).join('');
+    var mathRand = function() {
+        var num = "";
+        for (var i = 0; i < 4; i++) {
+            num += Math.floor(Math.random()*10);
+        }
+        return num;
+    };
 
-      console.log(randomstr);
+    var randomstr = mathRand();
 
-      smskey.saveCode(phoneNum, randomstr);*/
+    console.log('random='+randomstr);
 
-    var randomstr = "1234";
+    smskey.saveCode(phone, randomstr);
 
     var param = {
         number: randomstr

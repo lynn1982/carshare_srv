@@ -8,7 +8,7 @@ client.on('error', function(err) {
 });
 
 function saveCode(key, value) {
-    client.set(phoneNum, code);
+    client.set(key, value);
     client.expire(key, expireTime);
 }
 
