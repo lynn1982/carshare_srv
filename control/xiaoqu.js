@@ -303,9 +303,8 @@ function del(req, res, next) {
 }
 
 
-function getXiaoquInfo(req, res, next) {
-   
-    var id = req.body.cid;
+exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
+    var id = req.params.id;
     var list = [];
 
     var ep = new eventproxy();
@@ -332,11 +331,11 @@ function getXiaoquInfo(req, res, next) {
         
         var c_info = {
             resId: c_resId,
-            parking_time_start: xiaoqu.parking_time_start,
-            parking_time_end: xiaoqu.parking_time_end,
+            timeStart: xiaoqu.parking_time_start.substr(0,5),
+            timeEnd: xiaoqu.parking_time_end.substr(0,5),
             num: xiaoqu.parking_num_remain,
             type: xiaoqu.rate_type,
-            rate: xiaoqu.rate
+            price: xiaoqu.rate
         };
         
         list.push(c_info);
@@ -347,11 +346,11 @@ function getXiaoquInfo(req, res, next) {
                 p_resId = 'p_' + parkings[i].id;
                 var p_info = {
                     resId: p_resId,
-                    parking_time_start: parkings[i].parking_time_start,
-                    parking_time_end: parkings[i].parking_time_end,
+                    timeStart: parkings[i].parking_time_start.substr(0,5),
+                    timeEnd: parkings[i].parking_time_end.substr(0,5),
                     num: 1,
                     type: parkings[i].rate_type,
-                    rate: parkings[i].rate
+                    price: parkings[i].rate
                 };
 
                 list.push(p_info);

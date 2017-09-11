@@ -54,16 +54,17 @@
 |/user/logout|GET|用户退出登陆||
 |||||
 |/pps/|POST|创建厂商||
-|/pps/[objId]|GET|获取厂商信息||
-|/pps/[objId]|PUT|修改厂商信息||
-|/pps/[objId]|DELETE|删除厂商信息||
+|/pps/[id]|GET|获取厂商信息||
+|/pps/[id]|PUT|修改厂商信息||
+|/pps/[id]|DELETE|删除厂商信息||
 |||||
 |/xiaoqu/|POST|创建小区||
 |/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
 |/xiaoqu/areachewei|GET|获取周边车位信息||
-|/xiaoqu/[objId]|GET|获取小区信息||
-|/xiaoqu/[objId]|PUT|修改小区信息||
-|/xiaoqu/[objId]|DELETE|删除小区信息||
+|/xiaoqu/[id]|GET|获取小区信息||
+|/xiaoqu/[id]/chewei|GET|获取小区车位信息||
+|/xiaoqu/[id]|PUT|修改小区信息||
+|/xiaoqu/[id]|DELETE|删除小区信息||
 |||||
 |/parking/mycurrorder|GET|获取我的当前预定||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|

@@ -90,9 +90,12 @@ Community.updateXiaoqu = function(xiaoqu, newData) {
     xiaoqu.contacts = newData.contacts;
     xiaoqu.email = newData.email;
 
+    if (xiaoqu.parking_num_total != newData.parking_num_total) {
+        //xiaoqu.parking_num_remain += (newData.parking_num_total - xiaoqu.parking_num_total);
+        xiaoqu.parking_num_remain = newData.parking_num_total;
+    }
     xiaoqu.parking_num_total = newData.parking_num_total;
     xiaoqu.parking_num_share = newData.parking_num_share;
-    xiaoqu.parking_num_remain = newData.parking_num_remain;
     xiaoqu.parking_time_start = newData.parking_time_start;
     xiaoqu.parking_time_end = newData.parking_time_end;
     xiaoqu.rate_type = newData.rate_type;
