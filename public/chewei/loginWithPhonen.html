@@ -146,7 +146,7 @@
 						userInfo.role = data.role;
 						userInfo.roleId = data.roleId;
 						window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
-						$(window).attr('location', window.location.protocol + "//" + window.location.host + "/");
+						$(window).attr('location', window.location.protocol + "//" + window.location.host + "/rolemain");
 					} else {
 						alert(data.msg);
 					}
