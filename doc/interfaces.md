@@ -66,7 +66,7 @@
 |/xiaoqu/[id]|PUT|修改小区信息||
 |/xiaoqu/[id]|DELETE|删除小区信息||
 |||||
-|/parking/myhistory|GET|获取我的历史停车信息||[{<br>timeStart: "",<br> timeEnd: "",<br> communityName: "",<br> totalPrice: 10<br>},<br>{}]|
+|/parking/myhistory|GET|获取我的历史停车信息|?filter={startIdx: 100,num: 20}|[{<br>timeStart: "",<br> timeEnd: "",<br> communityName: "",<br> totalPrice: 10<br>},<br>{}]|
 |/parking/mycurrorder|GET|获取我的当前预定||
 |/parking/preorder|POST|pre预定|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>}|{total： }|
 |/parking/postorder|POST|post预定|{orderNumber: 1}|
