@@ -46,8 +46,8 @@
 
 ## 1 RESTful API List
 ### 1.1 URL列表
-|URL|METHOD|功能|备注|
-|:----|:----:|:----|:----|
+|URL|METHOD|功能|参数|返回值|
+|:----|:----:|:----|:----|:----|
 |||||
 |/user/getVerCode|GET|获取短信验证码|?phone=[手机号]|
 |/user/vcLogin|POST|用户手机验证码登录||
@@ -67,9 +67,11 @@
 |/xiaoqu/[id]|DELETE|删除小区信息||
 |||||
 |/parking/mycurrorder|GET|获取我的当前预定||
-|/parking/preorder|POST|pre预定|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|
+|/parking/preorder|POST|pre预定|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|{total： }|
 |/parking/postorder|POST|post预定|{orderNumber: 1}|
 |/parking/cancelorder|POST|取消预定|{orderNumber: 1}|
+|/parking/preoutpay|POST|pre出场结算|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|{orderNumber: , total: , margin: , deposit: , timeIn: timeOut: }|
+|/parking/postoutpay|POST|post出场结算|{orderNumber: 1}||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|
 |||||
 |/dev|POST|设备上报车辆进出信息||
