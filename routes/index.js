@@ -44,7 +44,7 @@ router.get('/', function(req, res, next) {
 router.get('/rolemain', function(req, res, next) {
 
     if (!req.session || !req.session.user) {
-        res.render('loginWithPhonen', {title: '共享车位'});
+        res.render('login', {title: '共享车位'});
         return;
     }
 
@@ -65,7 +65,7 @@ router.get('/rolemain', function(req, res, next) {
             res.render('main_user', {title: '共享车位'}); 
             break;
         default:
-            res.render('loginWithPhonen', {title: '共享车位'});
+            res.render('login', {title: '共享车位'});
     };
 });
 

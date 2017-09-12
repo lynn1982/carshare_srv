@@ -41,7 +41,7 @@
 		
 		.logo {
 			position: absolute;
-			left: 15%;
+			left: 2%;
 			height: 100%;
 			top: 0;
 			display: inline-block;
@@ -136,7 +136,7 @@
 			<a class="logo" href="index.html">共享车位</a>
 			<a class="main" href="index.html">主页</a>
 			<a class="contact" href="contactUs.html">联系我们</a>
-			<a class="login" href="loginWithPhonen.html">登陆</a>
+			<a class="login" href="login.html">登陆</a>
 		</div>
 	
 		<div id="map"></div>
@@ -222,16 +222,15 @@
 			type: "get",
 			success: function(ret) {
 				if(ret) {
-					alert(JSON.stringify(ret));
 					if(ret.ret == 0) {
-						showAreaChewei(ret.data);
+						//showAreaChewei(ret.data);
 					} else if(ret.ret == 8001) { //没有数据
 						//showAreaCheweiTest(); // TODO: for debug usage
 					} else {
-						alert("获取信息失败：" + ret.msg);
+						//alert("获取信息失败：" + ret.msg);
 					}
 				} else {
-					api.alert(err.msg);
+					//api.alert(err.msg);
 				}
 
 			},
