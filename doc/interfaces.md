@@ -66,14 +66,14 @@
 |/xiaoqu/[id]|PUT|修改小区信息||
 |/xiaoqu/[id]|DELETE|删除小区信息||
 |||||
-|/parking/myhistory|GET|获取我的历史停车信息||```[{timeStart: "", timeEnd: "", communityName: "", totalPrice: 10},{}]```|
+|/parking/myhistory|GET|获取我的历史停车信息||[{<br>timeStart: "",<br> timeEnd: "",<br> communityName: "",<br> totalPrice: 10<br>},<br>{}]|
 |/parking/mycurrorder|GET|获取我的当前预定||
-|/parking/preorder|POST|pre预定|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|{total： }|
+|/parking/preorder|POST|pre预定|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>}|{total： }|
 |/parking/postorder|POST|post预定|{orderNumber: 1}|
 |/parking/cancelorder|POST|取消预定|{orderNumber: 1}|
-|/parking/preoutpay|POST|pre出场结算|{cid: 1, resId: 1, timeStart: ,	timeEnd: };|{orderNumber: , total: , margin: , deposit: , timeIn: timeOut: }|
+|/parking/preoutpay|POST|pre出场结算|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>};|{orderNumber: ,<br> total: ,<br> margin: ,<br> deposit: ,<br> timeIn: <br>timeOut: <br>}|
 |/parking/postoutpay|POST|post出场结算|{orderNumber: 1}||
-|/parking/bill|GET|获取账单明细|?filter={"chepai":"沪A873L2","xqname":"万科一期"}|
+|/parking/bill|GET|获取账单明细|?filter={"chepai":"","xqname":""}|
 |||||
 |/dev|POST|设备上报车辆进出信息||
 
