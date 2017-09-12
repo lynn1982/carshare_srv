@@ -75,7 +75,7 @@
 	<script type="text/javascript" src="js/public.js"></script>
 	<script type="text/javascript">
 		var g_url = window.location.protocol + "//" + window.location.host + "/user/";
-
+window.sessionStorage.islogin = true;
 		function checkPhoneNum() {
 			if($('#phoneNum').val() == "") {
 				alert("请输入正确的手机号！");
@@ -150,6 +150,8 @@
 			priAjaxPost("/user/vcLogin", query,
 				function(data) {
 					if(data.ret == 0) {
+						//判断登陆
+						window.sessionStorage.islogin = true;
 						var userInfo = {};
 						userInfo.uid = data.uid;
 						userInfo.role = data.role;

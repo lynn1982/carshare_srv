@@ -156,6 +156,16 @@
 	</body>
 
 	<script>
+		
+		var islogin = window.sessionStorage.islogin;
+		
+		//判断是否登陆
+		if(islogin){
+			$(".login").text("控制台");
+			$(".login").attr("href","http://xyz/rolemain");
+		}
+		
+		
 		function initialize() {
 			map = new BMap.Map("mapcon");
 			map.centerAndZoom("上海", 15);
