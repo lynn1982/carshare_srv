@@ -1,124 +1,171 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/all.css"/>
-    <link rel="stylesheet" href="css/login.css" />
-    <script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
-    <script type="text/javascript" src="js/jquery.validate.min.js" ></script>
-    <script type="text/javascript" src="js/cookieFunction.js" ></script>
-    <script type="text/javascript" src="js/md5.js" ></script>
-    <title>登陆</title>
-    <style>
-        label.error{
-            font-size:14px;
-            display: inline-block;
-            *display: inline;
-            zoom: 1;
-        }
-    </style>
 
-    <script type="text/javascript">
-        function checkForm(form, rulesJson, messagesJson, successFun) {
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="css/head.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/cookieFunction.js"></script>
+		<script type="text/javascript" src="js/md5.js"></script>
+		<title>登陆</title>
+		<style>
+			#loginContainer{
+				background: white;
+				border: 1px solid gainsboro;
+				border-radius: 8px;
+				
+			}
+			#verCode,#phoneNum{
+				background: rgb(250, 255, 189);
+				border:1px solid gainsboro;
+				border-radius: 5px!important;
+				outline: deepskyblue;
+				padding-left: 5px;
+			}
+			.loginBtn{
+				background: deepskyblue!important;
+			}
+		</style>
 
+	</head>
 
-            $(form).validate({
-                invalidHandler: function () {
-                    return false;
-                },
-                /*	submitHandler: function (form) {
-                 successFun(form);
-                 },*/
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element);
-                },
-                rules: rulesJson,
-                messages: messagesJson
-            });
+	<body>
+		<div id="head">
+			<a class="logo" href="index.html">共享车位</a>
+			<a class="main" href="index.html">主页</a>
+			<a class="contact" href="contactUs.html">联系我们</a>
+			<a class="login" href="login.html" style="display: none;">登陆</a>
+		</div>
 
-        }
+		<div id="loginContainer">
+			<form action="/login" method="post" id='loginform' name='loginform'>
+				<div class="inputDiv">
+					<div class="loginIcon"><img src="img/login_name.png" /></div>
+					<input id="phoneNum" class="loginInput" placeholder="手机号" type="text" name="phoneNum" />
 
-        $(function() {
+					<div class="small">请输入账号</div>
+				</div>
 
-            checkForm("#loginform",{
-                username:{
-                    required:true
-                },
-                password:{
-                    required:true
-                }
-            },{
-                username:{
-                    required:"请输入用户名"
-                },
-                password:{
-                    required:"请输入密码"
-                }
-            });
+				<div class="inputDiv">
+					<div class="loginIcon"><img src="img/login_pwd.png" /></div>
+					<input id="verCode" class="loginInput" placeholder="验证码" type="text" name="verCode" />
+					<div class="small">请输入密码</div>
+				</div>
+				<div class="loginRegister">
+					<a style="color: gray;">帐号类型:</a>
+					<select id="loginType">
+						<option selected="selected" value="system">系统管理员</option>
+						<option value="changshang">厂商管理员</option>
+						<option value="xiaoqu">小区管理员</option>
+						<!--<option value="user">一般用户</option>-->
+					</select>
+					<a class="getVerCodeBtn" style="position: absolute; right: 60px;color:gray;">获取验证码</a>
+				</div>
+				<div>
+					<input class="loginBtn" type="button" value="登陆" />
+				</div>
 
-            var username = getCookie('username');
-            var password = getCookie('password');
-            //alert('uesrname=' + username + ',password=' + password);
-            $('#username').val(username);
-            $('#password').val(password);
-            $("#loginform").submit(function(event){
+			</form>
+		</div>
 
-                //存储用户名
-                window.sessionStorage.userName = $('#username').val();
-                //var ischecked = document.getElementById('rememberpw').checked;
-                //alert("hi");
-                //alert(hex_md5('aaaa'));
-                if ($('#rememberpw').is(':checked')) {
-                    //alert($('#rememberpw').is(':checked'));
-                    var date = new Date();
-                    date.setTime(date.getTime() + (10*24*60*60*1000));
-                    var newusername = $('#username').val();
-                    var newpassword = $('#password').val();
-                    //alert(newusername + ' ' + newpassword);
-                    setCookie('username', newusername, date);
-                    setCookie('password', hex_md5(newpassword), date);
-                } else {
-                    //alert('clear');
-                    clearCookie('username');
-                    clearCookie('password');
-                    //alert('else');
-                }
+	</body>
+	<script type="text/javascript" src="js/public.js"></script>
+	<script type="text/javascript">
+		var g_url = window.location.protocol + "//" + window.location.host + "/user/";
 
-                return true;
-            });
-        });
-    </script>
-</head>
+		function checkPhoneNum() {
+			if($('#phoneNum').val() == "") {
+				alert("请输入正确的手机号！");
+				return false;
+			}
 
-<body>
-<!--记录数据-->
-<div id="fileName" fileNam="login"></div>
-<!--记录数据-->
-<img class="bg" src="img/login_bg.jpg" />
-<div id="loginContainer">
-    <div class="loginWelcom">欢迎来到后台管理</div>
-    <form action="/login" method="post" id='loginform' name='loginform'>
+			return true;
+		}
 
-        <div class="inputDiv">
-            <div class="loginIcon"><img  src="img/login_name.png" /></div>
-            <input id="username" class="loginInput" placeholder="账号" type="text" name="username"/>
+		function checkVerCode() {
+			if($('#verCode').val() == "") {
+				alert("请输入验证码！");
+				return false;
+			}
 
-            <div class="small">请输入账号</div>
-        </div>
+			return true;
+		}
 
-        <div class="inputDiv">
-            <div class="loginIcon"><img  src="img/login_pwd.png" /></div>
-            <input id="password" class="loginInput" placeholder="密码"  type="password" name="password"/>
-            <div class="small">请输入密码</div>
-        </div>
-        <div class="loginRegister"><a class="getPWBtn">忘记密码？</a><a href="register.html" class="registerBtn">注册</a></div>
-        <div>
-            <input class="loginBtn" type="submit" value="登陆"/>
-        </div>
+		//获取验证码
+		$(".getVerCodeBtn").on("click", function() {
 
-    </form>
-</div>
+			if($(this).text() != "获取验证码") {
+				return;
+			}
 
-</body>
-<script type="text/javascript" src="js/public.js" ></script>
+			if(checkPhoneNum() == false) {
+				alert("请输入正确的手机号！");
+				return;
+			}
+
+			$(this).text("60s");
+			var athis = $(this);
+			var i = 60;
+			var athime = setInterval(function() {
+				if(i != 0) {
+					i--;
+					athis.text(i + "s");
+				} else {
+					athis.text("获取验证码");
+					clearInterval(athime);
+				}
+
+			}, 1000);
+
+            var phone = $('#phoneNum').val();
+
+            priAjaxGet("/user/getVerCode?phone="+phone, "",
+				function(data) {
+					if(data.ret == 0) {
+						alert("发送验证码成功!");
+					}
+				},
+				function() {
+					alert("获取验证码失败!");
+				});
+		});
+
+		$(".loginBtn").on("click", function() {
+			if(checkPhoneNum() == false) {
+				return;
+			}
+			if(checkVerCode() == false) {
+				return;
+			}
+
+			var query = {
+				phoneNumber: $('#phoneNum').val(),
+				verCode: $('#verCode').val(),
+				loginType: $('#loginType option:selected').val()
+			};
+
+			priAjaxPost("/user/vcLogin", query,
+				function(data) {
+					if(data.ret == 0) {
+						//判断登陆
+						window.sessionStorage.islogin = true;
+						var userInfo = {};
+						userInfo.uid = data.uid;
+						userInfo.role = data.role;
+						userInfo.roleId = data.roleId;
+						window.localStorage.setItem('userInfo', JSON.stringify(userInfo));
+						$(window).attr('location', window.location.protocol + "//" + window.location.host + "/rolemain");
+					} else {
+						alert(data.msg);
+					}
+				},
+				function() {
+					alert("登陆失败!");
+				});
+		});
+	</script>
+
 </html>

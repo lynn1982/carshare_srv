@@ -13,6 +13,7 @@ var pps = require('../control/pps');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+/*
     if (!req.session || !req.session.user) {
         res.render('loginWithPhonen', {title: '共享车位'});
         return;
@@ -36,6 +37,35 @@ router.get('/', function(req, res, next) {
             break;
         default:
             res.render('loginWithPhonen', {title: '共享车位'});
+    };
+    */
+});
+
+router.get('/rolemain', function(req, res, next) {
+
+    if (!req.session || !req.session.user) {
+        res.render('login', {title: '共享车位'});
+        return;
+    }
+
+    console.log(JSON.stringify(req.session.user));
+
+    switch(req.session.user.role)
+    {
+        case "system":
+            res.render('main_admin', {title: '共享车位'});
+            break;
+        case "changshang":
+            res.render('main_changshang', {title: '共享车位'}); 
+            break;
+        case "xiaoqu":
+            res.render('main_xiaoqu', {title: '共享车位'}); 
+            break;
+        case "user":
+            res.render('main_user', {title: '共享车位'}); 
+            break;
+        default:
+            res.render('login', {title: '共享车位'});
     };
 });
 
@@ -93,8 +123,8 @@ router.get('/parking/mycurrorder', auth.userRequired, park.getCurrOrder);
 router.post('/parking/preorder', auth.userRequired, park.preOrder);
 router.post('/parking/postorder', auth.userRequired, park.postOrder);
 router.post('/parking/cancelorder', auth.userRequired, park.cancelOrder);
-router.post('/parking/preOutpay', auth.userRequired, park.preOutpay);
-router.post('/parking/postOutpay', auth.userRequired, park.postOutpay);
+router.post('/parking/preoutpay', auth.userRequired, park.preOutPay);
+router.post('/parking/postoutpay', auth.userRequired, park.postOutPay);
 router.get('/parking/bill', auth.userRequired, park.getBill);
 
 

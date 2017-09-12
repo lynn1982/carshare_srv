@@ -93,4 +93,11 @@ User.deleteUser = function(user) {
     user.destroy();
 };
 
+User.query = function(qfilter) {
+    var filter = {
+        where: qfilter
+    };
+    return User.findAll(filter);
+};
+
 module.exports = User;

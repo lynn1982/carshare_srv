@@ -21,7 +21,7 @@
 		
 		body {
 			
-			background: url(img/bg-contact.jpg);
+			/*background: url(img/bg-contact.jpg);*/
 			background-color: rgba(0, 0, 0, 0.05);
 			background-size:auto 1000px;
 			
@@ -29,19 +29,19 @@
 		}
 		
 		#head {
-			background: rgba(255, 255, 255, 0.2);
+			background: rgba(255, 255, 255, 1);
 			height: 50px;
-			border-bottom: 1px solid deepskyblue;
-			/*position: fixed;
+			border-bottom: 1px solid gainsboro;
+			position: fixed;
 			top: 0;
-			left: 0;*/
+			left: 0;
 			width: 100%;
 			z-index: 100000;
 		}
 		
 		.logo {
 			position: absolute;
-			left: 15%;
+			left: 5%;
 			height: 100%;
 			top: 0;
 			display: inline-block;
@@ -102,21 +102,27 @@
 		}
 		
 		#map {
-			width: 70%;
-			height: 800px;
+			width: 60%;
+			height: 450px;
 			/*border: 1px solid gainsboro;*/
 			box-shadow: 0px 0px 3px black;
 			position: absolute;
-			top: 70px;
-			left: 20px;
+			top: 100px;
+			left: 5%;
+			background: white;
+			padding: 10px;
+		}
+		#mapcon{
+			height: 100%;
+			
 		}
 		
 		#rightCon{
 			border: 1px solid gainsboro;
-			height: 800px;
+			height: 470px;
 			position: absolute;
-			top: 70px;
-			width: 25%;
+			top: 100px;
+			width: 20%;
 			left: 70%;
 			margin-left:40px;
 		}
@@ -136,10 +142,12 @@
 			<a class="logo" href="index.html">共享车位</a>
 			<a class="main" href="index.html">主页</a>
 			<a class="contact" href="contactUs.html">联系我们</a>
-			<a class="login" href="loginWithPhonen.html">登陆</a>
+			<a class="login" href="login.html">登陆</a>
 		</div>
 	
-		<div id="map"></div>
+		<div id="map">
+			<div id="mapcon"></div>
+		</div>
 		<div id="rightCon"></div>
 		<div id="bottom"></div>
 
@@ -148,9 +156,19 @@
 	</body>
 
 	<script>
+		
+		var islogin = window.sessionStorage.islogin;
+		
+		//判断是否登陆
+		if(islogin){
+			$(".login").text("控制台");
+			$(".login").attr("href",window.location.protocol + "//" + window.location.host + "/rolemain");
+		}
+		
+		
 		function initialize() {
-			map = new BMap.Map("map");
-			map.centerAndZoom("上海", 12);
+			map = new BMap.Map("mapcon");
+			map.centerAndZoom("上海", 15);
 			//getLocation();
 			map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
 			map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
@@ -217,28 +235,28 @@
 		initialize();
 		addNavigationControl();
 		//添加标注
+        /*
 		$.ajax({
 			url: "/parking/mycurrorder",
 			type: "get",
 			success: function(ret) {
 				if(ret) {
-					alert(JSON.stringify(ret));
 					if(ret.ret == 0) {
-						showAreaChewei(ret.data);
+						//showAreaChewei(ret.data);
 					} else if(ret.ret == 8001) { //没有数据
 						//showAreaCheweiTest(); // TODO: for debug usage
 					} else {
-						alert("获取信息失败：" + ret.msg);
+						//alert("获取信息失败：" + ret.msg);
 					}
 				} else {
-					api.alert(err.msg);
+					//api.alert(err.msg);
 				}
 
 			},
 			error: function() {
-//					alert("获取车位小区信息失败");
+                //alert("获取车位小区信息失败");
 			}
-		});
+		});*/
 	</script>
 
 </html>

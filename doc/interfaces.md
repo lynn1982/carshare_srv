@@ -71,7 +71,7 @@
 |/parking/preorder|POST|pre预定|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>}|{total:"",<br> deposit:"" }|
 |/parking/postorder|POST|post预定|{orderNumber: 1}|
 |/parking/cancelorder|POST|取消预定|{orderNumber: 1}|
-|/parking/preoutpay|POST|pre出场结算|{cid: 1,<br> resId: 1,<br> orderNumber:1 ,<br>	timeEnd: <br>};|{orderNumber: ,<br> total: ,<br> margin: ,<br> deposit: ,<br> timeIn: <br>timeOut: <br>}|
+|/parking/preoutpay|POST|pre出场结算|{orderNumber: 1,<br> time： //出场时间<br>};|{orderNumber: ,<br> total: ,<br> margin: ,<br> deposit: ,<br> time: //停车时间，单位：分钟<br>}|
 |/parking/postoutpay|POST|post出场结算|{orderNumber: 1}||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"","xqname":""}|
 |||||

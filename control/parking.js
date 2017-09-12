@@ -425,12 +425,10 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
     }) ()
 }
 
-exports.preOutpay = function(req, res, next) {
+exports.preOutPay = function(req, res, next) {
     var uid = req.session.user.id;
-    var cid = req.body.cid;
-    var resId = req.body.resId;
-    var timeEnd = (req.body.timeEnd).replace(/-/g,"/");
-    var out_time = new Date(timeEnd);
+    var time = (req.body.time).replace(/-/g,"/");
+    var out_time = new Date(time);
     var oid = req.body.orderNumber;
     var amount;
     var margin;
@@ -466,6 +464,7 @@ exports.preOutpay = function(req, res, next) {
 
         var micrs = out_time.getTime() - c_in_time.getTime();
         var hour = Math.ceil(micrs/(3600*1000));
+        var min = Math.ceil(micrs/(60*1000));
 
         if (order.price_type == 'hour') {
             amount = order.deposit * hour;
@@ -495,8 +494,7 @@ exports.preOutpay = function(req, res, next) {
             total: amount,
             margin: margin,
             deposit: order.deposit,
-            timeIn: c_in_time,
-            timeOut: req.body.timeEnd
+            time: min,
         };
 
         res.send(JSON.stringify(retStr));
@@ -505,7 +503,7 @@ exports.preOutpay = function(req, res, next) {
   
 };
 
-exports.postOutpay = function(req, res, next) {
+exports.postOutPay = function(req, res, next) {
     var id = req.body.orderNumber;
     var uid = req.session.user.id;
 
@@ -579,8 +577,8 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
             
             var list = {
                 communityName: xiaoqu.name,
-                timeStart: orders[i].in_time,
-                timeEnd: orders[i].out_time,
+                timeStart: moment(order.c_in_tim).format('MM-DD HH:mm'),
+                timeEnd: moment(order.c_out_tim).format('MM-DD HH:mm'),
                 totalPrice: orders[i].amount
             };
 
@@ -617,4 +615,5 @@ exports.getBill = function(req, res, next) {
 
     }) ()
 };
+
 
