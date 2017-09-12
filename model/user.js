@@ -16,7 +16,7 @@ var User = sequelize.define('user', {
 
     sex: {type: Sequelize.ENUM, values: ['male', 'female']},
 
-    phone_num: {type: Sequelize.CHAR(11), unique: true},
+    phone_num: {type: Sequelize.CHAR(11)},
 
     email: {type: Sequelize.STRING},
 
