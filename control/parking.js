@@ -197,11 +197,17 @@ exports.preOrder = function orderPre(req, res, next) {
     var uid = req.session.user.id;
     var cid = req.body.cid;
     var resId = req.body.resId;
+    var timeStart = (req.body.timeStart).replace(/-/g,"/");
+    var timeEnd = (req.body.timeEnd).replace(/-/g,"/");
+    var in_time = new Date(timeStart);
+    var out_time = new Date(timeEnd);
 
     var resr = resId.split('_');
     var pay;
     var xqname;
     var chepai;
+    var price_type;
+    var amount;
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -230,9 +236,21 @@ exports.preOrder = function orderPre(req, res, next) {
             }
 
             pay = parking.rate;
+            price_type = parking.rate_type;
         }
         else {
             pay = xiaoqu.rate;
+            price_type = xiaoqu.rate_type;
+        }
+
+        if (price_type == 'hour') {
+            var micrs = out_time.getTime() - in_time.getTime();
+            var hour = Math.ceil(micrs/(3600*1000));
+
+            amount = pay * hour;
+        }
+        else {
+            amount = pay;
         }
 
         xqname = xiaoqu.name;
@@ -248,7 +266,10 @@ exports.preOrder = function orderPre(req, res, next) {
             o_in_time: req.body.timeStart,
             o_out_time: req.body.timeEnd,
             xqname: xqname,
-            chepai: chepai
+            chepai: chepai,
+            price_type: price_type,
+            deposit: pay,
+            o_amount: amount
         };
 
         console.log("newOrder="+JSON.stringify(newOrder));
@@ -263,7 +284,8 @@ exports.preOrder = function orderPre(req, res, next) {
             ret: 0,
             resId: resId,
             orderNumber: order.id,
-            pay: pay
+            deposit: pay,
+            total: amount
         };
 
         res.send(JSON.stringify(retStr));
