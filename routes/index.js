@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
         return;
     }
 
-    //console.log(JSON.stringify(req.session.user));
+    console.log(JSON.stringify(req.session.user));
 
     switch(req.session.user.role)
     {
@@ -88,6 +88,7 @@ router.get('/xiaoqu/:id/chewei', auth.userRequired, xiaoqu.getXiaoquChewei);
 router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
 router.delete('/xiaoqu/:id', auth.userRequired, xiaoqu.delete);
 
+router.get('/parking/myhistory', auth.userRequired, park.getMyHistoryPark);
 router.get('/parking/mycurrorder', auth.userRequired, park.getCurrOrder);
 router.post('/parking/preorder', auth.userRequired, park.preOrder);
 router.post('/parking/postorder', auth.userRequired, park.postOrder);

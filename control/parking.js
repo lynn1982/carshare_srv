@@ -404,11 +404,11 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
 }
 
 
-function getHistoryPark(req, res, next) {
-    
+exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
+    var filter = JSON.parse(req.query.filter);
     var uid = req.session.user.id;
-    var start = parseInt(req.body.startIdx) - 1;
-    var num = parseInt(req.body.num);
+    var start = filter.startIdx;
+    var num = filter.num;
     var data = [];
 
     var ep = new eventproxy();

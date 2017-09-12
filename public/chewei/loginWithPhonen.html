@@ -11,12 +11,6 @@
 		<script type="text/javascript" src="js/md5.js"></script>
 		<title>登陆</title>
 		<style>
-			label.error {
-				font-size: 14px;
-				display: inline-block;
-				*display: inline;
-				zoom: 1;
-			}
 		</style>
 
 	</head>
@@ -117,12 +111,9 @@
 
 			}, 1000);
 
-			var query = {
-				type: "MSG_TYPE_USER_GET_VERCODE",
-				phoneNumber: $('#phoneNum').val()
-			};
+            var phone = $('#phoneNum').val();
 
-			priAjaxPost("/user/", query,
+            priAjaxGet("/user/getVerCode?phone="+phone, "",
 				function(data) {
 					if(data.ret == 0) {
 						alert("发送验证码成功!");
@@ -131,7 +122,6 @@
 				function() {
 					alert("获取验证码失败!");
 				});
-
 		});
 
 		$(".loginBtn").on("click", function() {
@@ -143,7 +133,6 @@
 			}
 
 			var query = {
-				type: "MSG_TYPE_USER_VERCODE_LOGIN",
 				phoneNumber: $('#phoneNum').val(),
 				verCode: $('#verCode').val(),
 				loginType: $('#loginType option:selected').val()
