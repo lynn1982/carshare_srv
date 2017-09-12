@@ -12,6 +12,22 @@
 		<script type="text/javascript" src="js/md5.js"></script>
 		<title>登陆</title>
 		<style>
+			#loginContainer{
+				background: white;
+				border: 1px solid gainsboro;
+				border-radius: 8px;
+				
+			}
+			#verCode,#phoneNum{
+				background: rgb(250, 255, 189);
+				border:1px solid gainsboro;
+				border-radius: 5px!important;
+				outline: deepskyblue;
+				padding-left: 5px;
+			}
+			.loginBtn{
+				background: deepskyblue!important;
+			}
 		</style>
 
 	</head>
@@ -39,14 +55,14 @@
 					<div class="small">请输入密码</div>
 				</div>
 				<div class="loginRegister">
-					<a>帐号类型:</a>
+					<a style="color: gray;">帐号类型:</a>
 					<select id="loginType">
 						<option selected="selected" value="system">系统管理员</option>
 						<option value="changshang">厂商管理员</option>
 						<option value="xiaoqu">小区管理员</option>
 						<option value="user">一般用户</option>
 					</select>
-					<a class="getVerCodeBtn" style="position: absolute; right: 60px;">获取验证码</a>
+					<a class="getVerCodeBtn" style="position: absolute; right: 60px;color:gray;">获取验证码</a>
 				</div>
 				<div>
 					<input class="loginBtn" type="button" value="登陆" />
