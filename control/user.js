@@ -229,6 +229,7 @@ exports.verCodeLogin = function(req, res, next) {
         return;
     }
 
+/*
     smskey.getCode(phoneNum, function(reply) {
         if (typeof(reply) == 'undefined' || reply == null) {
             ep.emit('err', '验证码错误');
@@ -238,7 +239,7 @@ exports.verCodeLogin = function(req, res, next) {
             ep.emit('err', '验证码错误');
             return;
         }
-    });
+    });*/
 
     (async () => {
         var user = {
@@ -363,8 +364,8 @@ exports.sendSMS = function smsSend(req, res, next) {
         SignName: '管建智',
         TemplateCode: 'SMS_94820088',
         TemplateParam: JSON.stringify(param)
-    }).then(function (res) {
-        let {Code}=res
+    }).then(function (ret) {
+        let {Code}=ret;
         if (Code === 'OK') {
             //处理返回参数
             var retStr = {
