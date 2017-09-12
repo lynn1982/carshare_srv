@@ -4,23 +4,23 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/all.css"/>
 	<link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/head.css" />
 	<script type="text/javascript" src="js/jquery.1.9.1.js" ></script>
 	<script type="text/javascript" src="js/main.js" ></script>
 	<title>后台管理</title>
 </head>
 <body>
+<!--头部-->
+<div id="head">
+    <a class="logo" href="index.html">共享车位</a>
+    <a class="main" href="index.html">主页</a>
+    <a class="contact" href="contactUs.html">联系我们</a>
+    <a class="logout">注销</a>
+</div>
+
 <!--记录数据-->
 <div id="fileName" fileNam="main"></div>
 <!--记录数据-->
-<!--头部-->
-<div id="header">
-	<div class="heading" >车位共享平台</div>
-	<div class="userinfo" >
-		<img class="userHeader" src="img/icon10.jpg" />
-		<span class="userName">用户</span>
-		<span class="logout">注销</span>
-	</div>
-</div>
 <!--左边导航-->
 <div id="leftnav">
 	<a href="myinfo_manufacture.html" target="iframe1"><div class="navCell" style="letter-spacing: 0px;"><div class="leftBlcok"></div><img class="lefNavIcon" src="img/icon6.jpg" />我的信息</div></a>
@@ -43,29 +43,9 @@
 
 </div>
 
-<!--返回按钮-->
-<div class="bigBackBtn fobidSelect">返回</div>
-<!--返回按钮-->
 </body>
 <script>
 	$(function(){
-		/*显示用户名*/
-		$(".userName").text(window.sessionStorage.userName);
-
-		/*主页停止返回*/
-		$(".bigBackBtn").on("click",function(){
-
-			
-			if($(this).text() == "首页"){
-				return;
-			}
-
-			history.back();
-
-
-		});
-
-
 		if(setTitleHeader){
 			setTitleHeader();
 		}
@@ -100,7 +80,7 @@
 				url: "/user/logout",
 				async:true,
 				success:function(){
-					location.reload();
+                    $(window).attr('location', window.location.protocol + "//" + window.location.host + "/");
 				}
 			});
 		});
@@ -120,19 +100,6 @@
 		});
 
 	});//documentReady
-
-
-	/*改变返回按钮文字*/
-	$("#iframe1").on("load",function(){
-		var isRoot = $("#iframe1").contents().find("#fileName").attr("fileNam");
-		var isRoot2 = $("#iframe1").contents().find("#fileName").attr("isroot");
-		if(isRoot == "device" || isRoot == "plugin" || isRoot == "help" || isRoot2 == "root"){
-			$(".bigBackBtn").text("首页");
-		}else{
-			$(".bigBackBtn").text("返回");
-		}
-	});
-
 </script>
 <script type="text/javascript" src="js/public.js" ></script>
 </html>

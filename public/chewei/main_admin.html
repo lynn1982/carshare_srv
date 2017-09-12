@@ -19,26 +19,17 @@
 	</style>
 </head>
 <body>
-    <div id="head">
-        <a class="logo" href="index.html">共享车位</a>
-        <a class="main" href="index.html">主页</a>
-        <a class="contact" href="contactUs.html">联系我们</a>
-        <a class="logout">注销</a>
-    </div>
+<!--头部-->
+<div id="head">
+    <a class="logo" href="index.html">共享车位</a>
+    <a class="main" href="index.html">主页</a>
+    <a class="contact" href="contactUs.html">联系我们</a>
+    <a class="logout">注销</a>
+</div>
+
 <!--记录数据-->
 <div id="fileName" fileNam="main"></div>
 <!--记录数据-->
-<!--头部-->
-<!--
-<div id="header">
-	<div class="heading" >车位共享平台</div>
-	<div class="userinfo" >
-		<img class="userHeader" src="img/icon10.jpg" />
-		<span class="userName">用户</span>
-		<span class="logout">注销</span>
-	</div>
-</div>
--->
 <!--左边导航-->
 <div id="leftnav">
 	<a href="manu_mgmt.html" target="iframe1"><div class="navCell" style="letter-spacing: 0px;"><div class="leftBlcok blue"></div><img class="lefNavIcon" src="img/icon6.jpg" />厂商管理</div></a>
@@ -61,34 +52,14 @@
 	</div>
 
 </div>
-
-<!--返回按钮-->
-<div class="bigBackBtn fobidSelect">返回</div>
-<!--返回按钮-->
 </body>
 <script>
 	$(function(){
-		/*显示用户名*/
-		$(".userName").text(window.sessionStorage.userName);
-
-		/*主页停止返回*/
-		$(".bigBackBtn").on("click",function(){
-			if($(this).text() == "首页"){
-				return;
-			}
-			history.back();
-		});
-
-
 		if(setTitleHeader){
 			setTitleHeader();
 		}
 
-
-		var quitUrl = "/quit";
-
 		$("#leftnav .navCell").on("click",function(){
-
 			$(this).addClass("toggleGray").parent().siblings().children().removeClass("toggleGray");
 			$(".leftBlcok").removeClass("blue");
 			$(this).children(".leftBlcok").addClass("blue");
@@ -97,7 +68,6 @@
 			$(".selectTitle").attr("href",$(this).parent().attr("href"));
 			//删除前面
 			$(".titleContainer").find(".selectTitle").not(":eq(0)").remove();
-
 		});
 		$("#leftnav .navCell").on("mouseover",function(){
 			$(this).addClass("toggleColor").parent().siblings().children().removeClass("toggleColor");
@@ -108,7 +78,6 @@
 			$(this).children(".leftBlcok").removeClass("red");
 		});
 		$(".logout").on("click",function(){
-			window.sessionStorage.userName = "请登录";
 			$.ajax({
 				type:"get",
 				url: "/user/logout",
@@ -134,19 +103,6 @@
 		});
 
 	});//documentReady
-
-
-	/*改变返回按钮文字*/
-	$("#iframe1").on("load",function(){
-		var isRoot = $("#iframe1").contents().find("#fileName").attr("fileNam");
-		var isRoot2 = $("#iframe1").contents().find("#fileName").attr("isroot");
-		if(isRoot == "device" || isRoot == "plugin" || isRoot == "help" || isRoot2 == "root"){
-			$(".bigBackBtn").text("首页");
-		}else{
-			$(".bigBackBtn").text("返回");
-		}
-	});
-
 </script>
 <script type="text/javascript" src="js/public.js" ></script>
 </html>
