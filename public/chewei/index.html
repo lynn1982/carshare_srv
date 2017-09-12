@@ -41,7 +41,7 @@
 		
 		.logo {
 			position: absolute;
-			left: 2%;
+			left: 5%;
 			height: 100%;
 			top: 0;
 			display: inline-block;
@@ -102,13 +102,13 @@
 		}
 		
 		#map {
-			width: 35%;
-			height: 400px;
+			width: 60%;
+			height: 450px;
 			/*border: 1px solid gainsboro;*/
 			box-shadow: 0px 0px 3px black;
 			position: absolute;
-			top: 70px;
-			left: 20px;
+			top: 100px;
+			left: 5%;
 			background: white;
 			padding: 10px;
 		}
@@ -119,10 +119,10 @@
 		
 		#rightCon{
 			border: 1px solid gainsboro;
-			height: 800px;
+			height: 470px;
 			position: absolute;
-			top: 70px;
-			width: 25%;
+			top: 100px;
+			width: 20%;
 			left: 70%;
 			margin-left:40px;
 		}
@@ -158,7 +158,7 @@
 	<script>
 		function initialize() {
 			map = new BMap.Map("mapcon");
-			map.centerAndZoom("上海", 12);
+			map.centerAndZoom("上海", 15);
 			//getLocation();
 			map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
 			map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
@@ -225,6 +225,7 @@
 		initialize();
 		addNavigationControl();
 		//添加标注
+        /*
 		$.ajax({
 			url: "/parking/mycurrorder",
 			type: "get",
@@ -243,9 +244,9 @@
 
 			},
 			error: function() {
-//					alert("获取车位小区信息失败");
+                //alert("获取车位小区信息失败");
 			}
-		});
+		});*/
 	</script>
 
 </html>
