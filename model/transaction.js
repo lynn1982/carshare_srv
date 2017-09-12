@@ -53,7 +53,10 @@ Transaction.newAndSave = function(order) {
         o_in_time: order.o_in_time,
         o_out_time: order.o_out_time,
         xqname: order.xqname,
-        chepai: order.chepai
+        chepai: order.chepai,
+        price_type: order.price_type,
+        deposit: order.deposit,
+        o_amount: order.o_amount
     });
 };
 
@@ -69,10 +72,15 @@ Transaction.deleteOrder = function(order) {
 };
 
 Transaction.updateOrder = function(order, newOrder) {
-    order.in_time = newOrder.in_time;
-    order.out_time = newOrder.out_time;
+    order.o_in_time = newOrder.o_in_time;
+    order.o_out_time = newOrder.o_out_time;
+    order.c_in_time = newOrder.c_in_time;
+    order.c_out_time = newOrder.c_out_time;
     order.amount = newOrder.amount;
+    order.o_amount = newOrder.o_amount;
+    order.per_amount = newOrder.per_amount;
     order.state = newOrder.state;
+    order.margin = newOrder.margin;
 
     order.save();
 };

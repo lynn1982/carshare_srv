@@ -68,10 +68,10 @@
 |||||
 |/parking/myhistory|GET|获取我的历史停车信息|?filter={startIdx: 100,num: 20}|[{<br>timeStart: "",<br> timeEnd: "",<br> communityName: "",<br> totalPrice: 10<br>},<br>{}]|
 |/parking/mycurrorder|GET|获取我的当前预定||
-|/parking/preorder|POST|pre预定|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>}|{total： }|
+|/parking/preorder|POST|pre预定|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>}|{total:"",<br> deposit:"" }|
 |/parking/postorder|POST|post预定|{orderNumber: 1}|
 |/parking/cancelorder|POST|取消预定|{orderNumber: 1}|
-|/parking/preoutpay|POST|pre出场结算|{cid: 1,<br> resId: 1,<br> timeStart: ,<br>	timeEnd: <br>};|{orderNumber: ,<br> total: ,<br> margin: ,<br> deposit: ,<br> timeIn: <br>timeOut: <br>}|
+|/parking/preoutpay|POST|pre出场结算|{cid: 1,<br> resId: 1,<br> orderNumber:1 ,<br>	timeEnd: <br>};|{orderNumber: ,<br> total: ,<br> margin: ,<br> deposit: ,<br> timeIn: <br>timeOut: <br>}|
 |/parking/postoutpay|POST|post出场结算|{orderNumber: 1}||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"","xqname":""}|
 |||||

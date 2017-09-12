@@ -93,6 +93,8 @@ router.get('/parking/mycurrorder', auth.userRequired, park.getCurrOrder);
 router.post('/parking/preorder', auth.userRequired, park.preOrder);
 router.post('/parking/postorder', auth.userRequired, park.postOrder);
 router.post('/parking/cancelorder', auth.userRequired, park.cancelOrder);
+router.post('/parking/preOutpay', auth.userRequired, park.preOutpay);
+router.post('/parking/postOutpay', auth.userRequired, park.postOutpay);
 router.get('/parking/bill', auth.userRequired, park.getBill);
 
 

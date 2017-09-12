@@ -1,6 +1,7 @@
 
 var Dev = require('../model/dev');
 var Community = require('../model/community');
+var Order = require('../model/transaction');
 var eventproxy = require('eventproxy');
 
 function message_handle(packet){
@@ -35,12 +36,13 @@ function message_handle(packet){
         var cname = xiaoqu.name;
 
         if (topic == 'car_in') {
+            var in_time = new Date();
             var CarIn = {
                 chepai: chepai,
                 xqname: cname,
                 community_id: cid,
                 dev_id: devId,
-                in_time: new Date()
+                in_time: in_time
             };
 
             var dev = await Dev.newAndSave(carIn);
@@ -48,8 +50,28 @@ function message_handle(packet){
                 ep.emit('err', {ret:8002, str:'数据库错误'});
                 return;
             }
+
+            //update c_in_time in transaction table
+            var filter = {
+                community_id: cid,
+                chepai: chepai,
+                state: 'progress'
+            };
+
+            var order = await Order.queryOrder(filter);
+            if (!order) {
+                return;
+            }
+            
+            var timeIn = {
+                c_in_time: in_time
+            };
+
+            await Order.updateOrder(order, timeIn);
+
         }
         else if (topic == 'car_out') {
+            var out_time = new Date();
             var filter = {
                 chepai: chepai,
                 community_id: cid,
@@ -63,13 +85,32 @@ function message_handle(packet){
             }
 
             var car_out = {
-                out_time: new Date()
+                out_time: out_time
             };
 
             Dev.update(dev, car_out);
+
+            //update c_out_time in transaction table carOutHandler(chepai,cid,out_time);
+            filter = {
+                chepai: chepai,
+                community_id: cid,
+                state: 'finish' 
+            };
+
+            var order = await Order.queryOrder(filter);
+            if (!order) {
+                return;
+            }
+
+            var timeOut = {
+                c_out_time: out_time
+            };
+
+            Order.updateOrder(order, timeOut);
         }
     }) ()
 
 }
+
 
 module.exports.message_handle = message_handle;

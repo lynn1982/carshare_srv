@@ -425,6 +425,127 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
     }) ()
 }
 
+exports.preOutpay = function(req, res, next) {
+    var uid = req.session.user.id;
+    var cid = req.body.cid;
+    var resId = req.body.resId;
+    var timeEnd = (req.body.timeEnd).replace(/-/g,"/");
+    var out_time = new Date(timeEnd);
+    var oid = req.body.orderNumber;
+    var amount;
+    var margin;
+    var per_amount;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order_err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async() => {
+        var filter = {
+            user_id: uid,
+            id: oid
+        };
+        var order = await Order.queryOrder(filter);
+        if (!order) {
+            ep.emit('order_err', '订单号错误');
+            return;
+        }
+
+        var c_in_time = order.c_in_time;
+        if (c_in_time == null) {
+            console.log('chepai:'+order.chepai+'没有入场时间');
+            c_in_time = order.o_in_time;
+        }
+
+        var micrs = out_time.getTime() - c_in_time.getTime();
+        var hour = Math.ceil(micrs/(3600*1000));
+
+        if (order.price_type == 'hour') {
+            amount = order.deposit * hour;
+            margin = amount - order.deposit;
+        }
+        else {
+            amount = order.deposit;
+            margin = 0;
+        }
+
+        per_amount = Math.round(amount/hour);
+
+        var o_order = {
+            c_out_time: req.body.timeEnd,
+            margin: margin,
+            amount: amount,
+            per_amount: per_amount
+        };
+        
+        console.log('newOrder='+JSON.stringify(o_order));
+
+        await Order.updateOrder(order, o_order);
+
+        var retStr ={
+            ret: 0,
+            orderNumber: oid,
+            total: amount,
+            margin: margin,
+            deposit: order.deposit,
+            timeIn: c_in_time,
+            timeOut: req.body.timeEnd
+        };
+
+        res.send(JSON.stringify(retStr));
+
+    }) ()
+  
+};
+
+exports.postOutpay = function(req, res, next) {
+    var id = req.body.orderNumber;
+    var uid = req.session.user.id;
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.on('order_err', function(msg) {
+        var retStr = {
+            ret: 1,
+            msg: msg
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    (async () => {
+        var filter = {
+            user_id: uid,
+            id: id
+        };
+        var order = await Order.queryOrder(filter);
+
+        if (!order) {
+            ep.emit('order_err', '订单号错误');
+            return;
+        }
+
+        var newOrder = {
+            state: 'finish'
+        };
+
+        await Order.updateOrder(order, newOrder);
+
+        var retStr = {
+            ret: 0
+        };
+
+        res.send(JSON.stringify(retStr));
+    }) ()
+
+};
 
 exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
     var filter = JSON.parse(req.query.filter);
