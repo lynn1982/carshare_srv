@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>联系我们</title>
+	</head>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: content-box;
+		}
+		
+		a {
+			text-decoration: none;
+		}
+		
+		body {
+			background: url(img/bg-contact.jpg);
+			background-color: rgba(0, 0, 0, 0.05);
+			background-size: auto 1000px;
+		}
+		
+		#head {
+			background: rgba(255, 255, 255, 0.2);
+			height: 50px;
+			border-bottom: 1px solid deepskyblue;
+			/*position: fixed;
+			top: 0;
+			left: 0;*/
+			width: 100%;
+			z-index: 100000;
+		}
+		
+		.logo {
+			position: absolute;
+			left: 15%;
+			height: 100%;
+			top: 0;
+			display: inline-block;
+			vertical-align: bottom;
+			line-height: 50px;
+			font-size: 20px;
+			color: green;
+		}
+		
+		.main {
+			display: inline-block;
+			vertical-align: bottom;
+			height: 50px;
+			line-height: 50px;
+			position: absolute;
+			top: 0px;
+			right: 350px;
+			color: rgba(0, 0, 0, 0.5);
+			cursor: pointer;
+		}
+		
+		.contact {
+			display: inline-block;
+			vertical-align: bottom;
+			height: 50px;
+			line-height: 50px;
+			position: absolute;
+			top: 0px;
+			right: 250px;
+			cursor: pointer;
+			color: deepskyblue;
+		}
+		
+		.main:hover,
+		.contact:hover {
+			color: deepskyblue;
+		}
+		
+		.login {
+			color: black;
+			text-decoration: none;
+			border: 1px solid gainsboro;
+			display: inline-block;
+			vertical-align: bottom;
+			height: 30px;
+			line-height: 30px;
+			width: 100px;
+			text-align: center;
+			background: white;
+			position: absolute;
+			right: 100px;
+			top: 10px;
+			border-radius: 4px;
+			color: orange;
+		}
+		
+		.login:hover {
+			background: deepskyblue;
+		}
+		
+		#contactway {
+			width: 500px;
+			height: 300px;
+			border: 1px solid deepskyblue;
+			margin: 0 auto;
+			margin-top: 180px;
+			background: rgba(0, 0, 0, 0.4);
+			color: white;
+		}
+		.person{
+			margin-top: 50px;
+			margin-left: 50px;
+		}
+	</style>
+
+	<body>
+		<div id="head">
+			<a class="logo" href="index.html">共享车位</a>
+			<a class="main" href="index.html">主页</a>
+			<a class="contact" href="contactUs.html">联系我们</a>
+			<a class="login" href="loginWithPhonen.html">登陆</a>
+		</div>
+
+		<div id="contactway">
+			<div class="person">
+				<div>客服1</div>
+				<div><span style="color: deepskyblue;">PHONE : </span><span >13939393939</span></div>
+				<div><span style="color: deepskyblue;">E-MAIL : </span><span>13939393939@168.com</span> </div>
+			</div>
+			<div class="person">
+				<div>客服2</div>
+				<div><span style="color: deepskyblue;">PHONE : </span><span >13939393939</span></div>
+				<div><span style="color: deepskyblue;">E-MAIL : </span><span>13939393939@168.com</span> </div>
+			</div>
+		</div>
+	</body>
+
+</html>
