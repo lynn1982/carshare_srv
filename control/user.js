@@ -230,6 +230,10 @@ exports.verCodeLogin = function(req, res, next) {
     }
 
     smskey.getCode(phoneNum, function(reply) {
+        if (typeof(reply) == 'undefined' || reply == null) {
+            ep.emit('err', '验证码错误');
+            return;
+        }
         if (reply.toString() != code.toString()) {
             ep.emit('err', '验证码错误');
             return;
