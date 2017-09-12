@@ -96,7 +96,7 @@
 				url: "/user/logout",
 				async:true,
 				success:function(){
-					location.reload();
+                    $(window).attr('location', window.location.protocol + "//" + window.location.host + "/");
 				}
 			});
 		});
