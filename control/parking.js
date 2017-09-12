@@ -458,8 +458,8 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
             
             var list = {
                 communityName: xiaoqu.name,
-                timeStart: orders[i].in_time,
-                timeEnd: orders[i].out_time,
+                timeStart: moment(order.c_in_tim).format('MM-DD HH:mm'),
+                timeEnd: moment(order.c_out_tim).format('MM-DD HH:mm'),
                 totalPrice: orders[i].amount
             };
 
@@ -497,3 +497,23 @@ exports.getBill = function(req, res, next) {
     }) ()
 };
 
+exports.preOutPay = function(req, res, next) {
+    //TODO:
+    var retStr = {
+        ret: 0,
+        orderNumber: 1,
+        total: 30,
+        margin: 20,
+        deposit: 10,
+        time: 181 //停车时间，单位：分钟
+    };
+    res.send(JSON.stringify(retStr));
+}
+
+exports.postOutPay = function(req, res, next) {
+    //TODO:
+    var retStr = {
+        ret: 0
+    };
+    res.send(JSON.stringify(retStr));
+}

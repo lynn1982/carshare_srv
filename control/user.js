@@ -211,7 +211,6 @@ exports.verCodeLogin = function(req, res, next) {
 
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg 
         };
@@ -246,14 +245,18 @@ exports.verCodeLogin = function(req, res, next) {
             role: "user",
             roleId: -1
         };
+        var filter = {
+            phone_num: phoneNum,
+        };
         if (loginType == "system") {
-            var sys = await User.getUserByPhone(phoneNum);
-            if (!sys) {
+            filter.role = "system";
+            var sys = await User.query(filter);
+            if (sys.length == 0) {
                 ep.emit('err', '没有此系统管理员帐号！');
                 return;
             }
             user.role = "system";
-            user.roleId = sys.id;
+            user.roleId = sys[0].id;
         } else if (loginType == "changshang") {
             var pps = await Pps.query(filter);
             if (!pps) {
@@ -271,9 +274,10 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "xiaoqu";
             user.roleId = xiaoqu[0].id;
         } else if (loginType == "user") {
-            var usr = await User.getUserByPhone(phoneNum);
+            filter.role = "user";
+            var usr = await User.query(filter);
 
-            if (!usr) {
+            if (usr.length == 0) {
                 var newUser = {
                     phone_num: phoneNum
                 };
@@ -283,9 +287,11 @@ exports.verCodeLogin = function(req, res, next) {
                     ep.emit('err', '后台错误！');
                     return;
                 }
+                user.roleId = usr.id;
+            } else {
+                user.roleId = usr[0].id;
             }
             user.role = "user";
-            user.roleId = usr.id;
         } else {
             ep.emit('err', '参数错误！');
             return;
