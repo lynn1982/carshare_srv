@@ -410,7 +410,7 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
             price: xiaoqu.rate,
             priceType: xiaoqu.rate_type,
             deposit: xiaoqu.rate,
-            timeStart: moment(order.o_in_tim).format('HH:mm'),
+            timeStart: moment(order.o_in_time).format('HH:mm'),
             timeEnd: moment(order.o_out_time).format('HH:mm'),
             totalPrice: order.amount
         };
@@ -556,7 +556,6 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
     ep.fail(next);
     ep.on('order', function(data) {
         var retStr = {
-            type: req.body.type,
             ret: 0,
             data: data
         };
@@ -577,8 +576,8 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
             
             var list = {
                 communityName: xiaoqu.name,
-                timeStart: moment(order.c_in_tim).format('MM-DD HH:mm'),
-                timeEnd: moment(order.c_out_tim).format('MM-DD HH:mm'),
+                timeStart: moment(orders[i].c_in_time).format('MM-DD HH:mm'),
+                timeEnd: moment(orders[i].c_out_time).format('MM-DD HH:mm'),
                 totalPrice: orders[i].amount
             };
 
