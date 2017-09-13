@@ -564,7 +564,11 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
     });
 
     (async () => {
-        var orders = await Order.getOrdersByLimit(uid, num, start, [['createdAt', 'desc']]);
+        var query = {
+            user_id: uid,
+            state: 'finish'
+        };
+        var orders = await Order.getOrdersByLimit(query, num, start, [['createdAt', 'desc']]);
                 
         if (orders.length == 0) {
             ep.emit('order', []);

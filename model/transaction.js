@@ -98,9 +98,9 @@ Transaction.queryOrder = function(query) {
 };
 
 
-Transaction.getOrdersByLimit = function(uid, limit, offset, order) {
+Transaction.getOrdersByLimit = function(filter, limit, offset, order) {
     return Transaction.findAll({
-        where: {user_id: uid},
+        where: filter,
         'limit': limit,
         'offset': offset,
         'order': order
