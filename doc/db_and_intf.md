@@ -83,6 +83,7 @@
 |o_out_time|timestamp||预定结束时间|
 |c_in_time|timestamp||车辆进入时间|
 |c_out_time|timestamp||车辆驶出时间|
+|pay_time|timestamp||用户支付时间|
 |deposit|int||订金|
 |margin|int||差额|
 |o_amount|int||预定总金额|
