@@ -18,6 +18,7 @@ var Transaction = sequelize.define('transaction', {
     o_out_time:  {type: Sequelize.DATE},
     c_in_time: {type: Sequelize.DATE},
     c_out_time:  {type: Sequelize.DATE},
+    pay_time:  {type: Sequelize.DATE},
 
     deposit: {type: Sequelize.INTEGER},
     margin: {type: Sequelize.INTEGER},
@@ -76,6 +77,7 @@ Transaction.updateOrder = function(order, newOrder) {
     order.o_out_time = newOrder.o_out_time;
     order.c_in_time = newOrder.c_in_time;
     order.c_out_time = newOrder.c_out_time;
+    order.pay_time = newOrder.pay_time;
     order.amount = newOrder.amount;
     order.o_amount = newOrder.o_amount;
     order.per_amount = newOrder.per_amount;

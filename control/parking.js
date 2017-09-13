@@ -427,8 +427,8 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
 
 exports.preOutPay = function(req, res, next) {
     var uid = req.session.user.id;
-    var time = (req.body.time).replace(/-/g,"/");
-    var out_time = new Date(time);
+    //var time = (req.body.time).replace(/-/g,"/");
+    var out_time = new Date();
     var oid = req.body.orderNumber;
     var amount;
     var margin;
@@ -478,7 +478,7 @@ exports.preOutPay = function(req, res, next) {
         per_amount = Math.round(amount/hour);
 
         var o_order = {
-            c_out_time: req.body.timeEnd,
+            pay_time: out_time,
             margin: margin,
             amount: amount,
             per_amount: per_amount

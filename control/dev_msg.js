@@ -4,6 +4,8 @@ var Community = require('../model/community');
 var Order = require('../model/transaction');
 var eventproxy = require('eventproxy');
 
+var expireTime = 15;
+
 function message_handle(packet){
     var topic = packet.topic;
     var payload = JSON.stringify(packet.payload);
@@ -94,7 +96,9 @@ function message_handle(packet){
             filter = {
                 chepai: chepai,
                 community_id: cid,
-                state: 'finish' 
+                state: 'finish',
+                c_out_time: {'$eq': null},
+                pay_time: {'$ne': null}
             };
 
             var order = await Order.queryOrder(filter);
@@ -106,7 +110,15 @@ function message_handle(packet){
                 c_out_time: out_time
             };
 
-            Order.updateOrder(order, timeOut);
+            await Order.updateOrder(order, timeOut);
+
+            var pay_time = order.pay_time;
+            var mics = out_time.getTime() - pay_time.getTime();
+            var min = Math.floor(mics/(60*1000));
+
+            if (min > expireTime) {
+                // expire 15mins,report mqtt
+            }
         }
     }) ()
 
