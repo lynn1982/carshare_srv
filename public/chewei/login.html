@@ -151,7 +151,7 @@
 				function(data) {
 					if(data.ret == 0) {
 						//判断登陆
-						window.sessionStorage.islogin = true;
+						window.sessionStorage.setItem('islogin', 'true');
 						var userInfo = {};
 						userInfo.uid = data.uid;
 						userInfo.role = data.role;

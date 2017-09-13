@@ -31,13 +31,16 @@
     <script src="js/jquery-1.11.2.min.js"></script>
 	<script>
 		
-		var islogin = window.sessionStorage.islogin;
-		
+		var islogin = window.sessionStorage.getItem('islogin');
+
 		//判断是否登陆
-		if(islogin){
+		if(islogin == 'true') {
 			$(".login").text("控制台");
-			$(".login").attr("href",window.location.protocol + "//" + window.location.host + "/rolemain");
-		}
+			$(".login").attr("href", window.location.protocol + "//" + window.location.host + "/rolemain");
+		} else {
+			$(".login").text("登陆");
+			$(".login").attr("href", window.location.protocol + "//" + window.location.host + "/login.html");
+        }
 	</script>
 
 </html>

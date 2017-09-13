@@ -83,6 +83,7 @@
 				url: "/user/logout",
 				async:true,
 				success:function(){
+                    window.sessionStorage.setItem('islogin', 'false');
                     $(window).attr('location', window.location.protocol + "//" + window.location.host + "/");
 				}
 			});
