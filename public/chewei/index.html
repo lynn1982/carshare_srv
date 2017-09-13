@@ -11,21 +11,20 @@
 			margin: 0;
 			box-sizing: content-box;
 		}
-		a{
+		
+		a {
 			text-decoration: none;
 		}
+		
 		body,
 		html {
 			height: 100%;
 		}
 		
 		body {
-			
 			/*background: url(img/bg-contact.jpg);*/
 			background-color: rgba(0, 0, 0, 0.05);
-			background-size:auto 1000px;
-			
-			
+			background-size: auto 1000px;
 		}
 		
 		#head {
@@ -75,7 +74,8 @@
 			color: rgba(0, 0, 0, 0.5);
 		}
 		
-		.main:hover,.contact:hover{
+		.main:hover,
+		.contact:hover {
 			color: deepskyblue;
 		}
 		
@@ -112,28 +112,53 @@
 			background: white;
 			padding: 10px;
 		}
-		#mapcon{
+		
+		#mapcon {
 			height: 100%;
-			
 		}
 		
-		#rightCon{
+		#rightCon {
 			border: 1px solid gainsboro;
 			height: 470px;
 			position: absolute;
 			top: 100px;
 			width: 20%;
 			left: 70%;
-			margin-left:40px;
+			margin-left: 40px;
+			background: white;
+			box-shadow: -1px 1px 1px lightblue;
 		}
-		#bottom{
+		
+		#rightCon .info{
+			border: 1px solid deepskyblue;
+			border-radius: 30px;
+			margin: 40px 20px;
+			height: 59px;
+		}
+		
+		#rightCon .title {
+			font-size: 16px;
+			text-align: center;
+			color: deepskyblue;
+		}
+		#rightCon .value{
+			font-size: 26px;
+			color: rgba(0,0,0,0.6);
+			text-align: center;
+			
+		}
+		.svg1{
+			border: 1px solid red;
+		}
+		
+		#bottom {
 			position: absolute;
 			top: 890px;
 			left: 0;
 			border: 1px solid gainsboro;
 			width: 100%;
 			height: 100px;
-			background: rgba(0,0, 0, 0.4);
+			background: rgba(0, 0, 0, 0.4);
 		}
 	</style>
 
@@ -144,28 +169,60 @@
 			<a class="contact" href="contactUs.html">联系我们</a>
 			<a class="login" href="login.html">登陆</a>
 		</div>
-	
+
 		<div id="map">
-			<div id="mapcon"></div>
+			<div id="mapcon">
+
+			</div>
 		</div>
-		<div id="rightCon"></div>
+		<div id="rightCon">
+			<!--<svg class="svg1" width="100%" height="100" viewBox="0 0 38 38" class="pc-mod-svg" data-pre="73">
+				<circle class="pc-mod-ring" r="16" cx="19" cy="19" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke="#008eff" stroke-dasharray="73 100" stroke-opacity="1" fill="none" transform="rotate(-220, 19 19)"></circle>
+			</svg>-->
+			<div class="info">
+				<div class="title">车位总数</div>
+				<div class="value">{{data.carportsAll+"个"}}</div>
+			</div>
+			<div class="info">
+				<div class="title">可用车位数</div>
+				<div class="value">{{data.carportsAvailable+"个"}}</div>
+			</div>
+			<div class="info">
+				<div class="title">停车地点数</div>
+				<div class="value">{{data.carlocNum+"个"}}</div>
+			</div>
+			<div class="info">
+				<div class="title">APP用户数</div>
+				<div class="value">{{data.AppNum+"个"}}</div>
+			</div>
+		</div>
 		<div id="bottom"></div>
 
 		<script src="http://api.map.baidu.com/api?v=2.0&ak=Ew9Gequf1Q1V8YNowH8G86LqjOGvVm1O" type="text/javascript"></script>
 		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/vue.js"></script>
 	</body>
 
 	<script>
 		
+		var VM = new Vue({
+			el:"#rightCon",
+			data:{
+				data:{"carportsAll":1000,"carportsAvailable":800,"carlocNum":100,"AppNum":10000}
+			}
+		});
+		
+		
+		
 		var islogin = window.sessionStorage.islogin;
-		
+
 		//判断是否登陆
-		if(islogin){
+		if(islogin) {
 			$(".login").text("控制台");
-			$(".login").attr("href",window.location.protocol + "//" + window.location.host + "/rolemain");
+			$(".login").attr("href", window.location.protocol + "//" + window.location.host + "/rolemain");
 		}
-		
-		
+
+
 		function initialize() {
 			map = new BMap.Map("mapcon");
 			map.centerAndZoom("上海", 15);
@@ -235,7 +292,7 @@
 		initialize();
 		addNavigationControl();
 		//添加标注
-        /*
+		/*
 		$.ajax({
 			url: "/parking/mycurrorder",
 			type: "get",
