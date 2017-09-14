@@ -8,15 +8,23 @@ var expireTime = 15;
 
 function message_handle(packet){
     var topic = packet.topic;
-    var payload = JSON.stringify(packet.payload);
+    var payload = packet.payload.toString();
+
+    console.log("topic="+topic+",payload="+payload); 
+
+    if (topic != 'car_in' && topic != 'car_out') {
+        return;
+    }
+
+    var json = JSON.parse(payload);
+    var cid = json.xiaoqu_id;
+    var devId = json.dev_id;
+    var chepai = json.chepai;
 
     /* {"dev_id":123456,"xiaoqu_id":000001,"chepai":"沪A-AA001"} */
-    var cid = payload.xiaoqu_id;
-    var devId = payload.dev_id;
-    var chepai = payload.chepai;
 
-    var ep = new eventproxy();
-    ep.fail(next);
+    /*var ep = new eventproxy();
+    ep.fail();
     ep.on('err', function(msg) {
         var retStr = {
             ret: msg.ret,
@@ -24,14 +32,12 @@ function message_handle(packet){
         };
 
         res.send(JSON.stringify(retStr));
-    });
-
-    console.log("topic="+topic+",payload="+payload.toString());
+    });*/
 
     (async() => {
         var xiaoqu = await Community.getXiaoquById(cid);
         if (!xiaoqu) {
-            ep.emit('err', {ret:8001, str:'没有此小区'});
+            //ep.emit('err', {ret:8001, str:'没有此小区'});
             return;
         }
 
@@ -39,7 +45,7 @@ function message_handle(packet){
 
         if (topic == 'car_in') {
             var in_time = new Date();
-            var CarIn = {
+            var carIn = {
                 chepai: chepai,
                 xqname: cname,
                 community_id: cid,
@@ -49,7 +55,7 @@ function message_handle(packet){
 
             var dev = await Dev.newAndSave(carIn);
             if (!dev) {
-                ep.emit('err', {ret:8002, str:'数据库错误'});
+                //ep.emit('err', {ret:8002, str:'数据库错误'});
                 return;
             }
 
@@ -82,7 +88,7 @@ function message_handle(packet){
 
             var dev = await Dev.queryOne(filter);
             if (!dev) {
-                ep.emit('err', {ret:8002, str:'该车没有进场记录'});
+                //ep.emit('err', {ret:8002, str:'该车没有进场记录'});
                 return;
             }
 
@@ -90,7 +96,7 @@ function message_handle(packet){
                 out_time: out_time
             };
 
-            Dev.update(dev, car_out);
+            await Dev.update(dev, car_out);
 
             //update c_out_time in transaction table carOutHandler(chepai,cid,out_time);
             filter = {
@@ -116,6 +122,7 @@ function message_handle(packet){
             var mics = out_time.getTime() - pay_time.getTime();
             var min = Math.floor(mics/(60*1000));
 
+            console.log('time_expire='+min);
             if (min > expireTime) {
                 // expire 15mins,report mqtt
             }
