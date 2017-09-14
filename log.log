@@ -1,0 +1,6 @@
+[2017-09-14 12:16:49.959] [INFO] file - GET /index.html 304
+[2017-09-14 12:16:50.016] [INFO] file - GET /js/jquery-1.11.2.min.js 304
+[2017-09-14 12:16:50.021] [INFO] file - GET /js/vue.js 304
+[2017-09-14 12:16:50.704] [INFO] file - GET /contactUs.html 304
+[2017-09-14 12:16:50.733] [INFO] file - GET /css/head.css 304
+[2017-09-14 12:16:50.735] [INFO] file - GET /js/jquery-1.11.2.min.js 304

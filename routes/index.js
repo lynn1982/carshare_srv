@@ -8,41 +8,17 @@ var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
 var pps = require('../control/pps');
+const logger = require('../lib/logger').logger('file');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-/*
-    if (!req.session || !req.session.user) {
-        res.render('loginWithPhonen', {title: '共享车位'});
-        return;
-    }
-
-    console.log(JSON.stringify(req.session.user));
-
-    switch(req.session.user.role)
-    {
-        case "system":
-            res.render('main_admin', {title: '共享车位'});
-            break;
-        case "changshang":
-            res.render('main_changshang', {title: '共享车位'}); 
-            break;
-        case "xiaoqu":
-            res.render('main_xiaoqu', {title: '共享车位'}); 
-            break;
-        case "user":
-            res.render('main_user', {title: '共享车位'}); 
-            break;
-        default:
-            res.render('loginWithPhonen', {title: '共享车位'});
-    };
-    */
+    logger.info('This is an index page! -- log4js');
 });
 
 router.get('/rolemain', function(req, res, next) {
 
+    logger.info('This is an index page! -- log4js');
     if (!req.session || !req.session.user) {
         res.render('login', {title: '共享车位'});
         return;

@@ -1,4 +1,3 @@
-
 var Parking = require('../model/parking');
 var Order = require('../model/transaction');
 var Community = require('../model/community');
