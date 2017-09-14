@@ -248,6 +248,9 @@ exports.verCodeLogin = function(req, res, next) {
         var filter = {
             phone_num: phoneNum,
         };
+        var filter1 = {
+            phone: phoneNum,
+        };
         if (loginType == "system") {
             filter.role = "system";
             var sys = await User.query(filter);
@@ -258,7 +261,7 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "system";
             user.roleId = sys[0].id;
         } else if (loginType == "changshang") {
-            var pps = await Pps.query(filter);
+            var pps = await Pps.query(filter1);
             if (!pps) {
                 ep.emit('err', '没有此厂商管理员帐号！');
                 return;
@@ -266,7 +269,7 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "changshang";
             user.roleId = pps[0].id;
         } else if (loginType == "xiaoqu") {
-            var xiaoqu = await Community.query(filter);
+            var xiaoqu = await Community.query(filter1);
             if (!xiaoqu) {
                 ep.emit('err', '没有此小区管理员帐号！');
                 return;

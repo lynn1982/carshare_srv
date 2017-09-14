@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/all.css" />
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/router_currentsource.css" />
+		<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<title id="name" fileNam="plugin">账单明细</title>
+	</head>
+
+	<body onload="load()">
+		<div id="vueApp">
+			<!--记录数据-->
+			<div id="fileName" fileNam="router_historyresource" isroot="root"></div>
+			<!--记录数据-->
+			<div id="pluginContainer" fileNam="plugin" isroot="root">
+				<div class="pluginTitle">
+					<!-- <a class="backBtn" >返回</a> -->筛选</div>
+
+				<div>
+					<table style="margin-left:40px;margin-top:20px;margin-bottom:20px;">
+						<tr>
+							<td>小区名:</td>
+							<td><input id="xqname"  type="text" style="width:384px;" name="xqname"></input></td>
+						</tr>
+						<tr>
+							<td>车牌:</td>
+							<td><input id="chepai"  type="text" style="width:128px;" name="chepai"></input></td>
+						</tr>
+						<tr>
+							<td><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
+						</tr>
+					</table>
+				</div>
+				<div style="height: 20px;background: rgba(0,0,0,0.05);"></div>
+
+                <div class="pluginTitle">账单明细</div>
+				<div class="tableContainer" >
+					<table id="table" style="margin-top: 10px;">
+						<tr>
+							<th>车牌</th>
+							<th>小区</th>
+							<th>进场时间</th>
+                            <th>出场时间</th>
+							<th>停车费(元)</th>
+						</tr>
+						<tr id="cell" class="cell" v-for="dic in message">
+							<td>{{dic.chepai}}</td>
+							<td>{{dic.xqname}}</td>
+							<td>{{dic.in_time}}</td>
+							<td>{{dic.out_time}}</td>
+							<td>{{dic.amount}}</td>
+						</tr>
+
+					</table>
+				</div>
+				<div style="height: 15px;"></div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/public.js"></script>
+	<script>
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+		var vm = new Vue({
+			el: '#vueApp',
+			data: {
+                message: []
+			},
+			methods: {
+				refresh:function(){
+                    var _self = this;
+					var xqname = $("#xqname").val();
+					var chepai = $("#chepai").val();
+                    _self.reload(xqname, chepai);
+				},
+                reload: function(xqname, chepai) {
+                    var filter = {};
+
+                    if (userInfo.role == "changshang") {
+                        filter.pps_id = userInfo.roleId;
+                    } else if (userInfo.role == "xiaoqu") {
+                        filter.xq_id = userInfo.roleId;
+                    }
+
+                    if (xqname != "") {
+                        filter.xqname = xqname;
+                    }
+                    if (chepai != "") {
+                        filter.chepai = chepai;
+                    }
+                    priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
+                            function(data) {
+                                if (data.ret == 0) {
+                                    vm.message = data.data;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            },
+                            function() {
+                                alert("获取账单明细失败！");
+                            });                    
+                }
+			}
+
+		});
+
+        function load() {
+            vm.reload("", "");
+        }
+	</script>
+
+</html>
