@@ -61,7 +61,8 @@
 |/pps/[id]|PUT|修改厂商信息||
 |/pps/[id]|DELETE|删除厂商信息||
 |||||
-|/xiaoqu/|POST|创建小区||
+|/xiaoqu_new|POST|创建小区||
+|/xiaoqu/search_result|POST|用户搜索小区结果上报||
 |/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
 |/xiaoqu/areachewei|GET|获取周边车位信息||
 |/xiaoqu/[id]|GET|获取小区信息||
