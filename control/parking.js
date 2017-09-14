@@ -412,7 +412,7 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
             deposit: xiaoqu.rate,
             timeStart: moment(order.o_in_time).format('HH:mm'),
             timeEnd: moment(order.o_out_time).format('HH:mm'),
-            totalPrice: order.amount
+            totalPrice: order.o_amount
         };
 
         var retStr = {
