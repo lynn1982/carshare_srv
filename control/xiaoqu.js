@@ -3,6 +3,7 @@ var Community = require('../model/community');
 var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 var Dev = require('../model/dev');
+const logger = require('../lib/logger').logger('file');
 
 
 exports.message_handle = function(req, res, next) {
@@ -302,6 +303,16 @@ function del(req, res, next) {
 
 }
 
+exports.searchResult = function (req, res, next) {
+    var retStr = {
+        ret: 0
+    };
+
+    var info = req.body;
+    info. uid = req.session.user.id;
+    logger.info('search result: '+JSON.stringify(info));
+    res.send(JSON.stringify(retStr));
+}
 
 exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
     var id = req.params.id;
@@ -311,7 +322,6 @@ exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
