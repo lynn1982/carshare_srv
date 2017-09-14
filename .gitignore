@@ -2,3 +2,4 @@
 .*.swo
 *~
 logs/*
+node_modules/*
