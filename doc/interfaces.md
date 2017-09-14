@@ -58,14 +58,16 @@
 |/user/[id]|GET|获取用户信息||
 |/user/[id]|PUT|修改用户信息||
 |||||
-|/pps/|POST|创建厂商||
+|/pps_new|POST|创建厂商|||
+|/pps/namelist|GET|获取厂商名字列表|||
 |/pps/[id]|GET|获取厂商信息||
 |/pps/[id]|PUT|修改厂商信息||
 |/pps/[id]|DELETE|删除厂商信息||
 |||||
 |/xiaoqu_new|POST|创建小区||
 |/xiaoqu/search_result|POST|用户搜索小区结果上报||
-|/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
+|/xiaoqu/namelist|GET|获取小区名字列表|?filter={pps_id:1} or {}|
+|/xiaoqu|GET|获取小区信息|?filter={id:1, ....}|
 |/xiaoqu/areachewei|GET|获取周边车位信息||
 |/xiaoqu/[id]|GET|获取小区信息||
 |/xiaoqu/[id]/chewei|GET|获取小区车位信息||
