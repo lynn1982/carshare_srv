@@ -23,19 +23,22 @@
 				<div>
 					<table style="margin-left:40px;margin-top:20px;margin-bottom:20px;">
 						<tr>
-							<td>厂商名:</td>
-							<td><input id="csname"  type="text" style="width:384px;" name="csname"></input></td>
-						</tr>
-						<tr>
-							<td>小区名:</td>
-							<td><input id="xqname"  type="text" style="width:384px;" name="xqname"></input></td>
+							<td style="width:80px">厂商名:</td>
+							<td style="width:300px"><select class="paystyle" name="csname" id="csname"><option selected="selected" value=""></option></select></td>
+							<td style="width:80px">小区名:</td>
+							<td style="width:300px"><select class="paystyle" name="xqname" id="xqname"><option selected="selected" value=""></option></select></td>
 						</tr>
 						<tr>
 							<td>车牌:</td>
 							<td><input id="chepai"  type="text" style="width:128px;" name="chepai"></input></td>
+                            <td></td>
+                            <td></td>
 						</tr>
 						<tr>
-							<td><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
+							<td><button class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 						</tr>
 					</table>
 				</div>
@@ -91,14 +94,15 @@
                     }
 
                     if (csname != "") {
-                        filter.csname = csname;
+                        filter.pps_id = csname;
                     }
                     if (xqname != "") {
-                        filter.xqname = xqname;
+                        filter.community_id = xqname;
                     }
                     if (chepai != "") {
                         filter.chepai = chepai;
                     }
+
                     priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
                             function(data) {
                                 if (data.ret == 0) {
@@ -115,8 +119,53 @@
 
 		});
 
+        function getPpsNameList() {
+            priAjaxGet("/pps/namelist", "",
+                    function(data) {
+                        if (data.ret == 0) {
+                            for(var idx in data.data) {
+                                $("#csname").append("<option value='"+data.data[idx].id+"'>"+data.data[idx].name+"</option>");
+                            }
+                        } else {
+                            //alert(data.msg);
+                        }
+                    },
+                    function() {
+                        //alert("获取账单明细失败！");
+                    });                    
+        }
+
+        function getXiaoquNameList(ppsId) {
+            var filterStr = "";
+            if (ppsId != "") {
+                filterStr = "filter="+JSON.stringify({pps_id: ppsId});
+            }
+
+            priAjaxGet("/xiaoqu/namelist", filterStr,
+                    function(data) {
+                        if (data.ret == 0) {
+                            $("#xqname").empty();
+                            $("#xqname").append('<option selected="selected" value=""></option>');
+                            for(var idx in data.data) {
+                                $("#xqname").append("<option value='"+data.data[idx].id+"'>"+data.data[idx].name+"</option>");
+                            }
+                        } else {
+                            //alert(data.msg);
+                        }
+                    },
+                    function() {
+                        //alert("获取账单明细失败！");
+                    });                    
+        }
+
+        $("#csname").change(function(){
+            getXiaoquNameList($("#csname").val());
+        });
+
         function load() {
             vm.reload("", "", "");
+            getPpsNameList();
+            getXiaoquNameList();
         }
 	</script>
 

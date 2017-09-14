@@ -708,3 +708,47 @@ exports.delete = function(req, res, next) {
 
 
 };
+
+// /xiaoqu/namelist
+exports.getNameList = function(req, res, next) {
+    var filter = JSON.parse(req.query.filter);
+    var list = [];
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: msg.ret,
+            msg: msg,str
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if(req.session.user.role != 'system') {
+        ep.on('err', {ret: 8003, str: "无权限!"});
+        return;
+    }
+
+    (async() => {
+        var xqs;
+
+        xqs = await Community.query(filter);
+
+        if (xqs.length > 0) {
+            for (var i =0; i < xqs.length; i++) {
+                list.push({ 
+                    id:xqs[i].id,
+                    name:xqs[i].name
+                });
+            }
+        }
+
+        var retStr = {
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+    }) ()
+}

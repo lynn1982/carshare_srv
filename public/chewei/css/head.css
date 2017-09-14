@@ -114,3 +114,12 @@ body {
     margin-top: 50px;
     margin-left: 50px;
 }
+
+.logout{
+    position: absolute;
+    right: 100px;
+    top: 0;
+    line-height: 50px;
+    cursor: pointer;
+}
+

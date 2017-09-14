@@ -450,3 +450,46 @@ exports.delete = function(req, res, next) {
         res.send(JSON.stringify(retStr));
     }) ()
 };
+
+// /pps/namelist
+exports.getNameList = function(req, res, next) {
+    var list = [];
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: msg.ret,
+            msg: msg,str
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if(req.session.user.role != 'system') {
+        ep.on('err', {ret: 8003, str: "无权限!"});
+        return;
+    }
+
+    (async() => {
+        var ppss;
+
+        ppss = await Pps.query({});
+
+        if (ppss.length > 0) {
+            for (var i =0; i < ppss.length; i++) {
+                list.push({ 
+                    id:ppss[i].id,
+                    name:ppss[i].name
+                });
+            }
+        }
+
+        var retStr = {
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+    }) ()
+}

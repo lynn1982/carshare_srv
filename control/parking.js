@@ -253,6 +253,7 @@ exports.preOrder = function orderPre(req, res, next) {
         }
 
         xqname = xiaoqu.name;
+        pps_id = xiaoqu.pps_id;
 
         var usr = await User.getUserById(uid);
         chepai = usr.car_license;
@@ -260,6 +261,7 @@ exports.preOrder = function orderPre(req, res, next) {
         var newOrder ={
             user_id: uid,
             community_id: cid,
+            pps_id: pps_id,
             info: resId,
             state: 'pre',
             o_in_time: req.body.timeStart,

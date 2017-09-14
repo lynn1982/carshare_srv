@@ -3,6 +3,7 @@ var Sequelize = require('sequelize');
 var sequelize = require('../lib/mysql');
 var Community = require('./community');
 var User = require('./user');
+var Pps = require('./pps');
 
 var Transaction = sequelize.define('transaction', {
 
@@ -39,6 +40,7 @@ var Transaction = sequelize.define('transaction', {
     }
 );
 
+Transaction.belongsTo(Pps, {foreignKey: 'pps_id', onDelete: 'SET NULL', constraints: false});
 Transaction.belongsTo(Community, {foreignKey: 'community_id', onDelete: 'SET NULL', constraints: false});
 Transaction.belongsTo(User, {foreignKey: 'user_id',  onDelete: 'SET NULL', constraints: false});
 
@@ -48,6 +50,7 @@ Transaction.newAndSave = function(order) {
     return Transaction.create({
         user_id: order.user_id,
         community_id: order.community_id,
+        pps_id: order.pps_id,
         info: order.info,
         mode: order.mode,
         state: order.state,
