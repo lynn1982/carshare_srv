@@ -492,6 +492,11 @@ exports.add = function(req, res, next) {
     var pps_id = req.body.pps_id;
     var name = req.body.name;
     var addr_in = req.body.addr_in;
+    var u_role = req.session.user.role;
+
+    if (u_role == 'system') {
+        pps_id = 0;
+    }
 
     var ep = new eventproxy();
     ep.fail(next);
