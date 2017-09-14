@@ -31,8 +31,15 @@
 						<tr>
 							<td>车牌:</td>
 							<td><input id="chepai"  type="text" style="width:128px;" name="chepai"></input></td>
-                            <td></td>
-                            <td></td>
+                            <td>状态:</td>
+							<td><select class="paystyle" name="state" id="state"><option selected="selected" value="">所有状态</option>
+                                    <option value="pre">未付订金</option>
+                                    <option value="progress">已付订金</option>
+                                    <option value="cancel">取消预定</option>
+                                    <option value="">未支付离场</option>
+                                    <option value="">支付未离场</option>
+                                    <option value="finish">支付离场</option>
+                            </select></td>
 						</tr>
 						<tr>
 							<td><button class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
@@ -82,9 +89,10 @@
 					var csname = $("#csname").val();
 					var xqname = $("#xqname").val();
 					var chepai = $("#chepai").val();
-                    _self.reload(csname, xqname, chepai);
+					var state = $("#state").val();
+                    _self.reload(csname, xqname, chepai, state);
 				},
-                reload: function(csname, xqname, chepai) {
+                reload: function(csname, xqname, chepai, state) {
                     var filter = {};
 
                     if (userInfo.role == "changshang") {
@@ -101,6 +109,9 @@
                     }
                     if (chepai != "") {
                         filter.chepai = chepai;
+                    }
+                    if (state != "") {
+                        filter.state = state;
                     }
 
                     priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
@@ -163,7 +174,7 @@
         });
 
         function load() {
-            vm.reload("", "", "");
+            vm.reload("", "", "", "");
             getPpsNameList();
             getXiaoquNameList();
         }
