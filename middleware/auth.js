@@ -9,7 +9,7 @@ exports.userRequired = function(req, res, next) {
     if (!req.session || !req.session.user) {
         var retStr = {
             type: req.body.type,
-            ret: 1,
+            ret: 8002,
             msg: '请登录后操作'
         };
 
@@ -24,7 +24,7 @@ exports.mgmtRequired = function(req, res, next) {
     if (!req.session.user) {
         var retStr = {
             type: req.body.type,
-            ret: 1,
+            ret: 8002,
             msg: '请登录后操作'
         };
 
