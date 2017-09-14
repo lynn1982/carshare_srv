@@ -573,20 +573,23 @@ function addXiaoquMgmt(req, res, next) {
 
 }
 
-function getUserInfo(req, res, next) {
-
-    var id = req.body.uid;
+exports.getone = function getUserInfo(req, res, next) {
+    var id = req.params.id;
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
 
         res.send(JSON.stringify(retStr));
     });
+
+    if (id != req.session.user.id) {
+        ep.emit('err', '非法访问!');
+        return;
+    }
 
     (async () => {
         var user = await User.getUserById(id);
@@ -596,7 +599,6 @@ function getUserInfo(req, res, next) {
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             name: user.login_name,
             phone: user.phone_num,
@@ -608,21 +610,23 @@ function getUserInfo(req, res, next) {
     }) ()
 }
 
-function changeUserInfo(req, res, next) {
-
-    var id = req.session.user.id;
-
+exports.update = function changeUserInfo(req, res, next) {
+    var id = req.params.id;
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
 
         res.send(JSON.stringify(retStr));
     });
+
+    if (id != req.session.user.id) {
+        ep.emit('err', '非法访问!');
+        return;
+    }
 
    (async () => {
         var user = await User.getUserById(id);
@@ -640,7 +644,7 @@ function changeUserInfo(req, res, next) {
 
         await User.updateUser(user, newUser);
 
-        res.send(JSON.stringify({type: req.body.type, ret: 0}));
+        res.send(JSON.stringify({ret: 0}));
 
     }) ()
 }
