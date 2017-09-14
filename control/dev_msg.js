@@ -83,7 +83,8 @@ function message_handle(packet){
             var filter = {
                 chepai: chepai,
                 community_id: cid,
-                in_time: {'$not': null}
+                in_time: {'$not': null},
+                out_time: {'$eq': null}
             };
 
             var dev = await Dev.queryOne(filter);
@@ -112,13 +113,14 @@ function message_handle(packet){
                 return;
             }
 
+            var pay_time = order.pay_time;
+
             var timeOut = {
                 c_out_time: out_time
             };
 
             await Order.updateOrder(order, timeOut);
 
-            var pay_time = order.pay_time;
             var mics = out_time.getTime() - pay_time.getTime();
             var min = Math.floor(mics/(60*1000));
 

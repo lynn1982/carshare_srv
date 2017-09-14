@@ -4,7 +4,7 @@ var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 var Dev = require('../model/dev');
 const logger = require('../lib/logger').logger('file');
-
+const moment = require('moment');
 
 exports.message_handle = function(req, res, next) {
     console.log("req="+JSON.stringify(req.body));
@@ -388,7 +388,7 @@ exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
 function getCarStat(req, res, next) {
     var cname = req.body.cname;
     var chepai = req.body.chepai;
-    var list = [];
+    var data = [];
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -418,13 +418,19 @@ function getCarStat(req, res, next) {
         }
 
         for (var i in devs) {
-            list.push(devs[i]);
+            var list = {
+                chepai: devs[i].chepai,
+                xqname: devs[i].xqname,
+                in_time: moment(devs[i].in_time).format('MM-DD HH:mm'),
+                out_time: moment(devs[i].out_time).format('MM-DD HH:mm'),
+            }
+            data.push(list);
         }
 
         var retStr = {
             type: req.body.type,
             ret: 0,
-            data: list
+            data: data
         };
 
         res.send(JSON.stringify(retStr));
