@@ -55,6 +55,8 @@
 |/user/getVerCode|GET|获取短信验证码|?phone=[手机号]|
 |/user/vcLogin|POST|用户手机验证码登录||
 |/user/logout|GET|用户退出登陆||
+|/user/[id]|GET|获取用户信息||
+|/user/[id]|PUT|修改用户信息||
 |||||
 |/pps/|POST|创建厂商||
 |/pps/[id]|GET|获取厂商信息||
@@ -94,6 +96,7 @@
 |:----|:----:|
 |0|成功|
 |8001|没有数据|
+|8002|没有登陆|
 
 ### 1.4 返回报文示例
 ### 1.4.1 POST/PUT/DELETE成功回复报文
