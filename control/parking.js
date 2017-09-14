@@ -594,8 +594,8 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
 
 exports.getBill = function(req, res, next) {
     
-    var list = [];
     var filter = JSON.parse(req.query.filter);
+    var data = [];
 
     console.log(req.query.filter);
 
@@ -604,13 +604,20 @@ exports.getBill = function(req, res, next) {
 
         if (orders.length > 0) {
             for (var i in orders) {
-                list.push(orders[i]); 
+                var list = {
+                    chepai: orders[i].chepai,
+                    xqname: orders[i].xqname,
+                    in_time: moment(orders[i].c_in_time).format('MM-DD HH:mm'),
+                    out_time: moment(orders[i].c_out_time).format('MM-DD HH:mm'),
+                    amount: orders[i].amount
+                }
+                data.push(list); 
             }
         }
 
         var retStr = {
             ret: 0,
-            data: list
+            data: data 
         };
 
         res.send(JSON.stringify(retStr));
