@@ -3,6 +3,7 @@ var Dev = require('../model/dev');
 var Community = require('../model/community');
 var Order = require('../model/transaction');
 var eventproxy = require('eventproxy');
+var xiaoqu = require('./xiaoqu');
 
 var expireTime = 15;
 
@@ -156,6 +157,8 @@ function carOutHandler(cid, chepai, out_time) {
         }
 
         await Order.updateOrder(order, timeOut);
+
+        xiaoqu.updateCheweiCount(cid, 1, true);
 
         if (state == 'outpay') {
             if (min > expireTime) {
