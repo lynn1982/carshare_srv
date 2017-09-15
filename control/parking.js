@@ -609,10 +609,14 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
 }
 
 exports.getBill = function(req, res, next) {
-    
     var filter = JSON.parse(req.query.filter);
     var data = [];
 
+    if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else if(req.session.user.role == 'xiaoqu') {
+        filter.community_id = req.session.user.id;
+    }
     console.log(JSON.stringify(filter));
 
     (async() => {

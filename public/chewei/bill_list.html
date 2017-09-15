@@ -130,12 +130,6 @@
         reload: function() {
                     var filter = {};
 
-                    if (userInfo.role == "changshang") {
-                        filter.pps_id = userInfo.roleId;
-                    } else if (userInfo.role == "xiaoqu") {
-                        filter.xq_id = userInfo.roleId;
-                    }
-
                     if (this.cs_sel != "") {
                         filter.pps_id = this.cs_sel;
                     }

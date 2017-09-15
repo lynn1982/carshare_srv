@@ -725,7 +725,10 @@ exports.getNameList = function(req, res, next) {
         res.send(JSON.stringify(retStr));
     });
 
-    if(req.session.user.role != 'system') {
+    if(req.session.user.role == 'system') {
+    } else if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else {
         ep.on('err', {ret: 8003, str: "无权限!"});
         return;
     }
