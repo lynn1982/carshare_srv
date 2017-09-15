@@ -24,26 +24,37 @@
 					<table style="margin-left:40px;margin-top:20px;margin-bottom:20px;">
 						<tr>
 							<td style="width:80px">厂商名:</td>
-							<td style="width:300px"><select class="paystyle" name="csname" id="csname"><option selected="selected" value=""></option></select></td>
+                            <td style="width:300px">
+                                <select v-model="cs_sel" @change="csChange()" >
+                                    <option v-for="option in cs_ops" v-bind:value="option.value">
+                                    {{ option.text }}
+                                    </option>
+                                </select>
+                            </td>
 							<td style="width:80px">小区名:</td>
-							<td style="width:300px"><select class="paystyle" name="xqname" id="xqname"><option selected="selected" value=""></option></select></td>
+                            <td style="width:300px">
+                                <select v-model="xq_sel" >
+                                    <option v-for="option in xq_ops" v-bind:value="option.value">
+                                    {{ option.text }}
+                                    </option>
+                                </select>
+                            </td>
 						</tr>
 						<tr>
 							<td>车牌:</td>
-							<td><input id="chepai"  type="text" style="width:128px;" name="chepai"></input></td>
+							<td><input  type="text" style="width:128px;" v-model="chepai"></input></td>
                             <td>状态:</td>
-							<td><select class="paystyle" name="state" id="state"><option selected="selected" value="">所有状态</option>
-                                    <option value="pre">未付订金</option>
-                                    <option value="progress">已付订金</option>
-                                    <option value="cancel">取消预定</option>
-                                    <option value="">未支付离场</option>
-                                    <option value="">支付未离场</option>
-                                    <option value="finish">支付离场</option>
-                            </select></td>
+                            <td style="width:300px">
+                                <select v-model="st_sel" >
+                                    <option v-for="option in st_ops" v-bind:value="option.value">
+                                    {{ option.text }}
+                                    </option>
+                                </select>
+                            </td>
 						</tr>
 						<tr>
 							<td><button class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
-                            <td></td>
+							<td><button class="redBtn" v-on:click="clear"  style="background: orange;">清除</button></td>
                             <td></td>
                             <td></td>
 						</tr>
@@ -76,23 +87,47 @@
 		</div>
 	</body>
 	<script type="text/javascript" src="js/public.js"></script>
-	<script>
+    <script>
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-		var vm = new Vue({
-			el: '#vueApp',
-			data: {
-                message: []
-			},
-			methods: {
-				refresh:function(){
-                    var _self = this;
-					var csname = $("#csname").val();
-					var xqname = $("#xqname").val();
-					var chepai = $("#chepai").val();
-					var state = $("#state").val();
-                    _self.reload(csname, xqname, chepai, state);
-				},
-                reload: function(csname, xqname, chepai, state) {
+        var vm = new Vue({
+        el: '#vueApp',
+        data: {
+        cs_sel: '',
+        cs_ops: [
+            { text: '', value: '' },
+        ],
+        xq_sel: '',
+        xq_ops: [
+            { text: '', value: '' },
+        ],
+        chepai: '',
+        st_sel: '',
+        st_ops: [
+            { text: '所有状态', value: '' },
+            { text: '未付订金', value: 'pre' },
+            { text: '已付订金', value: 'progress' },
+            { text: '取消预定', value: 'cancel' },
+            { text: '未支付离场', value: '' },
+            { text: '支付未离场', value: '' },
+            { text: '支付离场', value: 'finish' },
+        ],
+        message: []
+        },
+        methods: {
+        csChange:function() {
+            this.getXiaoquNameList(this.cs_sel);
+        },
+        clear: function() {
+            this.cs_sel='';
+            this.xq_sel='';
+            this.chepai='';
+            this.st_sel='';
+            this.reload();
+        },
+        refresh:function(){
+            this.reload();
+        },
+        reload: function() {
                     var filter = {};
 
                     if (userInfo.role == "changshang") {
@@ -101,83 +136,78 @@
                         filter.xq_id = userInfo.roleId;
                     }
 
-                    if (csname != "") {
-                        filter.pps_id = csname;
+                    if (this.cs_sel != "") {
+                        filter.pps_id = this.cs_sel;
                     }
-                    if (xqname != "") {
-                        filter.community_id = xqname;
+                    if (this.xq_sel != "") {
+                        filter.community_id = this.xq_sel;
                     }
-                    if (chepai != "") {
-                        filter.chepai = chepai;
+                    if (this.chepai != "") {
+                        filter.chepai = this.chepai;
                     }
-                    if (state != "") {
-                        filter.state = state;
+                    if (this.st_sel != "") {
+                        filter.state = this.st_sel;
                     }
 
                     priAjaxGet("/parking/bill?filter="+encodeURI(JSON.stringify(filter)), "",
                             function(data) {
-                                if (data.ret == 0) {
-                                    vm.message = data.data;
-                                } else {
-                                    alert(data.msg);
-                                }
+                            if (data.ret == 0) {
+                            vm.message = data.data;
+                            } else {
+                            alert(data.msg);
+                            }
                             },
                             function() {
-                                alert("获取账单明细失败！");
+                            alert("获取账单明细失败！");
                             });                    
-                }
-			}
+                },
+        getXiaoquNameList: function (ppsId) {
+                               var _self = this;
+                               var filterStr = "";
+                               if (ppsId != "") {
+                                   filterStr = "filter="+JSON.stringify({pps_id: ppsId});
+                               }
 
-		});
-
-        function getPpsNameList() {
-            priAjaxGet("/pps/namelist", "",
-                    function(data) {
-                        if (data.ret == 0) {
-                            for(var idx in data.data) {
-                                $("#csname").append("<option value='"+data.data[idx].id+"'>"+data.data[idx].name+"</option>");
-                            }
-                        } else {
-                            //alert(data.msg);
+                               priAjaxGet("/xiaoqu/namelist", filterStr,
+                                       function(data) {
+                                       if (data.ret == 0) {
+                                       _self.xq_ops.splice(1, vm.xq_ops.length-1);
+                                       for(var idx in data.data) {
+                                       _self.xq_ops.push({text: data.data[idx].name, value: data.data[idx].id});
+                                       }
+                                       } else {
+                                       //alert(data.msg);
+                                       }
+                                       },
+                                       function() {
+                                       //alert("获取账单明细失败！");
+                                       });                    
+                           },
+        getPpsNameList: function () {
+                            var _self = this;
+                            priAjaxGet("/pps/namelist", "",
+                                    function(data) {
+                                    if (data.ret == 0) {
+                                    for(var idx in data.data) {
+                                    _self.cs_ops.push({text: data.data[idx].name, value: data.data[idx].id});
+                                    }
+                                    } else {
+                                    //alert(data.msg);
+                                    }
+                                    },
+                                    function() {
+                                    //alert("获取账单明细失败！");
+                                    });                    
                         }
-                    },
-                    function() {
-                        //alert("获取账单明细失败！");
-                    });                    
         }
 
-        function getXiaoquNameList(ppsId) {
-            var filterStr = "";
-            if (ppsId != "") {
-                filterStr = "filter="+JSON.stringify({pps_id: ppsId});
-            }
-
-            priAjaxGet("/xiaoqu/namelist", filterStr,
-                    function(data) {
-                        if (data.ret == 0) {
-                            $("#xqname").empty();
-                            $("#xqname").append('<option selected="selected" value=""></option>');
-                            for(var idx in data.data) {
-                                $("#xqname").append("<option value='"+data.data[idx].id+"'>"+data.data[idx].name+"</option>");
-                            }
-                        } else {
-                            //alert(data.msg);
-                        }
-                    },
-                    function() {
-                        //alert("获取账单明细失败！");
-                    });                    
-        }
-
-        $("#csname").change(function(){
-            getXiaoquNameList($("#csname").val());
         });
 
         function load() {
-            vm.reload("", "", "", "");
-            getPpsNameList();
-            getXiaoquNameList();
+            vm.reload();
+            vm.getPpsNameList();
+            vm.getXiaoquNameList();
         }
-	</script>
+    </script>
 
 </html>
