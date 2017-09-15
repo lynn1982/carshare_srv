@@ -613,7 +613,7 @@ exports.getBill = function(req, res, next) {
     var filter = JSON.parse(req.query.filter);
     var data = [];
 
-    console.log(req.query.filter);
+    console.log(JSON.stringify(filter));
 
     (async() => {
         var orders = await Order.query(filter); 
@@ -640,5 +640,81 @@ exports.getBill = function(req, res, next) {
 
     }) ()
 };
+
+
+exports.carInHandler = function(cid, chepai, in_time) {
+    (async() => {
+        var filter = {
+            community_id: cid,
+            chepai: chepai,
+            state: 'progress'
+        };
+
+        var order = await Order.queryOrder(filter);
+        if (!order) {
+            return;
+        }
+        
+        var timeIn = {
+            c_in_time: in_time
+        };
+
+        await Order.updateOrder(order, timeIn);
+       
+    }) ()
+
+};
+
+exports.carOutHandler = function(cid, chepai, out_time) {
+    var timeOut;
+
+    (async() => {
+        var query = {
+            chepai: chepai,
+            community_id: cid,
+            c_out_time: {'$eq': null},
+            state: {'$in': ['progress','outpay']},
+            //pay_time: {'$ne': null}
+        };
+
+        var order = await Order.queryOrder(query);
+        if (!order) {
+            return;
+        }
+
+        var state = order.state;
+
+        if (state == 'progress') {
+            timeOut = {
+                c_out_time: out_time,
+                state: 'prepay'
+            };
+        }
+        else {
+            timeOut = {
+                c_out_time: out_time,
+                state: 'finish'
+            };
+
+            var pay_time = order.pay_time;
+            var mics = out_time.getTime() - pay_time.getTime();
+            var min = Math.floor(mics/(60*1000));
+
+            console.log('time_expire='+min);
+        }
+
+        await Order.updateOrder(order, timeOut);
+
+        xiaoqu.updateCheweiCount(cid, 1, true);
+
+        if (state == 'outpay') {
+            if (min > expireTime) {
+                // expire 15mins,report mqtt
+            }
+
+        }
+    }) ()
+
+}
 
 

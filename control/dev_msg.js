@@ -1,9 +1,8 @@
 
 var Dev = require('../model/dev');
 var Community = require('../model/community');
-var Order = require('../model/transaction');
 var eventproxy = require('eventproxy');
-var xiaoqu = require('./xiaoqu');
+var order = require('./parking');
 
 var expireTime = 15;
 
@@ -62,6 +61,8 @@ function message_handle(packet){
                 //ep.emit('err', {ret:8002, str:'数据库错误'});
                 return;
             }
+
+            order.carInHandler(cid, chepai, in_time);
             
         }
         else if (topic == 'car_out') {
@@ -85,88 +86,11 @@ function message_handle(packet){
 
             await Dev.update(dev, car_out);
 
-        }
-    }) ()
-
-    if (topic == 'car_in') {
-        carInHandler(cid, chepai, in_time);
-    }
-    else if (topic == 'car_out') {
-        carOutHandler(cid, chepai, out_time);
-    }
-}
-
-function carInHandler(cid, chepai, in_time) {
-    (async() => {
-        var filter = {
-            community_id: cid,
-            chepai: chepai,
-            state: 'progress'
-        };
-
-        var order = await Order.queryOrder(filter);
-        if (!order) {
-            return;
-        }
-        
-        var timeIn = {
-            c_in_time: in_time
-        };
-
-        await Order.updateOrder(order, timeIn);
-       
-    }) ()
-}
-
-function carOutHandler(cid, chepai, out_time) {
-    var timeOut;
-
-    (async() => {
-        var query = {
-            chepai: chepai,
-            community_id: cid,
-            c_out_time: {'$eq': null},
-            state: {'$in': ['progress','outpay']},
-            //pay_time: {'$ne': null}
-        };
-
-        var order = await Order.queryOrder(query);
-        if (!order) {
-            return;
-        }
-
-        var state = order.state;
-
-        if (state == 'progress') {
-            timeOut = {
-                c_out_time: out_time,
-                state: 'prepay'
-            };
-        }
-        else {
-            timeOut = {
-                c_out_time: out_time,
-                state: 'finish'
-            };
-
-            var pay_time = order.pay_time;
-            var mics = out_time.getTime() - pay_time.getTime();
-            var min = Math.floor(mics/(60*1000));
-
-            console.log('time_expire='+min);
-        }
-
-        await Order.updateOrder(order, timeOut);
-
-        xiaoqu.updateCheweiCount(cid, 1, true);
-
-        if (state == 'outpay') {
-            if (min > expireTime) {
-                // expire 15mins,report mqtt
-            }
+            order.carOutHandler(cid, chepai, out_time);
 
         }
     }) ()
 }
+
 
 module.exports.message_handle = message_handle;
