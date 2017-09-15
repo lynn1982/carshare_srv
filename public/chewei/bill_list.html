@@ -64,8 +64,8 @@
 						<tr id="cell" class="cell" v-for="dic in message">
 							<td>{{dic.chepai}}</td>
 							<td>{{dic.xqname}}</td>
-							<td>{{dic.in_time}}</td>
-							<td>{{dic.out_time}}</td>
+							<td>{{dic.in_time == "Invalid date" ? "" : dic.in_time}}</td>
+							<td>{{dic.out_time == "Invalid date" ? "" : dic.out_time}}</td>
 							<td>{{dic.amount}}</td>
 						</tr>
 
