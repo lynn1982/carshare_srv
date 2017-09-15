@@ -25,14 +25,6 @@
 						<tr>
 							<td>车牌:</td>
 							<td><input  type="text" style="width:128px;" v-model="chepai"></input></td>
-							<td style="padding-left:20px;">小区名:</td>
-                            <td style="width:300px">
-                                <select v-model="xq_sel" >
-                                    <option v-for="option in xq_ops" v-bind:value="option.value">
-                                    {{ option.text }}
-                                    </option>
-                                </select>
-                            </td>
 							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
 							<td style="padding-left:20px;"><button  class="redBtn" v-on:click="clear"  style="background: orange;">清除</button></td>
 						</tr>
@@ -72,15 +64,10 @@
         el: '#vueApp',
         data: {
         chepai: '',
-        xq_sel: '',
-        xq_ops: [
-        { text: '', value: '' },
-        ],
         message: []
         },
         methods: {
         clear: function() {
-            this.xq_sel='';
             this.chepai='';
             this.reload();
         },
@@ -91,9 +78,6 @@
         reload: function() {
         var filter = {};
 
-        if (this.xq_sel != "") {
-        filter.community_id = this.xq_sel;
-        }
         if (this.chepai != "") {
             filter.chepai = this.chepai;
         }
@@ -110,29 +94,11 @@
                 alert("获取车辆进出信息失败！");
                 });                    
         },
-        getXiaoquNameList: function() {
-                               var _self = this;
-
-                               priAjaxGet("/xiaoqu/namelist", "",
-                                       function(data) {
-                                       if (data.ret == 0) {
-                                       for(var idx in data.data) {
-                                       _self.xq_ops.push({text: data.data[idx].name, value: data.data[idx].id});
-                                       }
-                                       } else {
-                                       //alert(data.msg);
-                                       }
-                                       },
-                                       function() {
-                                       //alert("获取账单明细失败！");
-                                       });                    
-                           },
-                           }
+                 }
         });
 
         function load() {
             vm.reload();
-            vm.getXiaoquNameList();
         }
     </script>
 
