@@ -3,6 +3,7 @@ var Order = require('../model/transaction');
 var Community = require('../model/community');
 var eventproxy = require('eventproxy');
 var User = require('../model/user');
+var xiaoqu = require('./xiaoqu');
 const moment = require('moment');
 
 
@@ -227,6 +228,11 @@ exports.preOrder = function orderPre(req, res, next) {
             return;
         }
 
+        if (xiaoqu.parking_num_remain  == 0) {
+            ep.emit('order_err', '小区无空余车位');
+            return;
+        }
+
         if (resr[0] === 'p') {
             var parking = await Parking.getDataById(resr[1]);
             if (!parking) {
@@ -325,6 +331,8 @@ exports.postOrder = function orderPost(req, res, next) {
             return;
         }
 
+        var cid = order.community_id;
+
         var newOrder = {
             //in_time: timeStart,
             //out_time: timeEnd,
@@ -333,6 +341,8 @@ exports.postOrder = function orderPost(req, res, next) {
         };
 
         await Order.updateOrder(order, newOrder);
+
+        xiaoqu.updateCheweiCount(cid, 1, false);
 
         var retStr = {
             ret: 0
@@ -369,7 +379,11 @@ exports.cancelOrder = function orderCancel(req, res, next) {
             return;
         }
 
+        var cid = order.community_id;
+
         Order.deleteOrder(order);
+
+        xiaoqu.updateCheweiCount(cid, 1, true);
 
         var retStr = {
             ret: 0

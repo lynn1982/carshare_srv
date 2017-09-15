@@ -752,3 +752,27 @@ exports.getNameList = function(req, res, next) {
         res.send(JSON.stringify(retStr));
     }) ()
 }
+
+exports.updateCheweiCount = function(cid, count, add) {
+
+    (async() => {
+        var xiaoqu = await Community.getXiaoquById(cid);
+        if (!xiaoqu) {
+            return;
+        }
+
+        var remain = xiaoqu.parking_num_remain;
+        if (add) {
+            remain += count;
+        }
+        else {
+            remain -= count;
+        }
+
+        var update = {
+            parking_num_remain: remain
+        };
+
+        Community.updateXiaoqu(xiaoqu, update);
+    }) ()
+};
