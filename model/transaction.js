@@ -11,6 +11,7 @@ var Transaction = sequelize.define('transaction', {
 
     //community: {type: Sequelize.INTEGER, references: {model: 'community_info', key: 'id'}},
     //user: {type: Sequelize.INTEGER, references: {model: 'user', key: 'id'}},
+    pps_id: {type: Sequelize.INTEGER},
 
     info: {type: Sequelize.STRING},
     mode: {type: Sequelize.ENUM, values: ['instant', 'advanced'], defaultValue: 'instant'},
@@ -29,7 +30,7 @@ var Transaction = sequelize.define('transaction', {
     per_amount: {type: Sequelize.INTEGER},
     price_type: {type: Sequelize.ENUM, values: ['hour', 'time', 'month']},
 
-    state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel']},
+    state: {type: Sequelize.ENUM, values: ['pre', 'progress', 'finish', 'cancel', 'prepay', 'outpay']},
     chepai: {type: Sequelize.STRING},
     xqname: {type: Sequelize.STRING}
 
@@ -40,7 +41,7 @@ var Transaction = sequelize.define('transaction', {
     }
 );
 
-Transaction.belongsTo(Pps, {foreignKey: 'pps_id', onDelete: 'SET NULL', constraints: false});
+//Transaction.belongsTo(Pps, {foreignKey: 'pps_id', onDelete: 'SET NULL', constraints: false});
 Transaction.belongsTo(Community, {foreignKey: 'community_id', onDelete: 'SET NULL', constraints: false});
 Transaction.belongsTo(User, {foreignKey: 'user_id',  onDelete: 'SET NULL', constraints: false});
 

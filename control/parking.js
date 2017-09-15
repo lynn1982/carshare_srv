@@ -532,7 +532,7 @@ exports.postOutPay = function(req, res, next) {
         }
 
         var newOrder = {
-            state: 'finish'
+            state: 'outpay'
         };
 
         await Order.updateOrder(order, newOrder);
