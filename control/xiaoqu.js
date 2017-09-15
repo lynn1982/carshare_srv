@@ -385,9 +385,8 @@ exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
     }) ()
 }
 
-function getCarStat(req, res, next) {
-    var cname = req.body.cname;
-    var chepai = req.body.chepai;
+exports.getCarInOut = function getCarStat(req, res, next) {
+    var filter = JSON.parse(req.query.filter);
     var data = [];
 
     var ep = new eventproxy();
@@ -401,13 +400,10 @@ function getCarStat(req, res, next) {
         res.send(JSON.stringify(retStr));
     });
 
-    var filter = {};
-
-    if (typeof(cname) != 'undefined') {
-        filter.xqname = cname;
-    }
-    if (typeof(chepai) != 'undefined') {
-        filter.chepai = chepai;
+    if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else if(req.session.user.role == 'xiaoqu') {
+        filter.community_id = req.session.user.id;
     }
 
     (async() => {
@@ -428,7 +424,6 @@ function getCarStat(req, res, next) {
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             data: data
         };
@@ -436,7 +431,6 @@ function getCarStat(req, res, next) {
         res.send(JSON.stringify(retStr));
 
     }) ()
- 
 }
 
 exports.getAreaChewei = function getAreaChewei(req, res, next) {
@@ -711,7 +705,7 @@ exports.delete = function(req, res, next) {
 
 // /xiaoqu/namelist
 exports.getNameList = function(req, res, next) {
-    var filter = JSON.parse(req.query.filter);
+    var filter = {};
     var list = [];
     var ep = new eventproxy();
 
@@ -724,6 +718,10 @@ exports.getNameList = function(req, res, next) {
 
         res.send(JSON.stringify(retStr));
     });
+
+    if (typeof(req.query.filter) != 'undefined'){
+        filter = JSON.parse(req.query.filter);
+    }
 
     if(req.session.user.role == 'system') {
     } else if(req.session.user.role == 'changshang') {

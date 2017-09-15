@@ -53,7 +53,8 @@ function message_handle(packet){
                 xqname: cname,
                 community_id: cid,
                 dev_id: devId,
-                in_time: in_time
+                in_time: in_time,
+                pps_id: xiaoqu.pps_id
             };
 
             var dev = await Dev.newAndSave(carIn);

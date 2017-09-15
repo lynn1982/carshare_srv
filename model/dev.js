@@ -14,7 +14,10 @@ var Dev = sequelize.define('dev', {
     in_time: {type: Sequelize.DATE},
     out_time: {type: Sequelize.DATE},
 
-    dev_id: {type: Sequelize.STRING}
+    dev_id: {type: Sequelize.STRING},
+
+    pps_id: {type: Sequelize.INTEGER},
+    community_id: {type: Sequelize.INTEGER},
 
     }, {
 
@@ -22,8 +25,6 @@ var Dev = sequelize.define('dev', {
 
     }
 );
-
-Dev.belongsTo(Community, {foreignKey: 'community_id', onDelete: 'SET NULL', constraints: false});
 
 var dev = Dev.sync({force: false});
 
@@ -33,7 +34,8 @@ Dev.newAndSave = function(car) {
         xqname: car.xqname,
         in_time: car.in_time,
         community_id: car.community_id,
-        dev_id: car.dev_id
+        dev_id: car.dev_id,
+        pps_id: car.pps_id
     });
 };
 
