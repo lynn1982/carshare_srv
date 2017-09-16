@@ -3,6 +3,7 @@ var Community = require('../model/community');
 var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 var Dev = require('../model/dev');
+var pps = require('./pps');
 const logger = require('../lib/logger').logger('file');
 const moment = require('moment');
 
@@ -417,8 +418,8 @@ exports.getCarInOut = function getCarStat(req, res, next) {
             var list = {
                 chepai: devs[i].chepai,
                 xqname: devs[i].xqname,
-                in_time: moment(devs[i].in_time).format('MM-DD HH:mm'),
-                out_time: moment(devs[i].out_time).format('MM-DD HH:mm'),
+                in_time: moment(devs[i].in_time).format('YYYY-MM-DD HH:mm'),
+                out_time: moment(devs[i].out_time).format('YYYY-MM-DD HH:mm'),
             }
             data.push(list);
         }
@@ -538,6 +539,10 @@ exports.add = function(req, res, next) {
             return;
         }
         else {
+            if (pps_id > 0) {
+                pps.updateParknum(pps_id, 1, true);
+            }
+
             var retStr = {
                 ret: 0,
                 cid: xiaoqu.id
@@ -691,6 +696,10 @@ exports.delete = function(req, res, next) {
         }
 
         Community.deleteXiaoqu(xiaoqu);
+
+        if (id != 0) {
+            pps.updateParknum(id, 1, false);
+        }
 
         var retStr = {
             ret: 0

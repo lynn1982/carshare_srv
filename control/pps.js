@@ -3,6 +3,7 @@ var Pps = require('../model/pps');
 var eventproxy = require('eventproxy');
 var User = require('../model/user');
 var validator = require('validator');
+const moment = require('moment');
 
 exports.message_handle = function(req, res, next) {
     console.log('pps_req='+JSON.stringify(req.body));
@@ -120,14 +121,13 @@ function queryPps(req, res, next) {
             for (var i in ppss) {
                 var user = await User.getUserById(ppss[i].user_id);
                 var regdate = ppss[i].createdAt;
-                var month = regdate.getMonth()+1;
 
                 if (user) {
                     var info = {
                         id: ppss[i].id,
                         name: ppss[i].name,
                         parkNum: ppss[i].parkNum,
-                        regDate: regdate.getFullYear()+'-'+month+'-'+regdate.getDate(),
+                        regDate: moment(regdate).format('MM-DD HH:mm'),
                         phone: user.phone_num,
                         contacts: user.login_name,
                         email: user.email
@@ -328,11 +328,27 @@ exports.get = function(req, res, next) {
     (async () => {
         var ppss;
 
-        ppss = await Pps.query(filter);
+        if (typeof(filter.name) != 'undefined') {
+            ppss = await Pps.queryPps(filter.name);
+        }
+        else {
+            ppss = await Pps.query(filter);
+        }
+
+        //ppss = await Pps.queryPps(filter);
 
         if (ppss.length > 0) {
             for (var i =0; i < ppss.length; i++) {
-                list.push(ppss[i]);
+                var info = {
+                    name: ppss[i].name,
+                    contacts: ppss[i].contacts,
+                    phone: ppss[i].phone,
+                    email: ppss[i].email,
+                    parkNum: ppss[i].parkNum,
+                    createdAt: moment(ppss[i].createdAt).format('YYYY-MM-DD HH:mm')
+                };
+
+                list.push(info);
             }
         }
 
@@ -493,3 +509,28 @@ exports.getNameList = function(req, res, next) {
         res.send(JSON.stringify(retStr));
     }) ()
 }
+
+exports.updateParknum = function(pid, num, add) {
+
+    (async() => {
+        var pps = await Pps.getPpsById(pid);
+        if (!pps) {
+            return;
+        }
+
+        var parkNum = pps.parkNum;
+
+        if (add) {
+            parkNum += num;
+        }
+        else {
+            parkNum -= num;
+        }
+
+        var newPps = {
+            parkNum: parkNum
+        };
+
+        await Pps.updatePps(pps, newPps);
+    }) ()
+};
