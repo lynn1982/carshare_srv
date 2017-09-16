@@ -422,6 +422,8 @@ exports.getCurrOrder = function getMyOrder(req, res, next) {
         var data = {
             orderNumber: order.id,
             communityName: xiaoqu.name,
+            lon: xiaoqu.longitude,
+            lat: xiaoqu.latitude,
             price: xiaoqu.rate,
             priceType: xiaoqu.rate_type,
             deposit: xiaoqu.rate,
