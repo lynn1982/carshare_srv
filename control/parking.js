@@ -629,8 +629,8 @@ exports.getBill = function(req, res, next) {
                 var list = {
                     chepai: orders[i].chepai,
                     xqname: orders[i].xqname,
-                    in_time: moment(orders[i].c_in_time).format('MM-DD HH:mm'),
-                    out_time: moment(orders[i].c_out_time).format('MM-DD HH:mm'),
+                    in_time: moment(orders[i].c_in_time).format('YYYY-MM-DD HH:mm'),
+                    out_time: moment(orders[i].c_out_time).format('YYYY-MM-DD HH:mm'),
                     amount: orders[i].amount
                 }
                 data.push(list); 
