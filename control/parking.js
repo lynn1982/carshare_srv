@@ -3,6 +3,7 @@ var Order = require('../model/transaction');
 var Community = require('../model/community');
 var eventproxy = require('eventproxy');
 var User = require('../model/user');
+var xiaoqu = require('./xiaoqu');
 const moment = require('moment');
 
 
@@ -227,6 +228,11 @@ exports.preOrder = function orderPre(req, res, next) {
             return;
         }
 
+        if (xiaoqu.parking_num_remain  == 0) {
+            ep.emit('order_err', '小区无空余车位');
+            return;
+        }
+
         if (resr[0] === 'p') {
             var parking = await Parking.getDataById(resr[1]);
             if (!parking) {
@@ -253,6 +259,7 @@ exports.preOrder = function orderPre(req, res, next) {
         }
 
         xqname = xiaoqu.name;
+        pps_id = xiaoqu.pps_id;
 
         var usr = await User.getUserById(uid);
         chepai = usr.car_license;
@@ -260,6 +267,7 @@ exports.preOrder = function orderPre(req, res, next) {
         var newOrder ={
             user_id: uid,
             community_id: cid,
+            pps_id: pps_id,
             info: resId,
             state: 'pre',
             o_in_time: req.body.timeStart,
@@ -323,6 +331,8 @@ exports.postOrder = function orderPost(req, res, next) {
             return;
         }
 
+        var cid = order.community_id;
+
         var newOrder = {
             //in_time: timeStart,
             //out_time: timeEnd,
@@ -331,6 +341,8 @@ exports.postOrder = function orderPost(req, res, next) {
         };
 
         await Order.updateOrder(order, newOrder);
+
+        xiaoqu.updateCheweiCount(cid, 1, false);
 
         var retStr = {
             ret: 0
@@ -367,7 +379,11 @@ exports.cancelOrder = function orderCancel(req, res, next) {
             return;
         }
 
+        var cid = order.community_id;
+
         Order.deleteOrder(order);
+
+        xiaoqu.updateCheweiCount(cid, 1, true);
 
         var retStr = {
             ret: 0
@@ -530,7 +546,7 @@ exports.postOutPay = function(req, res, next) {
         }
 
         var newOrder = {
-            state: 'finish'
+            state: 'outpay'
         };
 
         await Order.updateOrder(order, newOrder);
@@ -593,11 +609,15 @@ exports.getMyHistoryPark = function getHistoryPark(req, res, next) {
 }
 
 exports.getBill = function(req, res, next) {
-    
     var filter = JSON.parse(req.query.filter);
     var data = [];
 
-    console.log(req.query.filter);
+    if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else if(req.session.user.role == 'xiaoqu') {
+        filter.community_id = req.session.user.id;
+    }
+    console.log(JSON.stringify(filter));
 
     (async() => {
         var orders = await Order.query(filter); 
@@ -607,8 +627,8 @@ exports.getBill = function(req, res, next) {
                 var list = {
                     chepai: orders[i].chepai,
                     xqname: orders[i].xqname,
-                    in_time: moment(orders[i].c_in_time).format('MM-DD HH:mm'),
-                    out_time: moment(orders[i].c_out_time).format('MM-DD HH:mm'),
+                    in_time: moment(orders[i].c_in_time).format('YYYY-MM-DD HH:mm'),
+                    out_time: moment(orders[i].c_out_time).format('YYYY-MM-DD HH:mm'),
                     amount: orders[i].amount
                 }
                 data.push(list); 
@@ -624,5 +644,81 @@ exports.getBill = function(req, res, next) {
 
     }) ()
 };
+
+
+exports.carInHandler = function(cid, chepai, in_time) {
+    (async() => {
+        var filter = {
+            community_id: cid,
+            chepai: chepai,
+            state: 'progress'
+        };
+
+        var order = await Order.queryOrder(filter);
+        if (!order) {
+            return;
+        }
+        
+        var timeIn = {
+            c_in_time: in_time
+        };
+
+        await Order.updateOrder(order, timeIn);
+       
+    }) ()
+
+};
+
+exports.carOutHandler = function(cid, chepai, out_time) {
+    var timeOut;
+
+    (async() => {
+        var query = {
+            chepai: chepai,
+            community_id: cid,
+            c_out_time: {'$eq': null},
+            state: {'$in': ['progress','outpay']},
+            //pay_time: {'$ne': null}
+        };
+
+        var order = await Order.queryOrder(query);
+        if (!order) {
+            return;
+        }
+
+        var state = order.state;
+
+        if (state == 'progress') {
+            timeOut = {
+                c_out_time: out_time,
+                state: 'prepay'
+            };
+        }
+        else {
+            timeOut = {
+                c_out_time: out_time,
+                state: 'finish'
+            };
+
+            var pay_time = order.pay_time;
+            var mics = out_time.getTime() - pay_time.getTime();
+            var min = Math.floor(mics/(60*1000));
+
+            console.log('time_expire='+min);
+        }
+
+        await Order.updateOrder(order, timeOut);
+
+        xiaoqu.updateCheweiCount(cid, 1, true);
+
+        if (state == 'outpay') {
+            if (min > expireTime) {
+                // expire 15mins,report mqtt
+            }
+
+        }
+    }) ()
+
+}
 
 

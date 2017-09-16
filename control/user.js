@@ -248,6 +248,9 @@ exports.verCodeLogin = function(req, res, next) {
         var filter = {
             phone_num: phoneNum,
         };
+        var filter1 = {
+            phone: phoneNum,
+        };
         if (loginType == "system") {
             filter.role = "system";
             var sys = await User.query(filter);
@@ -258,7 +261,7 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "system";
             user.roleId = sys[0].id;
         } else if (loginType == "changshang") {
-            var pps = await Pps.query(filter);
+            var pps = await Pps.query(filter1);
             if (!pps) {
                 ep.emit('err', '没有此厂商管理员帐号！');
                 return;
@@ -266,7 +269,7 @@ exports.verCodeLogin = function(req, res, next) {
             user.role = "changshang";
             user.roleId = pps[0].id;
         } else if (loginType == "xiaoqu") {
-            var xiaoqu = await Community.query(filter);
+            var xiaoqu = await Community.query(filter1);
             if (!xiaoqu) {
                 ep.emit('err', '没有此小区管理员帐号！');
                 return;
@@ -573,20 +576,23 @@ function addXiaoquMgmt(req, res, next) {
 
 }
 
-function getUserInfo(req, res, next) {
-
-    var id = req.body.uid;
+exports.getone = function getUserInfo(req, res, next) {
+    var id = req.params.id;
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
 
         res.send(JSON.stringify(retStr));
     });
+
+    if (id != req.session.user.id) {
+        ep.emit('err', '非法访问!');
+        return;
+    }
 
     (async () => {
         var user = await User.getUserById(id);
@@ -596,7 +602,6 @@ function getUserInfo(req, res, next) {
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
             name: user.login_name,
             phone: user.phone_num,
@@ -608,21 +613,23 @@ function getUserInfo(req, res, next) {
     }) ()
 }
 
-function changeUserInfo(req, res, next) {
-
-    var id = req.session.user.id;
-
+exports.update = function changeUserInfo(req, res, next) {
+    var id = req.params.id;
     var ep = new eventproxy();
     ep.fail(next);
     ep.on('err', function(msg) {
         var retStr = {
-            type: req.body.type,
             ret: 1,
             msg: msg
         };
 
         res.send(JSON.stringify(retStr));
     });
+
+    if (id != req.session.user.id) {
+        ep.emit('err', '非法访问!');
+        return;
+    }
 
    (async () => {
         var user = await User.getUserById(id);
@@ -640,7 +647,7 @@ function changeUserInfo(req, res, next) {
 
         await User.updateUser(user, newUser);
 
-        res.send(JSON.stringify({type: req.body.type, ret: 0}));
+        res.send(JSON.stringify({ret: 0}));
 
     }) ()
 }

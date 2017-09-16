@@ -1,8 +1,8 @@
 
 var Dev = require('../model/dev');
 var Community = require('../model/community');
-var Order = require('../model/transaction');
 var eventproxy = require('eventproxy');
+var order = require('./parking');
 
 var expireTime = 15;
 
@@ -20,6 +20,9 @@ function message_handle(packet){
     var cid = json.xiaoqu_id;
     var devId = json.dev_id;
     var chepai = json.chepai;
+
+    var in_time;
+    var out_time;
 
     /* {"dev_id":123456,"xiaoqu_id":000001,"chepai":"沪A-AA001"} */
 
@@ -44,13 +47,14 @@ function message_handle(packet){
         var cname = xiaoqu.name;
 
         if (topic == 'car_in') {
-            var in_time = new Date();
+            in_time = new Date();
             var carIn = {
                 chepai: chepai,
                 xqname: cname,
                 community_id: cid,
                 dev_id: devId,
-                in_time: in_time
+                in_time: in_time,
+                pps_id: xiaoqu.pps_id
             };
 
             var dev = await Dev.newAndSave(carIn);
@@ -59,31 +63,16 @@ function message_handle(packet){
                 return;
             }
 
-            //update c_in_time in transaction table
-            var filter = {
-                community_id: cid,
-                chepai: chepai,
-                state: 'progress'
-            };
-
-            var order = await Order.queryOrder(filter);
-            if (!order) {
-                return;
-            }
+            order.carInHandler(cid, chepai, in_time);
             
-            var timeIn = {
-                c_in_time: in_time
-            };
-
-            await Order.updateOrder(order, timeIn);
-
         }
         else if (topic == 'car_out') {
-            var out_time = new Date();
+            out_time = new Date();
             var filter = {
                 chepai: chepai,
                 community_id: cid,
-                in_time: {'$not': null}
+                in_time: {'$not': null},
+                out_time: {'$eq': null}
             };
 
             var dev = await Dev.queryOne(filter);
@@ -98,37 +87,10 @@ function message_handle(packet){
 
             await Dev.update(dev, car_out);
 
-            //update c_out_time in transaction table carOutHandler(chepai,cid,out_time);
-            filter = {
-                chepai: chepai,
-                community_id: cid,
-                state: 'finish',
-                c_out_time: {'$eq': null},
-                pay_time: {'$ne': null}
-            };
+            order.carOutHandler(cid, chepai, out_time);
 
-            var order = await Order.queryOrder(filter);
-            if (!order) {
-                return;
-            }
-
-            var timeOut = {
-                c_out_time: out_time
-            };
-
-            await Order.updateOrder(order, timeOut);
-
-            var pay_time = order.pay_time;
-            var mics = out_time.getTime() - pay_time.getTime();
-            var min = Math.floor(mics/(60*1000));
-
-            console.log('time_expire='+min);
-            if (min > expireTime) {
-                // expire 15mins,report mqtt
-            }
         }
     }) ()
-
 }
 
 

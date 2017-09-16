@@ -18,7 +18,7 @@ var config = {
 
     admin: 'admin',
     admin_passwd: 'admin',
-    phone_num: '18616996720'
+    phone_num: '18918903559'
 };
 
 module.exports = config;

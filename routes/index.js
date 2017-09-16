@@ -79,8 +79,11 @@ router.get('/create_admin', function(req, res, next) {
 router.get('/user/getVerCode', user.sendSMS);
 router.post('/user/vcLogin', user.verCodeLogin);
 router.get('/user/logout', auth.userRequired, user.logout);
+router.get('/user/:id', auth.userRequired, user.getone);
+router.put('/user/:id', auth.userRequired, user.update);
 
 router.post('/pps_new', auth.userRequired, pps.add);
+router.get('/pps/namelist', auth.userRequired, pps.getNameList);
 router.get('/pps', auth.userRequired, pps.get);
 router.get('/pps/:id', auth.userRequired, pps.getone);
 router.put('/pps/:id', auth.userRequired, pps.update);
@@ -88,6 +91,8 @@ router.delete('/pps/:id', auth.userRequired, pps.delete);
 
 router.post('/xiaoqu_new', auth.userRequired, xiaoqu.add);
 router.post('/xiaoqu/searchresult', auth.userRequired, xiaoqu.searchResult);
+router.get('/xiaoqu/namelist', auth.userRequired, xiaoqu.getNameList);
+router.get('/xiaoqu/carinout', auth.userRequired, xiaoqu.getCarInOut);
 router.get('/xiaoqu', auth.userRequired, xiaoqu.get);
 router.get('/xiaoqu/areachewei', auth.userRequired, xiaoqu.getAreaChewei);
 router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.getone);

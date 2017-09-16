@@ -55,15 +55,20 @@
 |/user/getVerCode|GET|获取短信验证码|?phone=[手机号]|
 |/user/vcLogin|POST|用户手机验证码登录||
 |/user/logout|GET|用户退出登陆||
+|/user/[id]|GET|获取用户信息||
+|/user/[id]|PUT|修改用户信息||
 |||||
-|/pps/|POST|创建厂商||
+|/pps_new|POST|创建厂商|||
+|/pps/namelist|GET|获取厂商名字列表|||
 |/pps/[id]|GET|获取厂商信息||
 |/pps/[id]|PUT|修改厂商信息||
 |/pps/[id]|DELETE|删除厂商信息||
 |||||
 |/xiaoqu_new|POST|创建小区||
 |/xiaoqu/search_result|POST|用户搜索小区结果上报||
-|/xiaoqu|GET|获取小区信息|?filter={"id":1, ....}|
+|/xiaoqu/namelist|GET|获取小区名字列表|?filter={pps_id:1} or {}|
+|/xiaoqu/carinout|GET|获取车辆进出信息||
+|/xiaoqu|GET|获取小区信息|?filter={id:1, ....}|
 |/xiaoqu/areachewei|GET|获取周边车位信息||
 |/xiaoqu/[id]|GET|获取小区信息||
 |/xiaoqu/[id]/chewei|GET|获取小区车位信息||
@@ -94,6 +99,8 @@
 |:----|:----:|
 |0|成功|
 |8001|没有数据|
+|8002|没有登陆|
+|8003|无权限|
 
 ### 1.4 返回报文示例
 ### 1.4.1 POST/PUT/DELETE成功回复报文

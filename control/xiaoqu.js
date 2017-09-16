@@ -3,8 +3,9 @@ var Community = require('../model/community');
 var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 var Dev = require('../model/dev');
+var pps = require('./pps');
 const logger = require('../lib/logger').logger('file');
-
+const moment = require('moment');
 
 exports.message_handle = function(req, res, next) {
     console.log("req="+JSON.stringify(req.body));
@@ -385,10 +386,9 @@ exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
     }) ()
 }
 
-function getCarStat(req, res, next) {
-    var cname = req.body.cname;
-    var chepai = req.body.chepai;
-    var list = [];
+exports.getCarInOut = function getCarStat(req, res, next) {
+    var filter = JSON.parse(req.query.filter);
+    var data = [];
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -401,13 +401,10 @@ function getCarStat(req, res, next) {
         res.send(JSON.stringify(retStr));
     });
 
-    var filter = {};
-
-    if (typeof(cname) != 'undefined') {
-        filter.xqname = cname;
-    }
-    if (typeof(chepai) != 'undefined') {
-        filter.chepai = chepai;
+    if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else if(req.session.user.role == 'xiaoqu') {
+        filter.community_id = req.session.user.id;
     }
 
     (async() => {
@@ -418,19 +415,23 @@ function getCarStat(req, res, next) {
         }
 
         for (var i in devs) {
-            list.push(devs[i]);
+            var list = {
+                chepai: devs[i].chepai,
+                xqname: devs[i].xqname,
+                in_time: moment(devs[i].in_time).format('YYYY-MM-DD HH:mm'),
+                out_time: moment(devs[i].out_time).format('YYYY-MM-DD HH:mm'),
+            }
+            data.push(list);
         }
 
         var retStr = {
-            type: req.body.type,
             ret: 0,
-            data: list
+            data: data
         };
 
         res.send(JSON.stringify(retStr));
 
     }) ()
- 
 }
 
 exports.getAreaChewei = function getAreaChewei(req, res, next) {
@@ -492,6 +493,11 @@ exports.add = function(req, res, next) {
     var pps_id = req.body.pps_id;
     var name = req.body.name;
     var addr_in = req.body.addr_in;
+    var u_role = req.session.user.role;
+
+    if (u_role == 'system') {
+        pps_id = 0;
+    }
 
     var ep = new eventproxy();
     ep.fail(next);
@@ -533,6 +539,10 @@ exports.add = function(req, res, next) {
             return;
         }
         else {
+            if (pps_id > 0) {
+                pps.updateParknum(pps_id, 1, true);
+            }
+
             var retStr = {
                 ret: 0,
                 cid: xiaoqu.id
@@ -687,6 +697,10 @@ exports.delete = function(req, res, next) {
 
         Community.deleteXiaoqu(xiaoqu);
 
+        if (id != 0) {
+            pps.updateParknum(id, 1, false);
+        }
+
         var retStr = {
             ret: 0
         };
@@ -696,4 +710,79 @@ exports.delete = function(req, res, next) {
     }) ()
 
 
+};
+
+// /xiaoqu/namelist
+exports.getNameList = function(req, res, next) {
+    var filter = {};
+    var list = [];
+    var ep = new eventproxy();
+
+    ep.fail(next);
+    ep.on('err', function(msg) {
+        var retStr = {
+            ret: msg.ret,
+            msg: msg,str
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    if (typeof(req.query.filter) != 'undefined'){
+        filter = JSON.parse(req.query.filter);
+    }
+
+    if(req.session.user.role == 'system') {
+    } else if(req.session.user.role == 'changshang') {
+        filter.pps_id = req.session.user.id;
+    } else {
+        ep.on('err', {ret: 8003, str: "无权限!"});
+        return;
+    }
+
+    (async() => {
+        var xqs;
+
+        xqs = await Community.query(filter);
+
+        if (xqs.length > 0) {
+            for (var i =0; i < xqs.length; i++) {
+                list.push({ 
+                    id:xqs[i].id,
+                    name:xqs[i].name
+                });
+            }
+        }
+
+        var retStr = {
+            ret: 0,
+            data: list
+        };
+
+        res.send(JSON.stringify(retStr));
+    }) ()
+}
+
+exports.updateCheweiCount = function(cid, count, add) {
+
+    (async() => {
+        var xiaoqu = await Community.getXiaoquById(cid);
+        if (!xiaoqu) {
+            return;
+        }
+
+        var remain = xiaoqu.parking_num_remain;
+        if (add) {
+            remain += count;
+        }
+        else {
+            remain -= count;
+        }
+
+        var update = {
+            parking_num_remain: remain
+        };
+
+        Community.updateXiaoqu(xiaoqu, update);
+    }) ()
 };

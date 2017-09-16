@@ -24,7 +24,7 @@ var Community = sequelize.define('community_info', {
 
 
     //pps_manufacture: {type: Sequelize.INTEGER, references: {model: 'pps_manufacture', key: 'id'}},
-    //pps_id: {type: Sequelize.INTEGER, allowNull: false},
+    pps_id: {type: Sequelize.INTEGER},
     //mgmt_id: {type: Sequelize.INTEGER, allowNull: false},
 
     parking_num_total: {type: Sequelize.INTEGER},
@@ -44,7 +44,7 @@ var Community = sequelize.define('community_info', {
     }
 );
 
-Community.belongsTo(Pps, {foreignKey: 'pps_id',  onDelete: 'SET NULL', constraints: false});
+//Community.belongsTo(Pps, {foreignKey: 'pps_id',  onDelete: 'SET NULL', constraints: false});
 Community.belongsTo(User, {foreignKey: 'mgmt_id',  onDelete: 'SET NULL', constraints: false});
 
 
@@ -96,6 +96,7 @@ Community.updateXiaoqu = function(xiaoqu, newData) {
     }
     xiaoqu.parking_num_total = newData.parking_num_total;
     xiaoqu.parking_num_share = newData.parking_num_share;
+    xiaoqu.parking_num_remain = newData.parking_num_remain;
     xiaoqu.parking_time_start = newData.parking_time_start;
     xiaoqu.parking_time_end = newData.parking_time_end;
     xiaoqu.rate_type = newData.rate_type;

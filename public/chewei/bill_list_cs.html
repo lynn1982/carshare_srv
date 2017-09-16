@@ -23,14 +23,6 @@
 				<div>
 					<table style="margin-left:40px;margin-top:20px;margin-bottom:20px;">
 						<tr>
-							<td style="width:80px">厂商名:</td>
-                            <td style="width:300px">
-                                <select v-model="cs_sel" @change="csChange()" >
-                                    <option v-for="option in cs_ops" v-bind:value="option.value">
-                                    {{ option.text }}
-                                    </option>
-                                </select>
-                            </td>
 							<td style="width:80px">小区名:</td>
                             <td style="width:300px">
                                 <select v-model="xq_sel" >
@@ -39,10 +31,10 @@
                                     </option>
                                 </select>
                             </td>
+							<td style="width:80px">车牌:</td>
+                            <td style="width:300px"><input  type="text" style="width:128px;" v-model="chepai"></input></td>
 						</tr>
 						<tr>
-							<td>车牌:</td>
-							<td><input  type="text" style="width:128px;" v-model="chepai"></input></td>
                             <td>状态:</td>
                             <td style="width:300px">
                                 <select v-model="st_sel" >
@@ -51,6 +43,8 @@
                                     </option>
                                 </select>
                             </td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td><button class="redBtn" v-on:click="refresh"  style="background: orange;">筛选</button></td>
@@ -92,10 +86,6 @@
         var vm = new Vue({
         el: '#vueApp',
         data: {
-        cs_sel: '',
-        cs_ops: [
-            { text: '', value: '' },
-        ],
         xq_sel: '',
         xq_ops: [
             { text: '', value: '' },
@@ -114,11 +104,7 @@
         message: []
         },
         methods: {
-        csChange:function() {
-            this.getXiaoquNameList(this.cs_sel);
-        },
         clear: function() {
-            this.cs_sel='';
             this.xq_sel='';
             this.chepai='';
             this.st_sel='';
@@ -130,9 +116,6 @@
         reload: function() {
                     var filter = {};
 
-                    if (this.cs_sel != "") {
-                        filter.pps_id = this.cs_sel;
-                    }
                     if (this.xq_sel != "") {
                         filter.community_id = this.xq_sel;
                     }
@@ -177,29 +160,12 @@
                                        //alert("获取账单明细失败！");
                                        });                    
                            },
-        getPpsNameList: function () {
-                            var _self = this;
-                            priAjaxGet("/pps/namelist", "",
-                                    function(data) {
-                                    if (data.ret == 0) {
-                                    for(var idx in data.data) {
-                                    _self.cs_ops.push({text: data.data[idx].name, value: data.data[idx].id});
-                                    }
-                                    } else {
-                                    //alert(data.msg);
-                                    }
-                                    },
-                                    function() {
-                                    //alert("获取账单明细失败！");
-                                    });                    
-                        }
         }
 
         });
 
         function load() {
             vm.reload();
-            vm.getPpsNameList();
             vm.getXiaoquNameList();
         }
     </script>
