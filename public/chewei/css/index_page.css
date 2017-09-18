@@ -1,0 +1,237 @@
+#head.transparent {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+}
+#head.transparent .logo,  #head.little-transparent .logo{
+    color: green;
+}
+#head.transparent .main,  #head.little-transparent .main{
+    color: #2266a5
+}
+#head.transparent .contact, #head.little-transparent .contact{
+    color: #fff;
+}
+#head.transparent .login, #head.little-transparent .login{
+    background: transparent;
+    color: #fff;
+}
+#head.transparent .login:hover, #head.little-transparent .login:hover{
+    color: #2266a5;
+    border-color: #2266a5;
+}
+#head.transparent .contact:hover, #head.little-transparent .contact:hover, #head.transparent .main:hover, #head.little-transparent .main:hover{
+    color: #2266a5;
+}
+#head .logo .contact .login {
+    cursor: pointer;
+}
+
+#head.little-transparent{
+    background: rgba(0,0,0,0.1);
+    border-bottom: 1px solid transparent;
+}
+
+/*  wrapper  start  */
+.main-wrapper {
+	background: transparent;
+    width: auto;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+    min-height: 600px;
+    position: relative;
+}
+.content-wrapper {
+	width: 100%;
+    /*max-width: 1500px;*/
+    margin: auto;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    /*border: 1px solid red;*/
+}
+.page {
+	min-height: 700px;
+    height: 100vh;
+}
+.half-page {
+    min-height: 560px;
+    height: 80vh;
+}
+#page1 {
+    background-image: url(../img/index_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+#page1 .inner {
+    padding-top: 0px;
+    width: 660px;
+    height: 300px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -200px -330px;
+}
+#page1 .inner .title {
+    font-size: 38px;
+    padding: 12px 0px 30px;
+    color: #393939;
+}
+#page1 .inner .title ul {
+    width: 100%;
+    font-size: 20px;
+    text-align: left;
+    padding-left: 50px;
+    margin: 20px auto 0px;
+}
+#page1 .inner .title ul li{
+    list-style: none;
+    display: inline-block;
+    margin-right: 20px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+    font-size: 18px;
+    width: 300px;
+}
+#page1 .bottom-content{
+    position: absolute;
+    border: 0px;
+    bottom: 100px;
+    width: 600px;
+    left: 50%;
+    margin: 0px -300px;
+    text-align: center;
+    color: #c2c9cf;
+    font-size: 30px;
+}
+#page1 .bottom-content ul {
+    width: 80%;
+    min-width: 600px;
+    margin-top: 20px;
+}
+#page1 .bottom-content ul li{
+    width: 100%;
+    list-style: none;
+    display: inline-block;
+    font-size: 18px;
+    white-space: nowrap;
+
+}
+#page2 {
+    background: #fafafa;
+}
+#page2 #map,  #page2 #rightCon{
+    top: 125px;
+    top: 18vh;
+}
+#page2 #rightCon .info{
+    position: relative;
+    margin: 45px 20px;
+}
+#page2 #rightCon .info .title{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    color: #777;
+    font-size: 14px;
+}
+#page2 #rightCon .info .value{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    font-weight: 700;
+    color: deepskyblue;
+}
+#page3 .desc, #page4 .desc {
+    margin: 40px auto 40px;
+    width: 600px;
+    text-align: center;
+    color: #666;
+    font-size: 24px;
+}
+#page3 ul {
+    width: 910px;
+    text-align: center;
+    margin: 0 auto;
+    color: #999;
+    padding-left: 50px;
+    margin-top: 180px;
+    margin-top: 25vh;
+}
+#page3 ul li{
+    vertical-align: middle;
+    height: 150px;
+    width: 380px;
+    list-style: none;
+    display: inline-block;
+    padding: 0px;
+    margin-bottom: 50px;
+    margin-right: 50px;
+    background: #eee;
+    border-radius: 8px;
+    position: relative;
+}
+#page3 ul li .icon {
+    margin: 0px auto;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    background: #fff;
+    top: -32px;
+    left: 154px;
+    border-radius: 80px;
+    border: 3px solid #ddd;
+}
+#page3 ul li .icon img{
+    width: 60%;
+    position: absolute;
+    top: 13px;
+    left: 13px;
+}
+#page3 ul li .title {
+    margin-top: 42px;
+    color: #333;
+    font-size: 22px;
+}
+#page3 ul li  .subtitle {
+    color: #7a7a7a;
+    font-size: 13px;
+    padding-top: 5px;
+    text-align: left;
+    padding-left: 88px;
+}
+#page4 ul{
+    padding-top: 20px;
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    color: #999;
+}
+#page4 ul li {
+    height: 280px;
+    width: 140px;
+    padding: 0px 15px;
+    list-style: none;
+    display: inline-block;
+    padding: 0px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+#page4 ul li .qr-code{
+    width: 140px;
+    height: 140px;
+}
+#page4 ul li .qr-code img{
+    width: 100%;
+}
+#page4 ul li .qr-desc{
+    margin-top: 16px;
+    font-size: 14px;
+}
+/*  wrapper  end  */

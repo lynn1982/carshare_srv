@@ -93,7 +93,7 @@ a{
 /*2.左边导航栏开始*/
 #leftnav{
 	position: absolute;
-	top: 45px;
+	top: 70px;
 	bottom: 0;
 	left: 5px;
 	width: 150px;
@@ -192,7 +192,7 @@ a{
 #middleContainer{
 	position: absolute;
 	left: 158px;
-	top: 45px;
+	top: 70px;
 	right: 0;
 	bottom: 20px;
 	/*border: 1px solid red;*/

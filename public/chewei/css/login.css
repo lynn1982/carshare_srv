@@ -52,27 +52,28 @@ a{
 	border: 1px solid #fff;
 	
 	background: rgba(255, 255, 255,.4);
-	padding: 30px 60px 0;
-	margin: 0 auto;
+	padding: 60px 60px 60px;
+	margin: -10px auto;
 	
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin: -134px 0 0 -270px;
+	/*position: absolute;*/
+	/*top: 50%;*/
+	/*left: 50%;*/
+	/*margin: -134px 0 0 -270px;*/
 }
 
 .inputDiv{
-	padding: 0 0 20px 0;
+	padding: 0 0 30px 0;
 	width: 480px;
 	position: relative;
 	font-size: 0;
 }
 .loginIcon{
 	display: inline-block;
-	*display: inline;
+	/*display: inline;*/
 	zoom: 1;
 	width: 38px;
 	height: 38px;
+	margin-right: 10px;
 	border: 1px solid #FFFFFF;
 	border-right: none;
 	vertical-align: bottom;
@@ -92,24 +93,22 @@ a{
 
 .loginInput{
 	background: white;
-	
 	background: rgba(255, 255, 255, .8);
-	width: 378px;
+	width: 342px;
 	height: 38px;
 	font-size: 18px;
-	color:#212121;
+	color:#777;
 	line-height: 38px;
 	border: 1px solid #FFFFFF;
-	
 	border-left: none;
 	border-radius: 0 !important;
-	
 	outline: none;
-	
+	padding: 0px 12px;
 }
 
 .loginBtn{
-	width: 418px;
+	width: 410px;
+    margin-left: 8px;
 	height: 48px;
 	font-size: 22px;
 	line-height: 48px;
@@ -123,11 +122,40 @@ a{
 }
 
 .loginRegister{
-	padding-bottom: 10px;
-	margin-top: -5px;
-	
+	margin-bottom: 40px;
+    margin-left: 8px;
+    position: relative;
 }
 .registerBtn{
 	float: right;
+}
+.getVerCodeBtn {
+	position: absolute;
+    right: 4px;
+    color: gray
+}
+
+.loginInput::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #999;
+    font-size: 15px;
+}
+
+.loginInput:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #999;
+    font-size: 15px;
+}
+
+.loginInput::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #999;
+    font-size: 15px;
+}
+
+.loginInput:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #999;
+    font-size: 15px;
 }
 

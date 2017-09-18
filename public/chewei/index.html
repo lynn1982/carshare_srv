@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>主页</title>
+		<link rel="stylesheet" href="css/index_page.css" />
 	</head>
 	<style>
 		* {
@@ -30,6 +31,7 @@
 		#head {
 			background: rgba(255, 255, 255, 1);
 			height: 50px;
+			padding: 10px 0px;
 			border-bottom: 1px solid gainsboro;
 			position: fixed;
 			top: 0;
@@ -42,12 +44,13 @@
 			position: absolute;
 			left: 5%;
 			height: 100%;
-			top: 0;
+			/*top: 0;*/
 			display: inline-block;
 			vertical-align: bottom;
 			line-height: 50px;
-			font-size: 20px;
+			font-size: 24px;
 			color: green;
+
 		}
 		
 		.main {
@@ -56,7 +59,7 @@
 			height: 50px;
 			line-height: 50px;
 			position: absolute;
-			top: 0px;
+			/*top: 0px;*/
 			right: 350px;
 			color: deepskyblue;
 			cursor: pointer;
@@ -68,7 +71,7 @@
 			height: 50px;
 			line-height: 50px;
 			position: absolute;
-			top: 0px;
+			/*top: 0px;*/
 			right: 250px;
 			cursor: pointer;
 			color: rgba(0, 0, 0, 0.5);
@@ -82,7 +85,7 @@
 		.login {
 			color: black;
 			text-decoration: none;
-			border: 1px solid gainsboro;
+			border: 1px solid #bbb;
 			display: inline-block;
 			vertical-align: bottom;
 			height: 30px;
@@ -92,23 +95,26 @@
 			background: white;
 			position: absolute;
 			right: 100px;
-			top: 10px;
+			top: 19px;
 			border-radius: 4px;
-			color: orange;
+			color: #777;
+    		padding: 0px;
 		}
 		
 		.login:hover {
 			background: deepskyblue;
+			border: 1px solid deepskyblue;
+			color: #fff;
 		}
 		
 		#map {
 			width: 60%;
 			height: 450px;
 			/*border: 1px solid gainsboro;*/
-			box-shadow: 0px 0px 3px black;
+			box-shadow: 0px 0px 3px #aaa;
 			position: absolute;
 			top: 100px;
-			left: 5%;
+			left: 8%;
 			background: white;
 			padding: 10px;
 		}
@@ -118,19 +124,19 @@
 		}
 		
 		#rightCon {
-			border: 1px solid gainsboro;
+			/*border: 1px solid #ccc;*/
 			height: 470px;
 			position: absolute;
 			top: 100px;
 			width: 20%;
 			left: 70%;
 			margin-left: 40px;
-			background: white;
-			box-shadow: -1px 1px 1px lightblue;
+			background: transparent;
+			/*box-shadow: -1px 1px 1px #ccc;*/
 		}
 		
 		#rightCon .info{
-			border: 1px solid deepskyblue;
+			/*border: 1px solid deepskyblue;*/
 			border-radius: 30px;
 			margin: 40px 20px;
 			height: 59px;
@@ -159,27 +165,146 @@
 			width: 100%;
 			height: 100px;
 			background: rgba(0, 0, 0, 0.4);
+
 		}
 	</style>
 
 	<body>
-		<div id="head">
+		<div id="head" class="transparent">
 			<a class="logo" href="index.html">共享车位</a>
 			<a class="main" href="index.html">主页</a>
 			<a class="contact" href="contactUs.html">联系我们</a>
 			<a class="login" href="login.html">登陆</a>
 		</div>
+		<div class="main-wrapper">
+			<div id="page1" class="content-wrapper page">
+				<section class="inner">
+					<div class="title">
+						<b>我们提供</b>
+						<ul>
+							<li>停车收费系统的接入服务</li>
+							<li>共享车位信息的发布和管理</li>
+							<li>停车场、小区剩余车位的实时监控</li>
+							<li>基于APP地图的停车引导</li>
+							<li>停车费用的APP支付</li>
+							<li>收益的随时常看和统计报表</li>
+						</ul>
+					</div>
+				</section>
+				<div class="bottom-content">
+					<b>厂商接入平台后可以</b>
+					<ul>
+						<li>基于数据统计，对现有客户进行二次开发</li>
+						<li>收取停车费分成，获取持续收入</li>
+					</ul>
+				</div>
+			</div>
+			<div id="page2" class="content-wrapper page">
+				<div id="map">
+					<div id="mapcon">
 
-		<div id="map">
+					</div>
+				</div>
+				<div id="rightCon">
+					<!--<svg class="svg1" width="100%" height="100" viewBox="0 0 38 38" class="pc-mod-svg" data-pre="73">
+						<circle class="pc-mod-ring" r="16" cx="19" cy="19" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke="#008eff" stroke-dasharray="73 100" stroke-opacity="1" fill="none" transform="rotate(-220, 19 19)"></circle>
+					</svg>-->
+					<div class="info">
+						<div class="title">车位总数</div>
+						<div class="value">{{data.carportsAll+"个"}}</div>
+					</div>
+					<div class="info">
+						<div class="title">可用车位数</div>
+						<div class="value">{{data.carportsAvailable+"个"}}</div>
+					</div>
+					<div class="info">
+						<div class="title">停车地点数</div>
+						<div class="value">{{data.carlocNum+"个"}}</div>
+					</div>
+					<div class="info">
+						<div class="title">APP用户数</div>
+						<div class="value">{{data.AppNum+"个"}}</div>
+					</div>
+				</div>
+			</div>
+			<div id="page3" class="content-wrapper page">
+				<ul class="">
+					<li>
+						<div class="icon">
+							<img src="./img/icon-1.png">
+						</div>
+						<div class="title"><b>联系我方，获取支持</b></div>
+						<div class="subtitle">
+							<p>我方将设备厂商导入后台</p>
+							<p>创建管理员账号</p>
+							<p>给予接入方案建议和技术支持</p>
+						</div>
+					</li>
+					<li>
+						<div class="icon">
+							<img src="./img/icon-2.png">
+						</div>
+						<div class="title"><b>接口开发，联调测试</b></div>
+						<div class="subtitle">
+							<p>设备厂商完成对接需要的4个api开发</p>
+							<p>完成设备和平台的联调</p>
+						</div>
+					</li>
+					<li>
+						<div class="icon">
+							<img src="./img/icon-3.png">
+						</div>
+						<div class="title"><b>现场部署，后台配置</b></div>
+						<div class="subtitle">
+							<p>需要确保收费系统能够接入internet</p>
+							<p>升级小区、停车场设备的软件</p>
+						</div>
+					</li>
+					<li>
+						<div class="icon">
+							<img src="./img/icon-4.png">
+						</div>
+						<div class="title"><b>接入完成，开始运营</b></div>
+						<div class="subtitle">
+							<p>监控小区，停车场的剩余车位情况，建议为1个月</p>
+							<p>根据监控结果，发布共享车位信息</p>
+							<p>系统自动结算收取停车费用</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div id="page4" class="content-wrapper half-page">
+				<section class="desc">
+					<div>
+						全新体验，邀您共享
+					</div>
+				</section>
+				<ul>
+					<li>
+						<div class="qr-code">
+							<img src="./img/code.png">
+						</div>
+						<div class="qr-desc">Android扫码下载</div>
+					</li>
+					<li>
+						<div class="qr-code">
+							<img src="./img/code.png">
+						</div>
+						<div class="qr-desc">IOS扫码下载</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- <div id="map">
 			<div id="mapcon">
 
 			</div>
 		</div>
 		<div id="rightCon">
-			<!--<svg class="svg1" width="100%" height="100" viewBox="0 0 38 38" class="pc-mod-svg" data-pre="73">
+			<svg class="svg1" width="100%" height="100" viewBox="0 0 38 38" class="pc-mod-svg" data-pre="73">
 				<circle class="pc-mod-ring" r="16" cx="19" cy="19" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke="#008eff" stroke-dasharray="73 100" stroke-opacity="1" fill="none" transform="rotate(-220, 19 19)"></circle>
 			</svg>-->
-			<div class="info">
+			<!-- <div class="info">
 				<div class="title">车位总数</div>
 				<div class="value">{{data.carportsAll+"个"}}</div>
 			</div>
@@ -195,8 +320,8 @@
 				<div class="title">APP用户数</div>
 				<div class="value">{{data.AppNum+"个"}}</div>
 			</div>
-		</div>
-		<div id="bottom"></div>
+		</div> --> 
+		<!-- <div id="bottom"></div> -->
 
 		<script src="http://api.map.baidu.com/api?v=2.0&ak=Ew9Gequf1Q1V8YNowH8G86LqjOGvVm1O" type="text/javascript"></script>
 		<script src="js/jquery-1.11.2.min.js"></script>
@@ -317,6 +442,25 @@
                 //alert("获取车位小区信息失败");
 			}
 		});*/
+		function setClass(scrolls, page2Top) {
+			if (scrolls < 70) {
+            	$("#head").attr('class', 'transparent');
+            }else if (scrolls > 70 && scrolls < page2Top) {
+            	$("#head").attr('class', 'little-transparent');
+            }else if (scrolls >= page2Top) {
+            	$("#head").attr('class', '');
+            }
+		}
+		$(document).ready(function (){  
+            var page2Top = $("#page2").offset().top; 
+            var initTop = $("body").scrollTop();
+            setClass(initTop, page2Top);
+            $(window).scroll(function() { 
+	            var scrolls = $(this).scrollTop();
+	            setClass(scrolls, page2Top);
+	        });
+        });  
+		
 	</script>
 
 </html>
