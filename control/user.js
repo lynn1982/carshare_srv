@@ -651,3 +651,16 @@ exports.update = function changeUserInfo(req, res, next) {
 
     }) ()
 }
+
+exports.getAppNum = function(callback) {
+
+    (async() => {
+        var filter = {
+            role: 'user'
+        };
+
+        var count = await User.getCount(filter);
+        callback(count);
+
+    }) ()
+}

@@ -100,4 +100,10 @@ User.query = function(qfilter) {
     return User.findAll(filter);
 };
 
+User.getCount = function(filter) {
+    return User.count({
+        where: filter
+    });
+};
+
 module.exports = User;

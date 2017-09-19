@@ -84,6 +84,8 @@
 |/parking/postoutpay|POST|post出场结算|{orderNumber: 1}||
 |/parking/bill|GET|获取账单明细|?filter={"chepai":"","xqname":""}|
 |||||
+|/overall_stat|GET|获取车位汇总数据||{ret:0,<br> carport_total: 200,<br> carport_avail: 120,<br> park_num: 5,<br> app_num: 7<br>}|
+|||||
 |/dev|POST|设备上报车辆进出信息||
 
 ### 1.2 返回报文格式

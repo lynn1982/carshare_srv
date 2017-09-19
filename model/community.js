@@ -168,4 +168,10 @@ Community.query = function(qfilter) {
     return Community.findAll(filter);
 };
 
+Community.getCount = function(filter) {
+    return Community.count({
+        where: filter
+    });
+};
+
 module.exports = Community;

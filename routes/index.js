@@ -8,6 +8,7 @@ var config = require('../config');
 var crypto = require('crypto');
 var User = require('../model/user');
 var pps = require('../control/pps');
+var eventproxy = require('eventproxy');
 const logger = require('../lib/logger').logger('file');
 
 
@@ -73,6 +74,36 @@ router.get('/create_admin', function(req, res, next) {
     
         res.redirect('/');
     }) ()
+});
+
+router.get('/overall_stat', function(req, res, next) {
+
+    var ep = new eventproxy();
+    ep.fail(next);
+    ep.all('carport_total', 'carport_avail', 'park_num', 'app_num', function(data1, data2, data3, data4) {
+        var retStr = {
+            ret: 0,
+            carport_total: data1,
+            carport_avail: data2,
+            park_num: data3,
+            app_num: data4
+        };
+
+        res.send(JSON.stringify(retStr));
+    });
+
+    xiaoqu.getCarportNum(function(num1, num2) {
+        ep.emit('carport_total', num1);
+        ep.emit('carport_avail', num2);
+    });
+
+    xiaoqu.getXiaoquNum(function(num) {
+        ep.emit('park_num', num);
+    });
+
+    user.getAppNum(function(num) {
+        ep.emit('app_num', num);
+    });
 });
 
 /* RESTful api start */

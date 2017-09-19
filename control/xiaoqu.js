@@ -786,3 +786,37 @@ exports.updateCheweiCount = function(cid, count, add) {
         Community.updateXiaoqu(xiaoqu, update);
     }) ()
 };
+
+exports.getXiaoquNum = function(callback) {
+    
+    (async() => {
+        var filter = {};
+
+        var count = await Community.getCount(filter);
+        callback(count);
+    }) ()
+};
+
+exports.getCarportNum = function(callback) {
+    
+    (async() => {
+        var filter = {};
+        var total = 0;
+        var avail = 0;
+
+        var xiaoqus = await Community.query(filter);
+        if (!xiaoqus) {
+            callback(0);
+            return;
+        }
+
+        for (var i in xiaoqus) {
+            total += xiaoqus[i].parking_num_total;
+            avail += xiaoqus[i].parking_num_remain;
+        }
+
+        callback(total,avail);
+
+    }) ()
+};
+
