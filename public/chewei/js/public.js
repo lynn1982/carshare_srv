@@ -34,6 +34,7 @@ function priAjaxGet(path, data, successfunc, errorfunc) {
         url: url+path,
         timeout: 2000,
         data: data,
+        cache: false,
         dataType: "json",
         success: function(ret) {
             successfunc(ret);

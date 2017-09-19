@@ -169,7 +169,7 @@
 		}
 	</style>
 
-	<body>
+	<body onload='load()'>
 		<div id="head" class="transparent">
 			<a class="logo" href="index.html">共享车位</a>
 			<a class="main" href="index.html">主页</a>
@@ -295,49 +295,21 @@
 				</ul>
 			</div>
 		</div>
-		<!-- <div id="map">
-			<div id="mapcon">
-
-			</div>
-		</div>
-		<div id="rightCon">
-			<svg class="svg1" width="100%" height="100" viewBox="0 0 38 38" class="pc-mod-svg" data-pre="73">
-				<circle class="pc-mod-ring" r="16" cx="19" cy="19" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke="#008eff" stroke-dasharray="73 100" stroke-opacity="1" fill="none" transform="rotate(-220, 19 19)"></circle>
-			</svg>-->
-			<!-- <div class="info">
-				<div class="title">车位总数</div>
-				<div class="value">{{data.carportsAll+"个"}}</div>
-			</div>
-			<div class="info">
-				<div class="title">可用车位数</div>
-				<div class="value">{{data.carportsAvailable+"个"}}</div>
-			</div>
-			<div class="info">
-				<div class="title">停车地点数</div>
-				<div class="value">{{data.carlocNum+"个"}}</div>
-			</div>
-			<div class="info">
-				<div class="title">APP用户数</div>
-				<div class="value">{{data.AppNum+"个"}}</div>
-			</div>
-		</div> --> 
-		<!-- <div id="bottom"></div> -->
 
 		<script src="http://api.map.baidu.com/api?v=2.0&ak=Ew9Gequf1Q1V8YNowH8G86LqjOGvVm1O" type="text/javascript"></script>
-		<script src="js/jquery-1.11.2.min.js"></script>
-		<script src="js/vue.js"></script>
 	</body>
 
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/vue.js"></script>
+	<script type="text/javascript" src="js/public.js"></script>
+
 	<script>
-		
-		var VM = new Vue({
+		var vm = new Vue({
 			el:"#rightCon",
 			data:{
 				data:{"carportsAll":20,"carportsAvailable":10,"carlocNum":2,"AppNum":6}
 			}
 		});
-		
-		
 		
 		var islogin = window.sessionStorage.getItem('islogin');
 
@@ -417,31 +389,47 @@
 
 		}
 
-		initialize();
-		addNavigationControl();
-		//添加标注
-		/*
-		$.ajax({
-			url: "/parking/mycurrorder",
-			type: "get",
-			success: function(ret) {
-				if(ret) {
-					if(ret.ret == 0) {
-						//showAreaChewei(ret.data);
-					} else if(ret.ret == 8001) { //没有数据
-						//showAreaCheweiTest(); // TODO: for debug usage
-					} else {
-						//alert("获取信息失败：" + ret.msg);
-					}
-				} else {
-					//api.alert(err.msg);
-				}
+        function loadChewei() {
+            var param = {
+                    longitude: 121.48113290961027,
+                    latitude: 31.235296225613624,
+                    lonScope: 1,
+                    latScope: 1 
+            };
+            priAjaxGet("/xiaoqu/areachewei?filter="+encodeURI(JSON.stringify(param)), "",
+                    function(data) {
+                        //alert(JSON.stringify(data));
+                        if (data.ret == 0) {
+                        } else {
+                        }
+                    },
+                    function() {
+                        alert("获取厂商信息失败！");
+                    });
+        }
 
-			},
-			error: function() {
-                //alert("获取车位小区信息失败");
-			}
-		});*/
+        function load() {
+            priAjaxGet("/overall_stat", "",
+                    function(data) {
+                        if (data.ret == 0) {
+                            vm.data.carportsAll = data.carport_total;
+                            vm.data.carportsAvailable = data.carport_avail;
+                            vm.data.carlocNum = data.park_num;
+                            vm.data.AppNum = data.app_num;
+                        } else {
+                        }
+                    },
+                    function() {
+                        //alert("获取厂商信息失败！");
+                    });
+
+            window.setTimeout(function(){
+		        initialize();
+		        addNavigationControl();
+                loadChewei();
+            },1000);
+        }
+
 		function setClass(scrolls, page2Top) {
 			if (scrolls < 70) {
             	$("#head").attr('class', 'transparent');
