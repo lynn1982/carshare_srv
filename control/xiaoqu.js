@@ -806,7 +806,7 @@ exports.getCarportNum = function(callback) {
 
         var xiaoqus = await Community.query(filter);
         if (!xiaoqus) {
-            callback(0);
+            callback(0,0);
             return;
         }
 
