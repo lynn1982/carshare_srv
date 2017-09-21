@@ -325,7 +325,7 @@
 
 		function initialize() {
 			map = new BMap.Map("mapcon");
-			map.centerAndZoom("上海", 15);
+			map.centerAndZoom("上海", 11);
 			//getLocation();
 			map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
 			map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
@@ -382,7 +382,7 @@
 		function showAreaChewei(data) {
 			for(var i = 0; i < data.length; i++) {
 				var dic = data[i];
-				var point = new BMap.Point(dic.longitude, dic.latitude);
+				var point = new BMap.Point(dic.longitude, dic.lantitude);
 				var marker = new BMap.Marker(point);
 				map.addOverlay(marker);
 			}
@@ -398,8 +398,8 @@
             };
             priAjaxGet("/xiaoqu/areachewei?filter="+encodeURI(JSON.stringify(param)), "",
                     function(data) {
-                        //alert(JSON.stringify(data));
                         if (data.ret == 0) {
+                            showAreaChewei(data.data);
                         } else {
                         }
                     },

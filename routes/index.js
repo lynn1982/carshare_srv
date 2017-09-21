@@ -125,7 +125,7 @@ router.post('/xiaoqu/searchresult', auth.userRequired, xiaoqu.searchResult);
 router.get('/xiaoqu/namelist', auth.userRequired, xiaoqu.getNameList);
 router.get('/xiaoqu/carinout', auth.userRequired, xiaoqu.getCarInOut);
 router.get('/xiaoqu', auth.userRequired, xiaoqu.get);
-router.get('/xiaoqu/areachewei', auth.userRequired, xiaoqu.getAreaChewei);
+router.get('/xiaoqu/areachewei', xiaoqu.getAreaChewei);
 router.get('/xiaoqu/:id', auth.userRequired, xiaoqu.getone);
 router.get('/xiaoqu/:id/chewei', auth.userRequired, xiaoqu.getXiaoquChewei);
 router.put('/xiaoqu/:id', auth.userRequired, xiaoqu.update);
