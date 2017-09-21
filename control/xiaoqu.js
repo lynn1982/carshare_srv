@@ -4,6 +4,7 @@ var Parking = require('../model/parking');
 var eventproxy = require('eventproxy');
 var Dev = require('../model/dev');
 var pps = require('./pps');
+var reply = require('../lib/reply');
 const logger = require('../lib/logger').logger('file');
 const moment = require('moment');
 
@@ -381,7 +382,7 @@ exports.getXiaoquChewei = function getXiaoquInfo(req, res, next) {
             data: data
         };
 
-        res.send(JSON.stringify(retStr));
+        reply.reply(req,res,retStr);
         
     }) ()
 }
@@ -479,7 +480,7 @@ exports.getAreaChewei = function getAreaChewei(req, res, next) {
                 data: infos
             };
 
-            res.send(JSON.stringify(retStr));
+            reply.reply(req,res,retStr);
         }
         else {
             ep.emit('err', {ret:8001, str:'No Data!'});
