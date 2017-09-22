@@ -491,13 +491,18 @@ exports.getAreaChewei = function getAreaChewei(req, res, next) {
 
 
 exports.add = function(req, res, next) {
-    var pps_id = req.body.pps_id;
+    var pps_id;
     var name = req.body.name;
     var addr_in = req.body.addr_in;
     var u_role = req.session.user.role;
 
     if (u_role == 'system') {
         pps_id = 0;
+    } else if (u_role == 'changshang') {
+        pps_id = req.session.user.id;
+    } else {
+        ep.on('err', {ret: 8003, str: "无权限!"});
+        return;
     }
 
     var ep = new eventproxy();
@@ -549,7 +554,7 @@ exports.add = function(req, res, next) {
                 cid: xiaoqu.id
             };
 
-            res.send(JSON.stringify(retStr));
+            reply.reply(req,res,retStr);
         }
 
     }) ()
